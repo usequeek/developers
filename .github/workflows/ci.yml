@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-example:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/nextjs-headless
+    env:
+      # Publishable sandbox TEST key (test store only, safe to share).
+      QUEEK_SECRET_KEY: sk_test_J3OUdEMOrVKsVr5aTmsd7WezHt9uQAEf
+      QUEEK_API_BASE: https://client.usequeek.com/v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+          cache-dependency-path: examples/nextjs-headless/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn spec:pull
+      - run: yarn types:gen
+      - run: git diff --exit-code lib/schema.d.ts || (echo "::error::schema.d.ts is stale — run yarn types:gen and commit"; exit 1)
+      - run: yarn lint
+      - run: yarn test
+      - run: yarn build
+      - run: yarn smoke
