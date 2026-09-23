@@ -4,6 +4,125 @@
  */
 
 export interface paths {
+    "/auth/email/request-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Email Request Otp */
+        post: operations["clientAuth.emailRequestOtp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/verify-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Email Verify Otp */
+        post: operations["clientAuth.emailVerifyOtp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/register-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Email Register Otp */
+        post: operations["clientAuth.emailRegisterOtp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/phone/request-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Request Otp */
+        post: operations["clientAuth.requestOtp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/phone/verify-otp": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Verify Otp */
+        post: operations["clientAuth.verifyOtp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/register": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Register */
+        post: operations["clientAuth.register"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/token/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Refresh */
+        post: operations["clientAuth.refresh"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/store/blog-categories": {
         parameters: {
             query?: never;
@@ -759,6 +878,138 @@ export interface webhooks {
         patch?: never;
         trace?: never;
     };
+    "products/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * products/create
+         * @description A product was created in the store.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.products.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "products/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * products/update
+         * @description A product changed — visible content, price or availability.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.products.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "products/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * products/delete
+         * @description A product was deleted, soft-delete included.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.products.delete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "customers/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * customers/create
+         * @description A customer record was created for the store.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.customers.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "customers/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * customers/update
+         * @description A customer profile field changed.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.customers.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "inventory_levels/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * inventory_levels/update
+         * @description A product or variant stock level changed, with the reason.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.inventory_levels.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export interface components {
     schemas: {
@@ -769,6 +1020,240 @@ export interface components {
             /** Format: uuid */
             variant_id?: string | null;
             quantity?: number | null;
+        };
+        /** App.Http.Resources.Customer.ProductResource */
+        "App.Http.Resources.Customer.ProductResource": unknown[] | {
+            shop_id: string;
+            id: string;
+            p_id: string;
+            title: string;
+            slug: string;
+            excerpt: string;
+            description: string;
+            image: string | null;
+            thumbnail_image: string | null;
+            video_url: string | null;
+            video_poster_url: string | null;
+            type: unknown;
+            commerce_mode: string;
+            currency: string;
+            price: number;
+            discount_price: number;
+            compare_at_price: number | null;
+            is_price_from: boolean;
+            price_range: {
+                min: number;
+                max: number;
+            } | null;
+            has_variants: boolean;
+            has_addons: string;
+            tax_inclusive: boolean;
+            discount: {
+                id: string | null;
+                title: string | null;
+                type: string | null;
+                value: number | null;
+                amount: number | null;
+                final_price: number | null;
+                image_url: string | null;
+            } | null;
+            discounts: unknown[];
+            media: {
+                thumbnail: string | null;
+                image: string | null;
+                /**
+                 * @description Full original for hero-scale surfaces (featured/promo blocks render
+                 *     ~1100-1320 physical px — the 480px card upscales blurry there).
+                 */
+                original: string | null;
+                primary_variant_image: string | null;
+                /**
+                 * @description Additive — see decision_tree.json image-variants-contract-pr1/2.
+                 *     null when the primary image isn't Media-backed (raw URL only) or
+                 *     'variants' wasn't eager-loaded; existing keys above are unaffected.
+                 */
+                image_variants: {
+                    [key: string]: unknown;
+                } | null;
+                primary_variant_image_variants: {
+                    [key: string]: unknown;
+                } | null;
+            };
+            inventory: unknown[];
+            variant_summary: string | null;
+            variants_count: unknown;
+            rating: number;
+            review_count: number;
+            flags: {
+                featured: boolean;
+                is_marketplace: boolean;
+                is_wholesale: boolean;
+                is_new: boolean;
+            };
+            /**
+             * @description Vendor-defined typed fields, keyed `namespace.key`. `{}` for a store
+             *     that has defined none, which costs no query (MetafieldPresenter).
+             *     Free-form `metadata` is deliberately NOT here: it is an
+             *     integrator's private bookkeeping and stays on the merchant API.
+             *     Client surface: draft entries and storefront-hidden definitions
+             *     are omitted from reference values (MetafieldPresenter).
+             */
+            metafields: string;
+            created_at: string | null;
+            updated_at: string | null;
+            shop: unknown[];
+            barcode: string;
+        };
+        /** BlogCategoryResource */
+        BlogCategoryResource: {
+            id: string;
+            name: string;
+            slug: string;
+            position: number;
+            posts_count?: number;
+        };
+        /** CartResource */
+        CartResource: {
+            id: string;
+            cart_id: string;
+            item_id: string;
+            title: string;
+            variant_id: string | null;
+            price: number | null;
+            quantity: string;
+            selectedAddons: string | string[];
+            subtotal: number | null;
+            product: components["schemas"]["App.Http.Resources.Customer.ProductResource"];
+            vendor: components["schemas"]["VendorItemResource"];
+            created_at: string;
+            updated_at: string;
+        } | {
+            /**
+             * @description The handoff for a vendor-built frontend: send the buyer here and the
+             *     hosted storefront adopts this exact cart (?cart= wins on any URL) and
+             *     runs checkout, payment and delivery on Queek. Guest carts only —
+             *     that is the token the storefront can adopt.
+             */
+            0: Record<string, never>;
+            id: string;
+            vendor_id: string;
+            vendor: components["schemas"]["VendorItemResource"];
+            cart_items: {
+                [key: string]: unknown;
+            };
+            total_price: number | null;
+            source: string;
+            promo_codes: string | string[];
+            is_valid: string;
+            validation_errors: string | string[];
+            last_validated_at: string | null;
+            created_at: string | null;
+            updated_at: string | null;
+        };
+        /** ClientAuthUserResource */
+        ClientAuthUserResource: {
+            id: string;
+            name: string;
+            email: string | null;
+            phone: string | null;
+            avatar: string | null;
+            country: string | null;
+            state: string | null;
+            region: string | null;
+            city: string | null;
+            address: string | null;
+            map_lat: string | null;
+            map_lng: string | null;
+            is_rider: boolean;
+            /**
+             * @description Whether this rider may actually open the storefront rider console —
+             *     is_rider alone is not enough, a vendor approval path must have
+             *     stamped rider_approved_at (see EnsureClientRider). The storefront
+             *     shows a "pending approval" state when is_rider && ! rider_approved.
+             */
+            rider_approved: boolean;
+            profile_complete: string;
+        };
+        /** CollectionResource */
+        CollectionResource: {
+            id: string;
+            name: string;
+            slug: string;
+            description: string;
+            image: string;
+            /**
+             * @description Resolved by URL (no media_id column on categories/collections) — see
+             *     MediaVariantMap::attachUrlVariants(), called once per response in the
+             *     controller BEFORE this resource is resolved, never lazily here.
+             */
+            image_variants: string | null;
+            featured: boolean;
+            parent_id: string | null;
+            mode: string | null;
+            products_count: number;
+            children: unknown[];
+        };
+        /** CustomerResource */
+        CustomerResource: {
+            id: number;
+            uid: string;
+            name: string;
+            email: string;
+            phone: string | null;
+            avatar: string;
+            created_at: string | null;
+            updated_at: string | null;
+        };
+        /** EmailRegisterOtpRequest */
+        EmailRegisterOtpRequest: {
+            first_name: string;
+            last_name?: string | null;
+            verified_token: string;
+            platform?: string | null;
+        };
+        /** EmailRequestOtpRequest */
+        EmailRequestOtpRequest: {
+            /** Format: email */
+            email: string;
+        };
+        /** EmailVerifyOtpRequest */
+        EmailVerifyOtpRequest: {
+            /** Format: email */
+            email: string;
+            otp_code: string;
+            platform?: string | null;
+        };
+        /** InventoryLevelResource */
+        InventoryLevelResource: {
+            product: {
+                p_id: number;
+                slug: string | null;
+            };
+            variant: {
+                p_id: number;
+            } | null;
+            quantity: number;
+            previous_quantity: number;
+            reason: string;
+        };
+        /** MetafieldDefinitionResource */
+        MetafieldDefinitionResource: {
+            p_id: number;
+            handle: string;
+            owner_type: string;
+            namespace: string;
+            key: string;
+            type: string;
+            storefront_visible: boolean;
+            name: string;
+            description: string;
+            validations: string;
+            created_at: string;
+            updated_at: string;
+        };
+        /** MetaobjectResource */
+        MetaobjectResource: {
+            [key: string]: unknown;
         };
         /** OrderResource */
         OrderResource: {
@@ -826,6 +1311,99 @@ export interface components {
             updated_at: string | null;
             fulfilled_at: string | null;
         };
+        /** ProductQuestionResource */
+        ProductQuestionResource: {
+            id: string;
+            question: string;
+            answer: string;
+            status: string;
+            created_at: string;
+            answered_at: string;
+            user?: {
+                id: string;
+                name: string;
+                avatar: string;
+            };
+            product?: {
+                id: string;
+                slug: string;
+                title: string;
+                thumbnail: string;
+            } | null;
+        };
+        /** ProductResource */
+        ProductResource: {
+            id: number;
+            uid: string;
+            title: string;
+            slug: string;
+            excerpt: string;
+            description: string;
+            /** @enum {string} */
+            status: "active" | "out_of_stock" | "draft" | "archived";
+            published: boolean;
+            in_stock: boolean;
+            price: string;
+            currency: string;
+            sku: string;
+            barcode: string;
+            stock: number | null;
+            track_inventory: boolean;
+            has_variants: boolean;
+            image: string;
+            thumbnail_image: string;
+            /**
+             * @description The receiver's own fields coming back to them: typed metafields
+             *     the merchant defined, and the opaque metadata an integrator
+             *     wrote. Same reason the order payload carries both.
+             */
+            metafields: string;
+            metadata: string;
+            created_at: string | null;
+            updated_at: string | null;
+            deleted_at: string | null;
+        };
+        /** ProductReviewResource */
+        ProductReviewResource: {
+            id: string;
+            rating: number;
+            title: string;
+            description: string;
+            media: string | string[];
+            vendor_response: string;
+            vendor_response_at: string;
+            status: string;
+            is_verified_purchase: boolean;
+            created_at: string;
+            updated_at: string;
+            edited_at: string;
+            user?: {
+                id: string;
+                name: string;
+                avatar: string;
+            };
+            product?: {
+                id: string;
+                slug: string;
+                title: string;
+                thumbnail: string;
+            };
+        };
+        /** PromotionResource */
+        PromotionResource: {
+            id: string;
+            title: string;
+            description: string;
+            image_url: string;
+            type: string;
+            value: number;
+            priority: number;
+            valid_from: string | null;
+            valid_until: string | null;
+            /** @constant */
+            status: "expired";
+            is_live: boolean;
+        };
         /**
          * QueekError
          * @description The one error shape every Queek API surface answers with.
@@ -872,6 +1450,60 @@ export interface components {
          * @enum {string}
          */
         QueekMetafieldType: "single_line_text" | "multi_line_text" | "integer" | "decimal" | "boolean" | "date" | "url" | "json" | "media_id" | "metaobject_reference" | "list.single_line_text" | "list.multi_line_text" | "list.integer" | "list.decimal" | "list.boolean" | "list.date" | "list.url" | "list.media_id" | "list.metaobject_reference";
+        /** QueekStoreBlogCategory */
+        QueekStoreBlogCategory: components["schemas"]["BlogCategoryResource"];
+        /** QueekStoreCart */
+        QueekStoreCart: components["schemas"]["CartResource"];
+        /** QueekStoreCategory */
+        QueekStoreCategory: components["schemas"]["TaxonomyCategoryResource"];
+        /** QueekStoreCollection */
+        QueekStoreCollection: components["schemas"]["CollectionResource"];
+        /** QueekStoreCustomer */
+        QueekStoreCustomer: components["schemas"]["ClientAuthUserResource"];
+        /** QueekStoreMetafieldDefinition */
+        QueekStoreMetafieldDefinition: components["schemas"]["MetafieldDefinitionResource"];
+        /** @description One storefront-visible metaobject entry (timestamps omitted on the storefront). `fields` carries the values keyed by field key, media ids resolved to URLs — each value's shape follows the type definition (`GET store/metaobject-definitions`). */
+        QueekStoreMetaobject: {
+            p_id: number;
+            type: string;
+            handle: string;
+            display_name: string;
+            status: string;
+            /** @description Entry values keyed by field key. */
+            fields: {
+                [key: string]: unknown;
+            };
+        };
+        /** QueekStorePage */
+        QueekStorePage: components["schemas"]["StorePageResource"];
+        /** QueekStoreProduct */
+        QueekStoreProduct: components["schemas"]["App.Http.Resources.Customer.ProductResource"];
+        /** QueekStorePromotion */
+        QueekStorePromotion: components["schemas"]["PromotionResource"];
+        /** QueekStoreQuestion */
+        QueekStoreQuestion: components["schemas"]["ProductQuestionResource"];
+        /** QueekStoreReview */
+        QueekStoreReview: components["schemas"]["ProductReviewResource"];
+        /** QueekStoreReviewsBlockItem */
+        QueekStoreReviewsBlockItem: components["schemas"]["ReviewsBlockItemResource"];
+        /** QueekStoreVendor */
+        QueekStoreVendor: components["schemas"]["VendorResource"];
+        /**
+         * QueekWebhookCustomerEvent
+         * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
+         */
+        QueekWebhookCustomerEvent: {
+            /** @description Event id, identical to the `webhook-id` header. Dedupe on it — a retry reuses it. */
+            id: string;
+            topic: components["schemas"]["QueekWebhookTopic"];
+            /** @description Payload contract version. Additive within a major. */
+            api_version: string;
+            /** @description ISO-8601 timestamp of the event. */
+            created_at: string;
+            data: components["schemas"]["QueekWebhookCustomerPayload"];
+        };
+        /** QueekWebhookCustomerPayload */
+        QueekWebhookCustomerPayload: components["schemas"]["CustomerResource"];
         /**
          * QueekWebhookEvent
          * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
@@ -887,15 +1519,101 @@ export interface components {
             data: components["schemas"]["OrderResource"];
         };
         /**
+         * QueekWebhookInventoryLevelEvent
+         * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
+         */
+        QueekWebhookInventoryLevelEvent: {
+            /** @description Event id, identical to the `webhook-id` header. Dedupe on it — a retry reuses it. */
+            id: string;
+            topic: components["schemas"]["QueekWebhookTopic"];
+            /** @description Payload contract version. Additive within a major. */
+            api_version: string;
+            /** @description ISO-8601 timestamp of the event. */
+            created_at: string;
+            data: components["schemas"]["QueekWebhookInventoryLevelPayload"];
+        };
+        /** QueekWebhookInventoryLevelPayload */
+        QueekWebhookInventoryLevelPayload: components["schemas"]["InventoryLevelResource"];
+        /**
+         * QueekWebhookProductEvent
+         * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
+         */
+        QueekWebhookProductEvent: {
+            /** @description Event id, identical to the `webhook-id` header. Dedupe on it — a retry reuses it. */
+            id: string;
+            topic: components["schemas"]["QueekWebhookTopic"];
+            /** @description Payload contract version. Additive within a major. */
+            api_version: string;
+            /** @description ISO-8601 timestamp of the event. */
+            created_at: string;
+            data: components["schemas"]["QueekWebhookProductPayload"];
+        };
+        /** QueekWebhookProductPayload */
+        QueekWebhookProductPayload: components["schemas"]["ProductResource"];
+        /**
          * QueekWebhookTopic
          * @description `orders/create` — An order was placed, on any channel.
          *     `orders/paid` — An order moved to paid.
          *     `orders/updated` — An order changed — status, fulfilment stage or any merchant action.
          *     `orders/fulfilled` — An order was completed or delivered.
          *     `orders/cancelled` — An order was cancelled or rejected.
+         *     `products/create` — A product was created in the store.
+         *     `products/update` — A product changed — visible content, price or availability.
+         *     `products/delete` — A product was deleted, soft-delete included.
+         *     `customers/create` — A customer record was created for the store.
+         *     `customers/update` — A customer profile field changed.
+         *     `inventory_levels/update` — A product or variant stock level changed, with the reason.
          * @enum {string}
          */
-        QueekWebhookTopic: "orders/create" | "orders/paid" | "orders/updated" | "orders/fulfilled" | "orders/cancelled";
+        QueekWebhookTopic: "orders/create" | "orders/paid" | "orders/updated" | "orders/fulfilled" | "orders/cancelled" | "products/create" | "products/update" | "products/delete" | "customers/create" | "customers/update" | "inventory_levels/update";
+        /** RefreshTokenRequest */
+        RefreshTokenRequest: {
+            refresh_token: string;
+            platform?: string | null;
+        };
+        /** RegisterRequest */
+        RegisterRequest: {
+            first_name: string;
+            last_name?: string | null;
+            /** Format: email */
+            email: string;
+            phone: string;
+            country_code?: string | null;
+            otp_code: string;
+            username?: string | null;
+            platform?: string | null;
+        };
+        /** RequestOtpRequest */
+        RequestOtpRequest: {
+            phone: string;
+            country_code?: string | null;
+            /** @enum {string|null} */
+            channel?: "sms" | "whatsapp" | null;
+        };
+        /** ReviewsBlockItemResource */
+        ReviewsBlockItemResource: {
+            id: string;
+            rating: number;
+            title: string;
+            description: string;
+            media: string | string[];
+            vendor_response: string;
+            vendor_response_at: string;
+            is_verified_purchase: boolean;
+            created_at: string;
+            edited_at: string;
+            user?: {
+                id: string;
+                name: string;
+                avatar: string;
+            };
+            product?: {
+                id: string;
+                slug: string;
+                title: string;
+                thumbnail: string;
+            };
+        };
         /** StoreCustomerCartRequest */
         StoreCustomerCartRequest: {
             /** Format: uuid */
@@ -918,6 +1636,44 @@ export interface components {
              */
             partial?: boolean | null;
         };
+        /** StorePageResource */
+        StorePageResource: {
+            id: string;
+            type: string;
+            template: string;
+            slug: string;
+            title: string;
+            /**
+             * @description Self-heal on serve: run stored blocks through the canonical
+             *     normalizer so a legacy/malformed section (e.g. a gallery with a
+             *     null slide) can never crash the storefront render. Same sanitizer
+             *     the write path uses, so serving == what a re-save would produce.
+             *     Pre-normalized above (attachContentMediaVariants also collects
+             *     media_index from this exact array) rather than re-normalized here,
+             *     so content[] and media_index can never disagree with each other.
+             */
+            content: string | string[];
+            media_index: string;
+            excerpt: string;
+            cover_image_url: string;
+            cover_image_variants: string | null;
+            tags: string | string[];
+            seo: string | string[];
+            blog_categories: string | string[];
+            reading_time: number;
+            author?: {
+                name: string;
+                avatar_url: string;
+            } | null;
+            is_home: boolean;
+            chrome: string;
+            show_page_title: boolean;
+            status: string;
+            position: number;
+            published_at: string | null;
+            created_at: string | null;
+            updated_at: string | null;
+        };
         /** SubscribeToStoreRequest */
         SubscribeToStoreRequest: {
             /** Format: email */
@@ -925,10 +1681,322 @@ export interface components {
             name?: string | null;
             phone?: string | null;
         };
+        /** TaxonomyCategoryResource */
+        TaxonomyCategoryResource: {
+            id: string;
+            name: string;
+            slug: string;
+            image: string;
+            /**
+             * @description Resolved by URL (no media_id column on categories/collections) — see
+             *     MediaVariantMap::attachUrlVariants(), called once per response in the
+             *     controller BEFORE this resource is resolved, never lazily here.
+             */
+            image_variants: string | null;
+            products_count: number;
+            children: unknown[];
+        };
         /** ValidateCustomerCartRequest */
         ValidateCustomerCartRequest: {
             /** Format: uuid */
             cart_id: string;
+        };
+        /** VendorItemResource */
+        VendorItemResource: {
+            id: string;
+            name: string;
+            distance: string;
+            /** @description 'time' => $vendorService->getCurrentTime(), */
+            delivery_info: {
+                is_free_delivery: boolean;
+                delivery_fee: number | null;
+                delivery_fee_value: number | null;
+                min_order: number;
+                min_order_fee: number;
+                /** @constant */
+                d_p_value: 1.5;
+                /**
+                 * @description delivery_fee_percentage_value
+                 * @constant
+                 */
+                s_p_value: 1.5;
+                /** @description service_fee_percentage_value */
+                delivery_time: string;
+                delivery_message: string | ("We dont have any available rider close to your location at the moment, please check back later" | "Hours not set");
+                offers_free_delivery: string;
+                pickup_enabled: string;
+                offer_instant_delivery: boolean;
+                /** @constant */
+                disable_delivery_msg?: "We dont have any available rider close to your location at the moment, please check back later";
+            };
+            notice: string[];
+            slug: string;
+            service: string;
+            logo: string | null;
+            disable_order: boolean;
+            is_closed: boolean;
+            temporary_unavailable: string;
+            preorder_enabled: string;
+            area: string;
+            banner: string | null;
+            /** @description 'banner' => $this->banner, */
+            support_phone: string;
+            phone: string;
+            country_code: string;
+            phone_code: string;
+            support_email: string;
+            slogan: string;
+            tags: string;
+            /** @constant */
+            tag: "Restaurant";
+            is_new: string;
+            rating: number;
+            rating_count: number;
+            short_description: string;
+            address: string;
+            open_time: string | null;
+            close_time: string | null;
+            service_type: string;
+            /**
+             * @description 'map_lat' => $this->map_lat,
+             *     'map_lng' => $this->map_lng,
+             */
+            landmark: string;
+            region_id: string;
+            min_order_price: number | null;
+        };
+        /** VendorResource */
+        VendorResource: {
+            id: string;
+            name: string;
+            distance: number;
+            distance_text: string;
+            delivery_info: {
+                delivery_fee: number | null;
+                delivery_time: string;
+                pickup_enabled: boolean;
+                /** @constant */
+                disable_delivery_msg?: "We dont have any available rider close to your location at the moment, please check back later";
+                delivery_message: string;
+                disable_delivery: boolean;
+            };
+            is_open: boolean;
+            message: string;
+            temporary_unavailable: boolean;
+            preorder_enabled: boolean;
+            tags: string;
+            tag: string;
+            is_new: string | boolean;
+            featured: boolean;
+            service_type: string;
+            commerce_mode: string | "quick";
+            notice: string[];
+            slug: string;
+            service: string;
+            logo: string | null;
+            banner: string | null;
+            logo_variants: string | null;
+            banner_variants: string | null;
+            rating: number;
+            rating_count: number;
+            discounts: string | string[];
+            open_time: string | null;
+            close_time: string | null;
+            /**
+             * @description Always present: both discovery selects load these columns, and the storefront /
+             *     agent merchant cards render them. Safe under non-strict missing-attribute access.
+             */
+            address: string | null;
+            area: string | null;
+            landmark?: string | null;
+            support_phone?: string | null;
+            country_code?: string | null;
+            phone_code?: string | null;
+            support_email?: string | null;
+            slogan?: string | null;
+            short_description?: string | null;
+            disable_order?: boolean;
+            region_id?: string | null;
+            min_order_price?: number | null;
+            /**
+             * @description A sandbox store is publicly reachable at `{slug}-test`; the storefront
+             *     keeps it out of crawlers and AI discovery (robots, sitemap, agents.md).
+             */
+            is_test?: boolean;
+            is_closed: boolean;
+            currency: string;
+            storefront_url?: string | null;
+            checkout_url?: string | null;
+            contact?: {
+                phone: string | null;
+                email: string | null;
+                whatsapp: string | null;
+            };
+            brand?: {
+                logo: string | null;
+                colors: string;
+                font: string;
+                socials: unknown[];
+            };
+        };
+        /** VerifyOtpRequest */
+        VerifyOtpRequest: {
+            phone: string;
+            country_code?: string | null;
+            otp_code: string;
+            platform?: string | null;
+        };
+        QueekStoreRatingSummary: {
+            average_rating: number;
+            total_reviews: number;
+            /** @description Approved-review counts keyed `"5"` … `"1"`. */
+            rating_breakdown: {
+                [key: string]: number;
+            };
+        };
+        QueekStoreProductReviews: {
+            product: {
+                /** Format: uuid */
+                id: string;
+                slug: string;
+                title: string;
+            };
+            summary: components["schemas"]["QueekStoreRatingSummary"];
+            reviews: components["schemas"]["QueekStoreReview"][];
+            pagination: {
+                current_page: number;
+                per_page: number;
+                has_more: boolean;
+            };
+        };
+        QueekStoreProductReviewSummary: {
+            product: {
+                /** Format: uuid */
+                id: string;
+                slug: string;
+                title: string;
+            };
+            summary: components["schemas"]["QueekStoreRatingSummary"];
+            latest_reviews: components["schemas"]["QueekStoreReview"][];
+        };
+        QueekStoreProductQuestions: {
+            product: {
+                /** Format: uuid */
+                id: string;
+                slug: string;
+                title: string;
+            };
+            questions: components["schemas"]["QueekStoreQuestion"][];
+            pagination: {
+                current_page: number;
+                per_page: number;
+                has_more: boolean;
+            };
+        };
+        QueekStoreReviewsBlock: {
+            /** @description The slice this block covers (`store`, `product` or `ids`). */
+            scope: string;
+            /** Format: uuid */
+            vendor_id: string;
+            summary: components["schemas"]["QueekStoreRatingSummary"];
+            reviews: components["schemas"]["QueekStoreReviewsBlockItem"][];
+        };
+        /** @description One storefront-visible metaobject type: its display field and typed field schema. */
+        QueekStoreMetaobjectDefinition: {
+            type: string;
+            name: string;
+            display_field?: string | null;
+            has_pages?: boolean;
+            fields: {
+                key: string;
+                name: string;
+                type: string;
+            }[];
+        };
+        /** @description `result: "added"` carries the cart; `result: "customise"` means the product needs a variant or addon choice first — show the options and call again with the choice. */
+        QueekStoreCartAdd: {
+            /** @enum {string} */
+            result: "added" | "customise";
+            cart?: components["schemas"]["QueekStoreCart"];
+            /**
+             * @description Present only with `result: "customise"`.
+             * @enum {string}
+             */
+            reason?: "variant_selection_required" | "addon_selection_required";
+        };
+        /** @description Clearing one cart names it; clearing all answers an empty `data` array. */
+        QueekStoreCartClear: unknown[] | {
+            /** Format: uuid */
+            cleared_cart_id?: string;
+        };
+        /** @description The challenge. The OTP itself travels out-of-band (SMS/WhatsApp/email); pass it to the matching `verify-otp` with the same identity. */
+        QueekStoreOtpChallenge: {
+            /** @example verify_otp */
+            next_action: string;
+            /** @description Echo of the identity the code was sent to. */
+            phone: string;
+            /** @description Whether this identity already has an account — `false` means call the register endpoint after verifying. */
+            user_exists: boolean;
+            /** @description Seconds until the code expires. */
+            expires_in: number;
+            /** @description Seconds until a new code may be requested. */
+            resend_in: number;
+            /** @description The code itself — returned outside production only, so automated tests can sign in without reading an inbox. */
+            debug_code?: string;
+        };
+        /** @description The challenge. The OTP itself travels out-of-band (SMS/WhatsApp/email); pass it to the matching `verify-otp` with the same identity. */
+        QueekStoreEmailOtpChallenge: {
+            /** @example verify_otp */
+            next_action: string;
+            /** @description Echo of the identity the code was sent to. */
+            email: string;
+            /** @description Whether this identity already has an account — `false` means call the register endpoint after verifying. */
+            user_exists: boolean;
+            /** @description Seconds until the code expires. */
+            expires_in: number;
+            /** @description Seconds until a new code may be requested. */
+            resend_in: number;
+            /** @description The code itself — returned outside production only, so automated tests can sign in without reading an inbox. */
+            debug_code?: string;
+        };
+        /** @description The customer session. Send `access_token` as `Authorization: Bearer <token>`; rotate with `POST auth/token/refresh` before `expires_at`. */
+        QueekStoreAuthSession: {
+            /** @description Alias of `access_token`, kept for older clients. */
+            token: string;
+            access_token: string;
+            /** @description Single-use rotation credential for `POST auth/token/refresh`. */
+            refresh_token: string;
+            /** @example Bearer */
+            token_type: string;
+            expires_in: number;
+            /** Format: date-time */
+            expires_at: string;
+            refresh_expires_in: number;
+            /** Format: date-time */
+            refresh_expires_at: string;
+            /** @example client_web */
+            platform: string;
+            user: components["schemas"]["QueekStoreCustomer"];
+        };
+        QueekStoreAuthRegistration: components["schemas"]["QueekStoreAuthSession"] & {
+            /**
+             * @description Always true here — this endpoint creates the account.
+             * @constant
+             */
+            is_new_user: true;
+        };
+        /** @description The code was right but this email has no account yet — finish with `POST auth/email/register-otp`, passing `verified_token`. */
+        QueekStoreNeedsRegistration: {
+            /** @constant */
+            needs_registration: true;
+            /** @description Proof the email was just verified; the register call consumes it. */
+            verified_token: string;
+        };
+        /** @description Either the customer session (existing account) or a registration ticket (new email). */
+        QueekStoreEmailVerifyResult: components["schemas"]["QueekStoreAuthSession"] | components["schemas"]["QueekStoreNeedsRegistration"];
+        /** @description A store post (`QueekStorePage` shape) with its related posts. */
+        QueekStorePostDetail: components["schemas"]["QueekStorePage"] & {
+            related: components["schemas"]["QueekStorePage"][];
         };
     };
     responses: {
@@ -968,6 +2036,447 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
+    "clientAuth.emailRequestOtp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailRequestOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreEmailOtpChallenge"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.emailVerifyOtp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailVerifyOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreEmailVerifyResult"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.emailRegisterOtp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EmailRegisterOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthRegistration"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.requestOtp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RequestOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreOtpChallenge"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.verifyOtp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["VerifyOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.register": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "clientAuth.refresh": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["RefreshTokenRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @constant */
+                        status: "failed";
+                        /** @constant */
+                        error_code: "client_not_allowed";
+                        /** @constant */
+                        message: "Client domain is not allowed.";
+                        data: null;
+                    };
+                };
+            };
+            422: components["responses"]["ValidationException"];
+            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
+            default: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
     "storeContent.blogCategoriesForClient": {
         parameters: {
             query?: never;
@@ -985,18 +2494,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Blog categories retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreBlogCategory"][];
                     };
                 };
             };
@@ -1039,6 +2547,11 @@ export interface operations {
                  * @example {{clientKey}}
                  */
                 "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
                 /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
                 "X-Request-Id"?: string;
             };
@@ -1047,12 +2560,30 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCart"][];
+                        /** @description Currency plus `total_carts` for this owner at this store. */
+                        meta?: {
+                            currency?: {
+                                /** @example NGN */
+                                code?: string;
+                                /** @example ₦ */
+                                symbol?: string;
+                            };
+                            total_carts?: number;
+                        } & {
+                            [key: string]: unknown;
+                        };
+                    };
                 };
             };
             /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
@@ -1075,6 +2606,11 @@ export interface operations {
                  * @example {{clientKey}}
                  */
                 "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
                 /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
                 "X-Request-Id"?: string;
             };
@@ -1087,20 +2623,21 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Cart saved successfully";
-                        data: string[];
-                        meta: {
-                            rejected_items: string;
-                        } | string[];
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCart"];
+                        /** @description Present only for `partial: true` saves, carrying `rejected_items` — the lines the server refused. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
                     };
                 };
             };
@@ -1125,6 +2662,11 @@ export interface operations {
                  * @example {{clientKey}}
                  */
                 "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
                 /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
                 "X-Request-Id"?: string;
             };
@@ -1137,32 +2679,17 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Item added to cart";
-                        data: string[];
-                        meta: string;
-                    } | {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Addon selection required";
-                        data: string[];
-                        meta: string;
-                    } | {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Variant selection required";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartAdd"];
                     };
                 };
             };
@@ -1217,6 +2744,11 @@ export interface operations {
                  * @example {{clientKey}}
                  */
                 "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
                 /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
                 "X-Request-Id"?: string;
             };
@@ -1229,18 +2761,17 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @enum {string} */
-                        message: "Cart is valid" | "Cart has validation errors";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCart"];
                     };
                 };
             };
@@ -1314,6 +2845,11 @@ export interface operations {
                  * @example {{clientKey}}
                  */
                 "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
                 /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
                 "X-Request-Id"?: string;
             };
@@ -1322,25 +2858,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "All carts cleared successfully";
-                        data: string[];
-                        meta: string;
-                    } | {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Cart cleared successfully";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartClear"];
                     };
                 };
             };
@@ -1411,12 +2939,18 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCategory"][];
+                    };
                 };
             };
             404: {
@@ -1475,12 +3009,42 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
                 };
             };
             404: {
@@ -1546,12 +3110,18 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCollection"][];
+                    };
                 };
             };
             404: {
@@ -1610,12 +3180,42 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
                 };
             };
             404: {
@@ -1677,18 +3277,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store galleries retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
                     };
                 };
             };
@@ -1741,18 +3340,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store gallery retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"];
                     };
                 };
             };
@@ -1814,18 +3412,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Vendor retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreVendor"];
                     };
                 };
             };
@@ -1876,18 +3473,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Metafield definitions";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreMetafieldDefinition"][];
                     };
                 };
             };
@@ -1938,18 +3534,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Metaobject definitions";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreMetaobjectDefinition"][];
                     };
                 };
             };
@@ -1983,12 +3578,42 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        data: components["schemas"]["QueekStoreMetaobject"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
                 };
             };
             404: {
@@ -2041,24 +3666,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Metaobject entry";
-                        data: string[];
-                        meta: {
-                            definition: {
-                                type: string;
-                                name: string;
-                                has_pages: boolean;
-                            };
-                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreMetaobject"];
                     };
                 };
             };
@@ -2109,18 +3727,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store pages retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
                     };
                 };
             };
@@ -2173,18 +3790,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store page retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"];
                     };
                 };
             };
@@ -2246,18 +3862,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store policies retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
                     };
                 };
             };
@@ -2310,18 +3925,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store policy retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"];
                     };
                 };
             };
@@ -2387,12 +4001,42 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": Record<string, never>;
+                    "application/json": {
+                        data: components["schemas"]["QueekStorePage"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
                 };
             };
             404: {
@@ -2445,18 +4089,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Store post retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePostDetail"];
                     };
                 };
             };
@@ -2526,13 +4169,41 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        [key: string]: unknown;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
                     };
                 };
             };
@@ -2585,18 +4256,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Product retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreProduct"];
                     };
                 };
             };
@@ -2660,18 +4330,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Related products";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreProduct"][];
                     };
                 };
             };
@@ -2740,18 +4409,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Product reviews retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreProductReviews"];
                     };
                 };
             };
@@ -2787,18 +4455,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Product review summary retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreProductReviewSummary"];
                     };
                 };
             };
@@ -2835,18 +4502,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Product questions retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreProductQuestions"];
                     };
                 };
             };
@@ -2884,13 +4550,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        [key: string]: unknown;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePromotion"][];
                     };
                 };
             };
@@ -2951,13 +4621,41 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        [key: string]: unknown;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
+                        links?: Record<string, never>;
+                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
+                        meta: {
+                            current_page?: number;
+                            from?: number | null;
+                            last_page?: number;
+                            path?: string;
+                            per_page?: number;
+                            to?: number | null;
+                            total?: number;
+                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
+                            pagination?: {
+                                current_page?: number;
+                                last_page?: number;
+                                per_page?: number;
+                                total?: number;
+                                from?: number | null;
+                                to?: number | null;
+                                has_more?: boolean;
+                            };
+                        } & {
+                            [key: string]: unknown;
+                        };
+                        /** @example success */
+                        status: string;
+                        message: string;
                     };
                 };
             };
@@ -3029,18 +4727,17 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
+            /** @description Success. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "Storefront reviews block retrieved";
-                        data: string[];
-                        meta: string;
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreReviewsBlock"];
                     };
                 };
             };
@@ -3096,16 +4793,16 @@ export interface operations {
             };
         };
         responses: {
+            /** @description Subscribed. Identical whether the address was new, already subscribed, or previously opted out — this endpoint never reveals whether someone shops here, so it answers `{status, message}` with no `data`. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
                     "application/json": {
-                        /** @constant */
-                        status: "success";
-                        /** @constant */
-                        message: "You're subscribed. Watch your inbox for updates.";
+                        /** @example success */
+                        status: string;
+                        message: string;
                     };
                 };
             };
@@ -3232,6 +4929,138 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["QueekWebhookEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.products.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookProductEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.products.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookProductEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.products.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookProductEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.customers.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookCustomerEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.customers.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookCustomerEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.inventory_levels.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookInventoryLevelEvent"];
             };
         };
         responses: {

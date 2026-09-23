@@ -42,13 +42,13 @@ https://docs.usequeek.com/docs/versioning-and-errors.
 
 ## What is not here (yet)
 
-- **Customer sign-in.** The public OpenAPI spec currently exposes catalogue,
-  cart and storefront resources only (`/store/*`) — there is no customer
-  magic-link/OTP auth path in it, so the starter ships guest checkout via
-  anonymous cart sessions (`X-Cart-Session`). The published
-  `@queekai/client-sdk` also ships OTP auth helpers against a different
-  (`/client/auth/*`) path family that needs a real phone-number OTP flow and
-  cannot be completed headlessly; the starter uses the SDK's HTTP layer only.
+- **Customer sign-in.** The public OpenAPI spec now has email OTP auth
+  (`/auth/email/request-otp` → `/auth/email/verify-otp`, plus `/auth/register`
+  and `/auth/token/refresh`), but email+password login, `/auth/me`,
+  `/store/orders` and `/store/addresses` are not in it yet — so the starter
+  ships guest checkout via anonymous cart sessions (`X-Cart-Session`,
+  documented on the spec's cart endpoints). See "Signing customers in" in the
+  [example README](examples/nextjs-headless/README.md).
 - **Merchant API with scoped tokens** — next. **App platform** — later.
 
 ## License

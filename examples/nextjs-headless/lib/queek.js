@@ -6,10 +6,23 @@
  * generated `components["schemas"]` types; endpoint paths are checked
  * against the spec's literal `paths` keys.
  *
- * One honesty note: the spec's 200-response `data` schemas are loose (the
- * generator emits `data: string[]` where the API returns objects), so entity
- * shapes here are pinned from live sandbox responses instead — see README.
- * If a field you need is missing, fetch it and extend the typedef.
+ * One honesty note: the spec's 200-response `data` schemas are structured
+ * now, and anonymous carts are documented on the spec itself — `X-Cart-Session`
+ * is required when no customer `Authorization: Bearer` token is sent (and is
+ * ignored when one is), and is also accepted as the `session_token` body
+ * field. But the generated entity resources still diverge from live sandbox
+ * payloads on fields this starter uses, so entity shapes below stay pinned
+ * from live responses (verified 23/9/26) — see README. If a field you need is
+ * missing, fetch it and extend the typedef.
+ *
+ * Known divergences (generated → observed live): `QueekStoreProduct`
+ * (`p_id: string` → number, `metafields: string` → `[]` on list / `{}` on
+ * detail, `inventory: unknown[]` → `{ in_stock, quantity }`, `excerpt:
+ * string` → `string | null`); `QueekStoreCart` (`cart_items` map → array,
+ * `is_valid: string` → `boolean | null`, `validation_errors: string |
+ * string[]` → `unknown[]`). Request bodies (`AddCartItemRequest`,
+ * `ValidateCustomerCartRequest`) match and are reused from the generated
+ * types.
  *
  * The secret key (`sk_…`) lives ONLY here, on the server. Route handlers and
  * server components import these helpers; the browser never sees the key.
@@ -353,8 +366,8 @@ export async function addToCart(session, body) {
 
 /**
  * POST /store/cart/validate — re-check lines vs stock/prices pre-checkout.
- * Anonymous carts must also send `X-Cart-Session` (required by the server
- * though not listed in the spec params).
+ * Anonymous carts must also send `X-Cart-Session`: required by the spec when
+ * no customer token is sent.
  * @param {string} cartId
  * @param {string} session
  * @returns {Promise<{ is_valid: boolean, validation_errors: unknown[] }>}

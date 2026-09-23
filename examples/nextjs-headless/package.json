@@ -12,6 +12,7 @@
     "test": "node --test tests/unwrap.test.mjs",
     "spec:pull": "curl -sSf https://client.usequeek.com/openapi.json -o openapi.json",
     "types:gen": "openapi-typescript openapi.json -o lib/schema.d.ts",
+    "types:pull": "yarn spec:pull && yarn types:gen",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {

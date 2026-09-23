@@ -36,11 +36,14 @@ All Queek calls live in `lib/queek.js` and run server-side with
 it never sees the key. Anonymous shoppers are tracked with a
 `queek_cart_session` cookie forwarded as the `X-Cart-Session` header.
 
-Typed from the spec: `yarn spec:pull` refreshes `openapi.json`, and
-`yarn types:gen` regenerates `lib/schema.d.ts` (`openapi-typescript`).
-Request bodies reuse the generated `components["schemas"]` types. Note the
-spec's 200-response `data` schemas are loose, so entity shapes in
-`lib/queek.js` are pinned from live sandbox responses (commented there).
+Typed from the spec: `yarn types:pull` refreshes `openapi.json` and
+regenerates `lib/schema.d.ts` (`openapi-typescript`) in one command
+(`yarn spec:pull` / `yarn types:gen` run each half). Request bodies reuse the
+generated `components["schemas"]` types. The generated entity resources
+(`QueekStoreProduct`, `QueekStoreCart`, …) exist but still diverge from live
+payloads on fields the starter uses, so entity shapes in `lib/queek.js` stay
+pinned from live sandbox responses — the divergences are listed in the
+comment there.
 
 ## Where to change the theme
 
@@ -49,19 +52,24 @@ You barely need to: `app/layout.tsx` reads the merchant brand kit
 store from the dashboard. Override the inline `<style>` block there for
 custom CSS, and swap the font in `fontFamily`.
 
-## Sign-in
+## Signing customers in
 
-Not wired: the public spec currently exposes `/store/*` catalogue/cart
-resources only — no customer auth path — so the starter ships guest checkout.
-(The SDK's OTP auth targets a different `/client/auth/*` path family needing
-a real phone OTP flow.) When customer auth lands in the spec, add it in
-`lib/queek.js` + a `/api/session` route following the same server-side
-pattern.
+Available, but not wired here yet. The public spec now has customer auth —
+email OTP (`POST /auth/email/request-otp` → `POST /auth/email/verify-otp`,
+plus `POST /auth/register` and `POST /auth/token/refresh`) — while
+email+password login, `GET /auth/me`, `GET /store/orders` and
+`GET /store/addresses` are not in the spec yet, so there is nothing to build
+an account page on. The starter therefore ships guest checkout only, and this
+section stays code-free until those paths land. Flow and token handling are
+documented at https://docs.usequeek.com — when the missing paths arrive, add
+sign-in in `lib/queek.js` + a `/api/session` route following the same
+server-side pattern (customer token in an httpOnly cookie, never the
+browser).
 
 ## Scripts
 
-- `yarn spec:pull` — refresh the spec snapshot
-- `yarn types:gen` — regenerate typed schema
+- `yarn types:pull` — refresh the spec snapshot AND regenerate typed schema
+  (one command; `yarn spec:pull` / `yarn types:gen` run each half)
 - `yarn lint` — `tsc --noEmit`
 - `yarn build` — production build
 - `yarn smoke` — live proof against the sandbox (product count, one product's
