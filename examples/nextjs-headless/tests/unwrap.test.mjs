@@ -22,7 +22,7 @@ import {
   validateCart,
 } from "../lib/queek.js";
 
-const STORE = { id: "store-1", name: "Test Store", slug: "test-store" };
+const STORE = { id: "store-1", name: "Dev Store", slug: "dev-store" };
 const PRODUCT = { id: "prod-1", title: "Probe", slug: "probe", metafields: {} };
 const CART = { id: "cart-1", cart_items: [], total_price: 0 };
 
@@ -62,7 +62,7 @@ describe("envelope unwrap", () => {
       stubFetch({ "/store/info": { status: "success", data: STORE } }),
     );
     const info = await getStoreInfo();
-    assert.equal(info.name, "Test Store");
+    assert.equal(info.name, "Dev Store");
   });
 
   it("listProducts returns products + total from meta", async () => {

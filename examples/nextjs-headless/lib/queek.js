@@ -10,7 +10,7 @@
  * now, and anonymous carts are documented on the spec itself — `X-Cart-Session`
  * is required when no customer `Authorization: Bearer` token is sent (and is
  * ignored when one is), and is also accepted as the `session_token` body
- * field. But the generated entity resources still diverge from live sandbox
+ * field. But the generated entity resources still diverge from live dev-store
  * payloads on fields this starter uses, so entity shapes below stay pinned
  * from live responses (verified 23/9/26) — see README. If a field you need is
  * missing, fetch it and extend the typedef.
@@ -96,7 +96,7 @@ function cartHeaders(session) {
 }
 
 // ---------------------------------------------------------------------------
-// Entities (shapes observed against the live sandbox; see note above)
+// Entities (shapes observed against a dev store; see note above)
 // ---------------------------------------------------------------------------
 
 /**

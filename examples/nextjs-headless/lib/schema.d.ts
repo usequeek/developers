@@ -4,6 +4,70 @@
  */
 
 export interface paths {
+    "/auth/token/refresh": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Refresh the customer token
+         * @description Mints a fresh access token from a refresh token.
+         */
+        post: operations["auth_account.refresh"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/me": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve the signed-in customer
+         * @description Returns the signed-in customer’s account. Needs the customer bearer bound to this store in addition to the key.
+         */
+        get: operations["auth_account.retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update the signed-in customer
+         * @description Updates the signed-in customer’s profile.
+         */
+        patch: operations["auth_account.update"];
+        trace?: never;
+    };
+    "/auth/logout": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign out
+         * @description Signs out the customer on this device. Answers `{status, message}` (`Logged out`) with no `data`.
+         */
+        post: operations["auth_account.logout"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/auth/email/request-otp": {
         parameters: {
             query?: never;
@@ -13,8 +77,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Email Request Otp */
-        post: operations["clientAuth.emailRequestOtp"];
+        /**
+         * Request an email OTP
+         * @description Sends a one-time code to the shopper’s email for sign-in or registration.
+         */
+        post: operations["auth_email.request_otp"];
         delete?: never;
         options?: never;
         head?: never;
@@ -30,8 +97,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Email Verify Otp */
-        post: operations["clientAuth.emailVerifyOtp"];
+        /**
+         * Verify an email OTP
+         * @description Verifies the email code and signs the customer in, returning the session tokens.
+         */
+        post: operations["auth_email.verify_otp"];
         delete?: never;
         options?: never;
         head?: never;
@@ -47,8 +117,91 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Email Register Otp */
-        post: operations["clientAuth.emailRegisterOtp"];
+        /**
+         * Register with an email OTP
+         * @description Registers a new customer with a verified email code.
+         */
+        post: operations["auth_email.register_otp"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/login": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign in with email and password
+         * @description Signs a customer in with email and password, returning the session tokens.
+         */
+        post: operations["auth_email.login"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/register-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Register with email and password
+         * @description Registers a new customer with email and password.
+         */
+        post: operations["auth_email.register_password"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/forgot-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Request a password reset
+         * @description Accepted. The answer is identical whether the address holds an account or not, so it can never be used to probe who shops here — check the inbox, not this response.
+         */
+        post: operations["auth_email.request_password_reset"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/auth/email/reset-password": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reset the password
+         * @description Consumes the emailed link credential and sets the new password.
+         */
+        post: operations["auth_email.reset_password"];
         delete?: never;
         options?: never;
         head?: never;
@@ -64,8 +217,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Request Otp */
-        post: operations["clientAuth.requestOtp"];
+        /**
+         * Request a phone OTP
+         * @description Sends a one-time code to the shopper’s phone for sign-in or registration.
+         */
+        post: operations["auth_phone.request_otp"];
         delete?: never;
         options?: never;
         head?: never;
@@ -81,8 +237,11 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Verify Otp */
-        post: operations["clientAuth.verifyOtp"];
+        /**
+         * Verify a phone OTP
+         * @description Verifies the phone code and signs the customer in, returning the session tokens.
+         */
+        post: operations["auth_phone.verify_otp"];
         delete?: never;
         options?: never;
         head?: never;
@@ -98,15 +257,42 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Register */
-        post: operations["clientAuth.register"];
+        /**
+         * Register with a phone number
+         * @description Registers a new customer with a verified phone number.
+         */
+        post: operations["auth_phone.register"];
         delete?: never;
         options?: never;
         head?: never;
         patch?: never;
         trace?: never;
     };
-    "/auth/token/refresh": {
+    "/store/addresses": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List saved addresses
+         * @description Lists the signed-in customer’s saved addresses. A saved address belongs to the customer, never to one store.
+         */
+        get: operations["addresses.list"];
+        put?: never;
+        /**
+         * Save an address
+         * @description Saves an address for the signed-in customer.
+         */
+        post: operations["addresses.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/addresses/{id}": {
         parameters: {
             query?: never;
             header?: never;
@@ -115,12 +301,35 @@ export interface paths {
         };
         get?: never;
         put?: never;
-        /** Refresh */
-        post: operations["clientAuth.refresh"];
-        delete?: never;
+        post?: never;
+        /**
+         * Delete an address
+         * @description Remove a saved address (`Address removed`). Deleting the default promotes the newest remaining address.
+         */
+        delete: operations["addresses.delete"];
         options?: never;
         head?: never;
         patch?: never;
+        trace?: never;
+    };
+    "/store/addresses/{id}/default": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Set the default address
+         * @description Makes one of the customer’s saved addresses the default.
+         */
+        patch: operations["addresses.set_default"];
         trace?: never;
     };
     "/store/blog-categories": {
@@ -132,9 +341,9 @@ export interface paths {
         };
         /**
          * List blog categories
-         * @description Categories the store's posts are filed under.
+         * @description Categories the store’s posts are filed under.
          */
-        get: operations["storeContent.blogCategoriesForClient"];
+        get: operations["blog_categories.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -151,16 +360,16 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * The cart
-         * @description Items and subtotal for the cart identified by `X-Cart-Session` (or the signed-in customer). No delivery or fees — those are computed at checkout. Includes `checkout_url` on your own key.
+         * Retrieve the cart
+         * @description Items and subtotal for the cart identified by `X-Cart-Session` (or the signed-in customer). No delivery or fees — those are computed at checkout.
          */
-        get: operations["customerCart.index"];
+        get: operations["cart.retrieve"];
         put?: never;
         /**
          * Replace the cart
-         * @description Upserts the whole cart in one call (`vendor_id` is the store `id` from `store/info`; `cart_items[]` with `item_id`, `quantity`, optional `variant_id`). Prefer `cart/items` to add lines one at a time. Items the server rejects come back in `rejected_items`.
+         * @description Upserts the whole cart in one call (`cart_items[]` with `item_id`, `quantity`, optional `variant_id`). Prefer `cart/items` to add lines one at a time. Items the server rejects come back in `rejected_items`.
          */
-        post: operations["customerCart.store"];
+        post: operations["cart.replace"];
         delete?: never;
         options?: never;
         head?: never;
@@ -180,7 +389,7 @@ export interface paths {
          * Add an item to the cart
          * @description Adds one line (`product_id`, optional `variant_id`, `quantity`) without touching other lines. Replies `result: "added"` with the cart, or `result: "customise"` with the variant/addon options the product needs — show them and call again with the choice.
          */
-        post: operations["customerCart.addItem"];
+        post: operations["cart.add_item"];
         delete?: never;
         options?: never;
         head?: never;
@@ -200,7 +409,7 @@ export interface paths {
          * Validate the cart
          * @description Re-checks every line against current stock and prices and returns `is_valid` with `validation_errors`. Call before sending the shopper to `checkout_url`.
          */
-        post: operations["customerCart.validate"];
+        post: operations["cart.validate"];
         delete?: never;
         options?: never;
         head?: never;
@@ -221,7 +430,7 @@ export interface paths {
          * Clear the cart
          * @description Removes every line from the cart identified by `X-Cart-Session` (or the signed-in customer).
          */
-        delete: operations["customerCart.clear"];
+        delete: operations["cart.clear"];
         options?: never;
         head?: never;
         patch?: never;
@@ -236,9 +445,9 @@ export interface paths {
         };
         /**
          * List categories
-         * @description The store's product categories. Use a category's `id` or `slug` with `categories/{category}/products`.
+         * @description The store’s product categories. Use a category’s `id` or `slug` with `categories/{category}/products`.
          */
-        get: operations["vendorTaxonomy.indexForClient"];
+        get: operations["categories.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -255,10 +464,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Products in a category
+         * List category products
          * @description Paginated products in one category. Same product shape and filters as `products`.
          */
-        get: operations["vendorTaxonomy.productsForClient"];
+        get: operations["categories.list_products"];
         put?: never;
         post?: never;
         delete?: never;
@@ -276,9 +485,9 @@ export interface paths {
         };
         /**
          * List collections
-         * @description Curated and smart collections the merchant built (e.g. "New in", "Best sellers"). Use a collection's `id` or `slug` with `collections/{collection}/products`.
+         * @description Curated and smart collections the merchant built (e.g. "New in", "Best sellers"). Use a collection’s `id` or `slug` with `collections/{collection}/products`.
          */
-        get: operations["vendorCollection.indexForClient"];
+        get: operations["collections.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -295,10 +504,54 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Products in a collection
-         * @description Paginated products in one collection, in the merchant's order.
+         * List collection products
+         * @description Paginated products in one collection, in the merchant’s order.
          */
-        get: operations["vendorCollection.productsForClient"];
+        get: operations["collections.list_products"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/follow": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Follow the store
+         * @description Follows the store for the signed-in customer.
+         */
+        post: operations["follow.create"];
+        /**
+         * Unfollow the store
+         * @description Unfollows the store for the signed-in customer.
+         */
+        delete: operations["follow.delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/follow/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve the follow status
+         * @description Whether the signed-in customer follows this store.
+         */
+        get: operations["follow.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -318,7 +571,7 @@ export interface paths {
          * List galleries
          * @description Image galleries the merchant published (lookbooks, shop photos). Fetch one with `galleries/{slug}`.
          */
-        get: operations["storeContent.galleriesForClient"];
+        get: operations["galleries.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -335,10 +588,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One gallery
+         * Retrieve a gallery
          * @description A gallery by `slug` with its images (`url`, `alt`, `caption`).
          */
-        get: operations["storeContent.galleryForClient"];
+        get: operations["galleries.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -355,10 +608,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * The store
-         * @description Name, slug, logo, description, currency, opening hours (`is_open`, `message`), address. On your own key it also carries `storefront_url`, `checkout_url`, unmasked `contact` and the `brand` kit (logo, colour tokens, fonts, socials).
+         * Retrieve the store
+         * @description Name, slug, logo, description, currency, opening hours (`is_open`, `message`), address.
          */
-        get: operations["vendor.showForClient"];
+        get: operations["info.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -375,18 +628,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * The store's metafield SCHEMA on the public Storefront API
-         * @description A developer (or a theme, or an AI builder) reading `metafields` off a
-         *     product has no way to know what `custom.fabric` means, what type it is or
-         *     what values are allowed unless the schema is readable too. Values are
-         *     already public on the product; this exposes only their shape, never a
-         *     value, and never a definition belonging to another store.
-         *
-         *     Scoped to `client_schema_owner_types`, NOT every owner type: order
-         *     definitions are a description of a merchant's back office and no order
-         *     metafield value is ever public, so their schema stays on the vendor API.
+         * List metafield definitions
+         * @description The store’s metafield schema: what each `metafields` value on a product means, its type and allowed values. Values are already public on the product; this exposes only their shape, never a value, and never a definition belonging to another store.
          */
-        get: operations["vendorMetafieldDefinition.indexForClient"];
+        get: operations["metafield_definitions.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -402,8 +647,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Definitions */
-        get: operations["storeMetaobject.definitions"];
+        /**
+         * List metaobject definitions
+         * @description The store’s storefront-visible metaobject definitions: the custom content types a theme reads before rendering one.
+         */
+        get: operations["metaobjects.list_definitions"];
         put?: never;
         post?: never;
         delete?: never;
@@ -419,8 +667,11 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Index */
-        get: operations["storeMetaobject.index"];
+        /**
+         * List metaobjects
+         * @description Active entries of one storefront-visible definition, ordered by display name. Anything else 404s.
+         */
+        get: operations["metaobjects.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -436,8 +687,71 @@ export interface paths {
             path?: never;
             cookie?: never;
         };
-        /** Show */
-        get: operations["storeMetaobject.show"];
+        /**
+         * Retrieve a metaobject
+         * @description One storefront-visible metaobject entry by type and handle.
+         */
+        get: operations["metaobjects.retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/orders": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List orders
+         * @description Lists the signed-in customer’s orders at this store, newest first, one page at a time: walk with `starting_after` = the previous `next_cursor` while `has_more` is true, or read `page=N`. No totals or page counts are sent. Filter with `status` (`all|ongoing|pending|delivered|completed`, default `all`) and `service` (the store’s service slug, e.g. `fashion`).
+         */
+        get: operations["orders.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/orders/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve an order
+         * @description Retrieves one of the signed-in customer’s orders with its items and amounts. `{id}` accepts the UUID `id` or the human `order_no` (e.g. `26-0925-74101`) — the example calls the latter.
+         */
+        get: operations["orders.retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/orders/{id}/pay": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve an order payment link
+         * @description Returns the payment link and data for an unpaid order of the signed-in customer. `{id}` accepts the UUID `id` or the human `order_no`. Only online orders answer a link: anything else 422s.
+         */
+        get: operations["orders.retrieve_payment_link"];
         put?: never;
         post?: never;
         delete?: never;
@@ -457,7 +771,7 @@ export interface paths {
          * List pages
          * @description Published pages (about, contact, custom landing pages) — `slug`, `title`, SEO fields. Fetch one with `pages/{slug}` for its `content[]` blocks.
          */
-        get: operations["storeContent.pagesForClient"];
+        get: operations["pages.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -474,10 +788,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One page
-         * @description A published page by `slug` with its `content[]` blocks (`{type, variant, data}`; see the guide for block types).
+         * Retrieve a page
+         * @description A published page by `slug` with its `content[]` blocks.
          */
-        get: operations["storeContent.pageForClient"];
+        get: operations["pages.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -497,7 +811,7 @@ export interface paths {
          * List policies
          * @description Published policy pages (refunds, shipping, privacy, terms). Fetch one with `policies/{slug}`.
          */
-        get: operations["storeContent.policiesForClient"];
+        get: operations["policies.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -514,10 +828,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One policy
+         * Retrieve a policy
          * @description A policy page by `slug` with its `content[]` blocks.
          */
-        get: operations["storeContent.policyForClient"];
+        get: operations["policies.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -537,7 +851,7 @@ export interface paths {
          * List blog posts
          * @description Published posts, paginated; filter by `category` or `tag`. Fetch one with `posts/{slug}`.
          */
-        get: operations["storeContent.postsForClient"];
+        get: operations["posts.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -554,10 +868,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One blog post
+         * Retrieve a blog post
          * @description A published post by `slug` with its cover image, excerpt and `content[]` blocks.
          */
-        get: operations["storeContent.postForClient"];
+        get: operations["posts.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -575,9 +889,9 @@ export interface paths {
         };
         /**
          * List products
-         * @description The store's published catalogue, paginated (`page`, `per_page` ≤ 100). Filter with `keyword`, `category_slug` (or `category_id`), `sort` (`latest|popular|price_low|price_high`), `has_video`, and `metafield[namespace.key]=value` (typed, exact match against the store's own definitions — see `GET /store/metafield-definitions`; an undefined handle answers 422 `metafield_definition_missing`). Walk `pagination.current_page` … `pagination.last_page` to read everything. Every `price` is the final customer price.
+         * @description The store’s published catalogue, one page at a time: walk with `starting_after` = the previous `next_cursor` while `has_more` is true, or read `page=N` (≤ 100 per page). No totals or page counts are sent. Filter with `keyword`, `category_slug` (or `category_id`), `sort` (`latest|popular|price_low|price_high`), `has_video`, and `metafield[namespace.key]=value` (typed, exact match against the store’s own definitions). Every `price` is the final customer price.
          */
-        get: operations["vendorProduct.indexForClient"];
+        get: operations["products.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -594,10 +908,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * One product
+         * Retrieve a product
          * @description Full product by `slug`: images (with `image_variants`), price and `compare_at_price` when discounted, description, `has_variants` with `variants[]` and `options`, stock flags, category and collections.
          */
-        get: operations["vendorProduct.showForClient"];
+        get: operations["products.retrieve"];
         put?: never;
         post?: never;
         delete?: never;
@@ -614,10 +928,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Related products
+         * List related products
          * @description Products to show alongside one product (same category/collections), for "you may also like".
          */
-        get: operations["vendorProduct.relatedForClient"];
+        get: operations["products.list_related"];
         put?: never;
         post?: never;
         delete?: never;
@@ -634,10 +948,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Reviews of a product
+         * List product reviews
          * @description Paginated reviews for one product: rating, text, reviewer name, date.
          */
-        get: operations["productReview.indexForClient"];
+        get: operations["products.list_reviews"];
         put?: never;
         post?: never;
         delete?: never;
@@ -654,10 +968,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Rating summary of a product
+         * Retrieve a product rating summary
          * @description Average rating, review count and the 1–5 star distribution for one product.
          */
-        get: operations["productReview.summaryForClient"];
+        get: operations["products.retrieve_rating_summary"];
         put?: never;
         post?: never;
         delete?: never;
@@ -674,10 +988,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Questions on a product
-         * @description Customer questions on one product with the store's answers, paginated.
+         * List product questions
+         * @description Customer questions on one product with the store’s answers, paginated.
          */
-        get: operations["productQuestion.indexForClient"];
+        get: operations["products.list_questions"];
         put?: never;
         post?: never;
         delete?: never;
@@ -697,7 +1011,7 @@ export interface paths {
          * List promotions
          * @description Active promotions (sales, bundles) with their labels and dates. Use `promotions/{promotion}/products` for the items on offer.
          */
-        get: operations["vendorPromotion.indexForClient"];
+        get: operations["promotions.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -714,10 +1028,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Products in a promotion
+         * List promotion products
          * @description Paginated products on one promotion.
          */
-        get: operations["vendorPromotion.productsForClient"];
+        get: operations["promotions.list_products"];
         put?: never;
         post?: never;
         delete?: never;
@@ -734,10 +1048,10 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Store reviews
+         * List store reviews
          * @description Recent reviews across the whole store with the overall rating — for a homepage testimonials section.
          */
-        get: operations["productReview.blockForClient"];
+        get: operations["reviews.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -756,10 +1070,10 @@ export interface paths {
         get?: never;
         put?: never;
         /**
-         * Subscribe to the store's newsletter
-         * @description Adds an email (optionally `name`, `phone`) to the store's subscriber list.
+         * Subscribe to the newsletter
+         * @description Adds an email (optionally `name`, `phone`) to the store’s subscriber list.
          */
-        post: operations["storeSubscription.subscribe"];
+        post: operations["subscribe.create"];
         delete?: never;
         options?: never;
         head?: never;
@@ -1020,6 +1334,135 @@ export interface components {
             /** Format: uuid */
             variant_id?: string | null;
             quantity?: number | null;
+            properties?: (string | null)[] | null;
+        };
+        /** App.Http.Resources.Api.OrderResource */
+        "App.Http.Resources.Api.OrderResource": {
+            id: number;
+            uid: string;
+            order_number: string;
+            status: string;
+            payment_status: string;
+            payment_method: string;
+            /** @enum {string} */
+            fulfillment_status: "fulfilled" | "unfulfilled";
+            cancelled: boolean;
+            cancel_reason: string | null;
+            /**
+             * @description `channel` is the inbox (messaging) channel, typed against
+             *     MessagingChannel — never the sales channel. An importing app
+             *     recognises its own orders one key further down.
+             */
+            channel: string;
+            platform: string | null;
+            /**
+             * @description Import recognition: the sales channel that imported the order
+             *     (chowdeck, glovo — null for every other order) and the outside
+             *     platform's own reference (null unless imported). Together with
+             *     `platform` (third_party) an app matches orders events to its
+             *     own records with no link table. Additive: both keys are null
+             *     for every order that is not an import.
+             */
+            custom_channel: string | null;
+            external_ref: string;
+            delivery_method: string;
+            /**
+             * @description Vendor chain with the same unloaded-relation safety net as the
+             *     sibling order shapes: loaded relation first, then the
+             *     cache-backed lookup — never the silent platform default.
+             */
+            currency: string;
+            subtotal: string;
+            discount_total: string;
+            shipping_total: string;
+            tax_total: string;
+            total: string;
+            customer: {
+                id: number;
+                name: string | null;
+                email: string | null;
+                phone: string | null;
+            } | null;
+            shipping_address: {
+                address: string | null;
+                latitude: number | null;
+                longitude: number | null;
+                name: string | null;
+                phone: string | null;
+            } | null;
+            shipment: {
+                carrier_name: string | null;
+                tracking_number: string | null;
+                tracking_url: string | null;
+                zone_name: string | null;
+                shipped_at: string | null;
+                estimated_delivery_at: string | null;
+                delivered_at: string | null;
+            } | null;
+            line_items: {
+                id: string;
+                product_id: number | null;
+                product_uid: string | null;
+                title: string;
+                variant_title: string;
+                quantity: number;
+                unit_price: string;
+                total: string;
+                /**
+                 * @description Per-line checkout properties (jsonb, array-cast). Absent lines
+                 *     render an empty object, never null — apps always see the key.
+                 *     An app's single-use keys (claims, manage links) reach only the
+                 *     app that issued them, never another app or key.
+                 */
+                properties: string;
+            }[];
+            note: string;
+            /**
+             * @description The receiver's own fields coming back to them: typed metafields the
+             *     merchant defined, and the opaque metadata an integrator wrote. This
+             *     is the whole point of order extensions — a webhook that omits the
+             *     ERP id forces the receiver to make a second call to match the order
+             *     to their own record.
+             */
+            metafields: string;
+            metadata: string;
+            created_at: string | null;
+            updated_at: string | null;
+            fulfilled_at: string | null;
+        };
+        /** App.Http.Resources.Customer.OrderItemResource */
+        "App.Http.Resources.Customer.OrderItemResource": {
+            id: string;
+            quantity: string;
+            title: string;
+            variant_id: string;
+            variant_title: string;
+            variant_option_values: {
+                [key: string]: string;
+            };
+            variant_media: {
+                image: string | null;
+                video_url: string | null;
+                /** @enum {string} */
+                source: "variant" | "product";
+            } | null;
+            currency: string;
+            total_price: number | null;
+            sale_price: number | null;
+            unit_price: number | null;
+            base_unit_price: number | null;
+            is_backorder: boolean;
+            backorder_ready_date: string | null;
+            discounted_amount?: number | null;
+            created_at: string;
+            addons: unknown;
+            /**
+             * @description Per-line checkout properties. Always present as an object so
+             *     dashboard chips and the shopper page never branch on absence.
+             *     Bearer keys are withheld here too (dashboard, shopper page,
+             *     rider): the order email is their only carrier.
+             */
+            properties: string;
         };
         /** App.Http.Resources.Customer.ProductResource */
         "App.Http.Resources.Customer.ProductResource": unknown[] | {
@@ -1028,7 +1471,7 @@ export interface components {
             p_id: string;
             title: string;
             slug: string;
-            excerpt: string;
+            excerpt: string | null;
             description: string;
             image: string | null;
             thumbnail_image: string | null;
@@ -1078,6 +1521,17 @@ export interface components {
                 primary_variant_image_variants: {
                     [key: string]: unknown;
                 } | null;
+                images: ({
+                    id: number;
+                    url: string;
+                    alt: unknown;
+                    variants: string;
+                } | null | {
+                    id: number | null;
+                    url: string | null;
+                    alt: unknown;
+                    variants: null;
+                })[] | null;
             };
             inventory: unknown[];
             variant_summary: string | null;
@@ -1182,9 +1636,8 @@ export interface components {
             description: string;
             image: string;
             /**
-             * @description Resolved by URL (no media_id column on categories/collections) — see
-             *     MediaVariantMap::attachUrlVariants(), called once per response in the
-             *     controller BEFORE this resource is resolved, never lazily here.
+             * @description Pre-sized copies of the image, resolved from its URL (categories
+             *     and collections store no media id).
              */
             image_variants: string | null;
             featured: boolean;
@@ -1193,22 +1646,64 @@ export interface components {
             products_count: number;
             children: unknown[];
         };
+        /** CustomerAddressResource */
+        CustomerAddressResource: {
+            id: string;
+            label: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            country_code: string | null;
+            state: string | null;
+            city: string | null;
+            area: string | null;
+            state_id: string | null;
+            area_id: string | null;
+            is_default: boolean;
+        };
         /** CustomerResource */
         CustomerResource: {
             id: number;
             uid: string;
-            name: string;
-            email: string;
+            name: string | null;
+            email: string | null;
             phone: string | null;
             avatar: string;
             created_at: string | null;
             updated_at: string | null;
+        };
+        /**
+         * EmailForgotPasswordRequest
+         * @description The body of the forgot-password call: the account email that receives
+         *     the reset code. Declared here (rather than inline on the route) so the
+         *     public reference shows the body.
+         */
+        EmailForgotPasswordRequest: {
+            /** Format: email */
+            email: string;
+        };
+        /** EmailLoginRequest */
+        EmailLoginRequest: {
+            /** Format: email */
+            email: string;
+            password: string;
+            platform?: string | null;
         };
         /** EmailRegisterOtpRequest */
         EmailRegisterOtpRequest: {
             first_name: string;
             last_name?: string | null;
             verified_token: string;
+            platform?: string | null;
+        };
+        /** EmailRegisterRequest */
+        EmailRegisterRequest: {
+            first_name: string;
+            last_name?: string | null;
+            /** Format: email */
+            email: string;
+            password: string;
+            phone?: string | null;
             platform?: string | null;
         };
         /** EmailRequestOtpRequest */
@@ -1236,6 +1731,10 @@ export interface components {
             previous_quantity: number;
             reason: string;
         };
+        /** LogoutRequest */
+        LogoutRequest: {
+            refresh_token?: string | null;
+        };
         /** MetafieldDefinitionResource */
         MetafieldDefinitionResource: {
             p_id: number;
@@ -1245,6 +1744,8 @@ export interface components {
             key: string;
             type: string;
             storefront_visible: boolean;
+            pinned: boolean;
+            pinned_position: number | null;
             name: string;
             description: string;
             validations: string;
@@ -1255,61 +1756,264 @@ export interface components {
         MetaobjectResource: {
             [key: string]: unknown;
         };
+        /** OrderItemResource */
+        OrderItemResource: {
+            id: string;
+            quantity: number;
+            title: string | null;
+            variant_id: string | null;
+            variant_title: string | null;
+            variant_option_values: {
+                [key: string]: string;
+            };
+            variant_media: {
+                image: string | null;
+                video_url: string | null;
+                /** @enum {string} */
+                source: "variant" | "product";
+            } | null;
+            currency: string;
+            total_price: number | null;
+            sale_price: number | null;
+            unit_price: number | null;
+            base_unit_price: number | null;
+            is_backorder: boolean;
+            backorder_ready_date: string | null;
+            discounted_amount?: number | null;
+            /** Format: date-time */
+            created_at: string | null;
+            addons: unknown;
+            /**
+             * @description Per-line checkout properties. Always present as an object so
+             *     dashboard chips and the shopper page never branch on absence.
+             *     Bearer keys are withheld here too (dashboard, shopper page,
+             *     rider): the order email is their only carrier.
+             */
+            properties: string;
+        };
         /** OrderResource */
         OrderResource: {
-            id: number;
-            uid: string;
-            order_number: string;
-            status: string;
-            payment_status: string;
-            payment_method: string;
-            /** @enum {string} */
-            fulfillment_status: "fulfilled" | "unfulfilled";
-            cancelled: boolean;
-            cancel_reason: string | null;
-            channel: string;
-            platform: string | null;
-            delivery_method: string;
+            0: Record<string, never>;
+            id: string;
+            title: string | null;
             currency: string;
-            subtotal: string;
-            discount_total: string;
-            shipping_total: string;
-            tax_total: string;
-            total: string;
-            customer: {
-                id: number;
-                name: string;
-                email: string;
-                phone: string;
-            } | null;
-            shipping_address: {
-                address: string | null;
-                latitude: number | null;
-                longitude: number | null;
-            } | null;
-            line_items: {
-                id: string;
-                product_id: number | null;
-                product_uid: string | null;
-                title: string;
-                variant_title: string;
-                quantity: number;
-                unit_price: string;
-                total: string;
-            }[];
-            note: string;
+            total_price: number | null;
+            delivery_fee: number | null;
+            grand_total: number | null;
+            payment_status: string;
+            transaction_id: string | null;
+            is_verified: boolean | null;
+            order_no: string;
+            status: string;
+            order_type: string;
+            scheduled_date: string | null;
+            scheduled_time: string | null;
+            is_backorder_held: boolean;
+            backorder_ready_date: string | null;
+            delivery_method: string | null;
+            payment_method: string | null;
+            delivery_address: string | null;
+            pickup_address: string | null;
             /**
-             * @description The receiver's own fields coming back to them: typed metafields the
-             *     merchant defined, and the opaque metadata an integrator wrote. This
-             *     is the whole point of order extensions — a webhook that omits the
-             *     ERP id forces the receiver to make a second call to match the order
-             *     to their own record.
+             * @description The dine-in table picked at checkout for in-store QR orders: its
+             *     id, name and section, as shown in the table picker.
              */
-            metafields: string;
-            metadata: string;
-            created_at: string | null;
-            updated_at: string | null;
-            fulfilled_at: string | null;
+            table: {
+                id: string;
+                name: string;
+                section: string | null;
+            } | Record<string, never>;
+            stage: number;
+            earliest_delivery_time: string | null | Record<string, never>;
+            latest_delivery_time: string | null | Record<string, never>;
+            ready_window: {
+                from: string | null;
+                to: string | null;
+                label: string;
+            } | null | Record<string, never>;
+            vendor: {
+                id: string;
+                name: string;
+                slug: string;
+                logo: string | null;
+                /**
+                 * @description Contact + location surfaced so the storefront can render a
+                 *     "collect from" block on pickup orders. Cheap eager-loaded
+                 *     columns; not gated behind delivery_mode so a hybrid UI can
+                 *     also show them on rider/dispatch flows.
+                 */
+                address: string | null;
+                phone: string | null;
+                email: string | null;
+                map_lat: string | null;
+                map_lng: string | null;
+            } | Record<string, never>;
+            created_by_id: string | null;
+            timeline: unknown[];
+            vendor_timeline: unknown[];
+            vendor_note: string | null;
+            rider_note: string | null;
+            shopforme_fee: number | null;
+            service_fee: number | null;
+            delivery_pin: string | null | Record<string, never>;
+            delivery_pins: unknown[] | null | Record<string, never>;
+            is_confirmed: boolean;
+            rejected: boolean;
+            is_completed: boolean;
+            cancelled: boolean;
+            cancellation_reason: string | null | Record<string, never>;
+            items_count: string;
+            started_at: string | null;
+            completed_at: string | null;
+            created_at: string;
+            updated_at: string;
+            status_label: string;
+            status_img: string;
+            user_id: string;
+            pickup_map_lat: string | null;
+            pickup_map_lng: string | null;
+            /**
+             * @description In-memory parent link (zero queries): item currency resolves through
+             *     this order, then its vendor, before the platform default.
+             */
+            items: components["schemas"]["OrderItemResource"][] | Record<string, never>;
+            created_by: {
+                id: string;
+                name: string;
+                avatar: string | null;
+                phone: string;
+                email: string;
+            } | Record<string, never>;
+            rider: components["schemas"]["UserItemResource"];
+            rider_rating: number;
+            rider_review_status: string;
+            vendor_review_status: string;
+            vendor_rating: number;
+            virtual_account_id: string | null;
+            payment_link: string | null;
+            pay_link: string;
+            /** @enum {string} */
+            viewer_type: "customer" | "vendor" | "rider" | "admin";
+            amount_summary: {
+                /** @constant */
+                title: "Order Summary";
+                /** @constant */
+                view: "rider";
+                items: [
+                    {
+                        /** @constant */
+                        key: "rider_fee";
+                        /** @constant */
+                        label: "Rider Fee";
+                        /** @constant */
+                        type: "total";
+                        amount: number | null;
+                    }
+                ];
+            } | {
+                /** @constant */
+                title: "Order Summary";
+                /** @constant */
+                view: "vendor";
+                items: unknown[];
+            } | {
+                /** @constant */
+                title: "Order Summary";
+                /** @constant */
+                view: "customer";
+                items: unknown[];
+            };
+        } | {
+            /**
+             * @description Settlement ledger is vendor facts, never customer facts: it stays
+             *     off the storefront public path only (client_vendor_id resolved).
+             *     Every other surface keeps reading it exactly as before.
+             */
+            0: Record<string, never>;
+            id: string;
+            title: string | null;
+            currency: string;
+            total_price: number | null;
+            delivery_fee: number | null;
+            grand_total: number | null;
+            payment_status: string;
+            transaction_id: string | null;
+            is_verified: boolean | null;
+            order_no: string;
+            status: string;
+            order_type: string;
+            scheduled_date: string | null;
+            scheduled_time: string | null;
+            is_backorder_held: boolean;
+            backorder_ready_date: string | null;
+            delivery_method: string | null;
+            payment_method: string | null;
+            delivery_address: string | null;
+            pickup_address: string | null;
+            /**
+             * @description The dine-in table picked at checkout for in-store QR orders: its
+             *     id, name and section, as shown in the table picker.
+             */
+            table: {
+                id: string;
+                name: string;
+                section: string | null;
+            } | Record<string, never>;
+            stage: number;
+            earliest_delivery_time: string | null | Record<string, never>;
+            latest_delivery_time: string | null | Record<string, never>;
+            ready_window: {
+                from: string | null;
+                to: string | null;
+                label: string;
+            } | null | Record<string, never>;
+            vendor: {
+                id: string;
+                name: string;
+                slug: string;
+                logo: string | null;
+                /**
+                 * @description Contact + location surfaced so the storefront can render a
+                 *     "collect from" block on pickup orders. Cheap eager-loaded
+                 *     columns; not gated behind delivery_mode so a hybrid UI can
+                 *     also show them on rider/dispatch flows.
+                 */
+                address: string | null;
+                phone: string | null;
+                email: string | null;
+                map_lat: string | null;
+                map_lng: string | null;
+            } | Record<string, never>;
+            created_by_id: string | null;
+            timeline: unknown[];
+            vendor_timeline: unknown[];
+            vendor_note: string | null;
+            rider_note: string | null;
+            shopforme_fee: number | null;
+            service_fee: number | null;
+            delivery_pin: string | null | Record<string, never>;
+            delivery_pins: unknown[] | null | Record<string, never>;
+            is_confirmed: boolean;
+            rejected: boolean;
+            is_completed: boolean;
+            cancelled: boolean;
+            cancellation_reason: string | null | Record<string, never>;
+            items_count: string;
+            started_at: string | null;
+            completed_at: string | null;
+            created_at: string;
+            updated_at: string;
+        };
+        /** ProductImageResource */
+        ProductImageResource: {
+            id: number | null;
+            is_primary: string;
+            position: string;
+            url: string;
+            alt: string | null;
+            width: number | null;
+            height: number | null;
+            variants: string;
         };
         /** ProductQuestionResource */
         ProductQuestionResource: {
@@ -1337,21 +2041,28 @@ export interface components {
             uid: string;
             title: string;
             slug: string;
-            excerpt: string;
+            excerpt: string | null;
             description: string;
             /** @enum {string} */
             status: "active" | "out_of_stock" | "draft" | "archived";
             published: boolean;
             in_stock: boolean;
             price: string;
+            storefront_price: string;
+            storefront_compare_at_price: string | null;
+            url: string | null;
             currency: string;
             sku: string;
             barcode: string;
             stock: number | null;
             track_inventory: boolean;
+            is_digital: boolean;
             has_variants: boolean;
             image: string;
             thumbnail_image: string;
+            primary_image_url: string | null;
+            variants: components["schemas"]["ProductVariantResource"][];
+            images: components["schemas"]["ProductImageResource"][];
             /**
              * @description The receiver's own fields coming back to them: typed metafields
              *     the merchant defined, and the opaque metadata an integrator
@@ -1389,6 +2100,33 @@ export interface components {
                 thumbnail: string;
             };
         };
+        /** ProductVariantResource */
+        ProductVariantResource: {
+            id: number;
+            uid: string;
+            sku: string;
+            title: string;
+            option_values: string;
+            price: string;
+            storefront_price: string;
+            storefront_compare_at_price: string | null;
+            url: string | null;
+            compare_at_price: string | null;
+            stock: number;
+            track_inventory: boolean;
+            /**
+             * @description Product-level flag, inherited read-only: variants carry no
+             *     is_digital column, so a missing parent reads false, never throws.
+             */
+            is_digital: boolean;
+            is_active: boolean;
+            is_backorder: boolean;
+            backorder_ready_date: string | null;
+            weight: number | null;
+            position: number;
+            created_at: string | null;
+            updated_at: string | null;
+        };
         /** PromotionResource */
         PromotionResource: {
             id: string;
@@ -1404,17 +2142,14 @@ export interface components {
             status: "expired";
             is_live: boolean;
         };
-        /**
-         * QueekError
-         * @description The one error shape every Queek API surface answers with.
-         */
+        /** @description The one error shape the Storefront API answers with: `error{code,message,field?,errors?,doc_url,request_id}`. Switch on `error.code`, never on the message. */
         QueekError: {
             error: {
                 /**
                  * @description Stable identifier a client switches on. A new failure mode gets a new code; an existing code never changes meaning.
                  * @enum {string}
                  */
-                code: "ai_unavailable_in_test_mode" | "api_key_expired" | "api_key_mode_mismatch" | "api_key_revoked" | "bad_request" | "client_key_required" | "conflict" | "custom_gateway_forbidden" | "custom_gateway_kyc_required" | "custom_gateway_not_configured" | "custom_gateway_not_verified" | "custom_gateway_plan_required" | "custom_gateway_store_ineligible" | "custom_gateway_verification_failed" | "forbidden" | "gone" | "idempotency_key_in_progress" | "idempotency_key_reuse" | "insufficient_scope" | "invalid_client_key" | "metafield_definition_missing" | "metafield_filter_unsupported_type" | "metafield_namespace_reserved" | "metafield_value_invalid" | "metaobject_definition_missing" | "metaobject_field_invalid" | "metaobject_reference_invalid" | "metaobject_type_reserved" | "method_not_allowed" | "not_found" | "origin_not_allowed" | "origin_required" | "payload_too_large" | "payment_amount_mismatch" | "plan_inactive" | "route_not_available" | "server_error" | "service_unavailable" | "too_many_requests" | "unauthenticated" | "unsupported_media_type" | "validation_failed";
+                code: "ai_unavailable_in_test_mode" | "api_key_expired" | "api_key_mode_mismatch" | "api_key_revoked" | "app_embed_not_ready" | "app_grant_insufficient" | "app_handoff_failed" | "app_installation_gone" | "app_installation_pending" | "app_ip_not_allowed" | "app_proxy_failed" | "app_proxy_gone" | "app_token_revoked" | "bad_request" | "client_key_required" | "conflict" | "custom_gateway_forbidden" | "custom_gateway_kyc_required" | "custom_gateway_not_configured" | "custom_gateway_not_verified" | "custom_gateway_plan_required" | "custom_gateway_store_ineligible" | "custom_gateway_verification_failed" | "forbidden" | "gone" | "idempotency_key_in_progress" | "idempotency_key_reuse" | "insufficient_scope" | "invalid_client" | "invalid_client_key" | "metafield_definition_missing" | "metafield_filter_unsupported_type" | "metafield_namespace_reserved" | "metafield_value_invalid" | "metaobject_definition_missing" | "metaobject_field_invalid" | "metaobject_reference_invalid" | "metaobject_type_reserved" | "method_not_allowed" | "not_found" | "origin_not_allowed" | "origin_required" | "payload_too_large" | "payment_amount_mismatch" | "plan_inactive" | "private_key_required" | "requires_slot" | "resync_cooldown" | "route_not_available" | "server_error" | "service_unavailable" | "subscription_feature_locked" | "too_many_requests" | "unauthenticated" | "unknown_product_ref" | "unknown_service" | "unknown_variant_ref" | "unsupported_media_type" | "validation_failed" | "vendor_access_denied" | "vendor_mail_sender_forbidden" | "vendor_mail_sender_not_configured" | "vendor_mail_sender_plan_required" | "vendor_mail_sender_verification_failed";
                 /** @description Human-readable explanation. Not stable — never switch on it. */
                 message: string;
                 /** @description First offending field, on validation failures only. */
@@ -1428,17 +2163,9 @@ export interface components {
                 /** @description The X-Request-Id of this request. Quote it in support. */
                 request_id?: string | null;
             };
-            /**
-             * @description Legacy top-level key, kept for clients that predate the envelope.
-             * @enum {string}
-             */
-            status?: "failed";
-            /** @description Legacy mirror of error.code. */
-            error_code?: string;
-            /** @description Legacy mirror of error.message. */
-            message?: string;
-            data?: unknown;
         };
+        /** QueekMerchantStore */
+        QueekMerchantStore: components["schemas"]["StoreResource"];
         /**
          * QueekMetafieldType
          * @description A metafield definition's `type`. Scalar forms, plus `list.<type>` for each listable one.
@@ -1450,6 +2177,8 @@ export interface components {
          * @enum {string}
          */
         QueekMetafieldType: "single_line_text" | "multi_line_text" | "integer" | "decimal" | "boolean" | "date" | "url" | "json" | "media_id" | "metaobject_reference" | "list.single_line_text" | "list.multi_line_text" | "list.integer" | "list.decimal" | "list.boolean" | "list.date" | "list.url" | "list.media_id" | "list.metaobject_reference";
+        /** QueekStoreAddress */
+        QueekStoreAddress: components["schemas"]["CustomerAddressResource"];
         /** QueekStoreBlogCategory */
         QueekStoreBlogCategory: components["schemas"]["BlogCategoryResource"];
         /** QueekStoreCart */
@@ -1474,6 +2203,10 @@ export interface components {
                 [key: string]: unknown;
             };
         };
+        /** QueekStoreOrder */
+        QueekStoreOrder: components["schemas"]["OrderResource"];
+        /** QueekStoreOrderItem */
+        QueekStoreOrderItem: components["schemas"]["App.Http.Resources.Customer.OrderItemResource"];
         /** QueekStorePage */
         QueekStorePage: components["schemas"]["StorePageResource"];
         /** QueekStoreProduct */
@@ -1516,7 +2249,7 @@ export interface components {
             api_version: string;
             /** @description ISO-8601 timestamp of the event. */
             created_at: string;
-            data: components["schemas"]["OrderResource"];
+            data: components["schemas"]["App.Http.Resources.Api.OrderResource"];
         };
         /**
          * QueekWebhookInventoryLevelEvent
@@ -1590,6 +2323,14 @@ export interface components {
             /** @enum {string|null} */
             channel?: "sms" | "whatsapp" | null;
         };
+        /** ResetPasswordRequest */
+        ResetPasswordRequest: {
+            token: string;
+            /** Format: email */
+            email: string;
+            password: string;
+            password_confirmation: string;
+        };
         /** ReviewsBlockItemResource */
         ReviewsBlockItemResource: {
             id: string;
@@ -1614,6 +2355,15 @@ export interface components {
                 thumbnail: string;
             };
         };
+        /** StoreCustomerAddressRequest */
+        StoreCustomerAddressRequest: {
+            label?: string | null;
+            address: string;
+            lat: number;
+            lng: number;
+            place_id?: string | null;
+            set_active?: boolean | null;
+        };
         /** StoreCustomerCartRequest */
         StoreCustomerCartRequest: {
             /** Format: uuid */
@@ -1627,12 +2377,14 @@ export interface components {
                 /** Format: uuid */
                 variant_id?: string | null;
                 selectedAddons?: string[] | null;
+                properties?: (string | null)[] | null;
             }[];
             source?: string | null;
             promo_codes?: string[] | null;
             /**
-             * @description Opt-in only — omitted/false keeps store() byte-identical to before,
-             *     which matters because /v1/carts (mobile) maps to this same method.
+             * @description Opt-in only — omit it (or send false) for a full cart save; send
+             *     true only when syncing some of the items and leaving the rest
+             *     of the saved cart untouched.
              */
             partial?: boolean | null;
         };
@@ -1674,6 +2426,64 @@ export interface components {
             created_at: string | null;
             updated_at: string | null;
         };
+        /** StoreResource */
+        StoreResource: {
+            id: number;
+            uid: string;
+            name: string;
+            slug: string;
+            contact: {
+                email: string;
+                phone: string;
+            };
+            address: {
+                address: string;
+                landmark: string;
+                region: string | null;
+                latitude: number | null;
+                longitude: number | null;
+            };
+            logo: string | null;
+            banner: string | null;
+            rating: {
+                value: number;
+                count: number;
+            };
+            status: string;
+            operating_hours: {
+                weekdays: {
+                    open_time: string;
+                    close_time: string;
+                    status: string;
+                };
+                saturday: {
+                    open_time: string;
+                    close_time: string;
+                };
+                sunday: {
+                    open_time: string;
+                    close_time: string;
+                };
+                preparation_time: {
+                    minimum: number;
+                    maximum: number;
+                };
+                temporary_unavailable: boolean;
+                available_on_weekend: boolean;
+            };
+            capabilities: {
+                queek_logistics_enabled: boolean;
+                delivery_enabled: boolean;
+                offers_free_delivery: boolean;
+                pickup_enabled: boolean;
+                instore_order: string;
+            };
+            storefront: {
+                domains: string;
+            };
+            created_at: string | null;
+            updated_at: string | null;
+        };
         /** SubscribeToStoreRequest */
         SubscribeToStoreRequest: {
             /** Format: email */
@@ -1688,13 +2498,52 @@ export interface components {
             slug: string;
             image: string;
             /**
-             * @description Resolved by URL (no media_id column on categories/collections) — see
-             *     MediaVariantMap::attachUrlVariants(), called once per response in the
-             *     controller BEFORE this resource is resolved, never lazily here.
+             * @description Pre-sized copies of the image, resolved from its URL (categories
+             *     and collections store no media id).
              */
             image_variants: string | null;
             products_count: number;
             children: unknown[];
+        };
+        /** UpdateClientProfileRequest */
+        UpdateClientProfileRequest: {
+            name?: string | null;
+            phone?: string | null;
+            /** Format: email */
+            email?: string | null;
+            country?: string | null;
+            state?: string | null;
+            region?: string | null;
+            city?: string | null;
+            address?: string | null;
+            map_lat?: number | null;
+            map_lng?: number | null;
+            avatar?: string | null;
+        };
+        /** UserItemResource */
+        UserItemResource: {
+            id: string;
+            username: string;
+            first_name: string | null;
+            last_name: string | null;
+            name: string | null;
+            email: string | null;
+            phone: string | null;
+            country_code: string | null;
+            phone_code: string | null;
+            avatar: string;
+            map_lat: number;
+            map_lng: number;
+            address: string | null;
+            status: string;
+            roles?: string;
+            transactions_count?: string;
+            orders_count?: string;
+            assigned_orders_count?: string;
+            completed_orders_count?: string;
+            date_joined: string;
+            last_seen: string | null;
+            wallet?: components["schemas"]["WalletResource"];
         };
         /** ValidateCustomerCartRequest */
         ValidateCustomerCartRequest: {
@@ -1706,7 +2555,6 @@ export interface components {
             id: string;
             name: string;
             distance: string;
-            /** @description 'time' => $vendorService->getCurrentTime(), */
             delivery_info: {
                 is_free_delivery: boolean;
                 delivery_fee: number | null;
@@ -1732,6 +2580,12 @@ export interface components {
             notice: string[];
             slug: string;
             service: string;
+            /**
+             * @description The store's own currency (3-letter code, never a symbol — Q2):
+             *     cart/vendor payloads read this per-vendor instead of the
+             *     platform default. Attribute-only, zero new queries.
+             */
+            currency: string;
             logo: string | null;
             disable_order: boolean;
             is_closed: boolean;
@@ -1739,7 +2593,6 @@ export interface components {
             preorder_enabled: string;
             area: string;
             banner: string | null;
-            /** @description 'banner' => $this->banner, */
             support_phone: string;
             phone: string;
             country_code: string;
@@ -1747,8 +2600,11 @@ export interface components {
             support_email: string;
             slogan: string;
             tags: string;
-            /** @constant */
-            tag: "Restaurant";
+            /**
+             * @description The store's own service tag (fashion, food, ...), like the
+             *     storefront info surface answers — never a hardcoded trade.
+             */
+            tag: string;
             is_new: string;
             rating: number;
             rating_count: number;
@@ -1757,10 +2613,6 @@ export interface components {
             open_time: string | null;
             close_time: string | null;
             service_type: string;
-            /**
-             * @description 'map_lat' => $this->map_lat,
-             *     'map_lng' => $this->map_lng,
-             */
             landmark: string;
             region_id: string;
             min_order_price: number | null;
@@ -1823,6 +2675,16 @@ export interface components {
              *     keeps it out of crawlers and AI discovery (robots, sitemap, agents.md).
              */
             is_test?: boolean;
+            /**
+             * @description S-E: the core storefront renders a password page for dev
+             *     stores. One flag per fact: dev_store says WHAT it is,
+             *     password_required gates the token; this response itself
+             *     stays public — gated reads 401. indexable:false tells the
+             *     storefront to noindex + drop it from sitemap/feed/agents.
+             */
+            dev_store?: boolean;
+            password_required?: boolean;
+            indexable?: boolean;
             is_closed: boolean;
             currency: string;
             storefront_url?: string | null;
@@ -1846,6 +2708,15 @@ export interface components {
             otp_code: string;
             platform?: string | null;
         };
+        /** WalletResource */
+        WalletResource: {
+            balance: number | null;
+            balance_value: string;
+            name: string | null;
+            account_number: string | null;
+            account_name: string | null;
+            account_provider: string | null;
+        };
         QueekStoreRatingSummary: {
             average_rating: number;
             total_reviews: number;
@@ -1856,42 +2727,47 @@ export interface components {
         };
         QueekStoreProductReviews: {
             product: {
-                /** Format: uuid */
+                /**
+                 * Format: uuid
+                 * @description The product UUID, as the review/question routes answer it beside `slug`.
+                 */
                 id: string;
                 slug: string;
                 title: string;
+                /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
+                thumbnail?: string | null;
             };
             summary: components["schemas"]["QueekStoreRatingSummary"];
             reviews: components["schemas"]["QueekStoreReview"][];
-            pagination: {
-                current_page: number;
-                per_page: number;
-                has_more: boolean;
-            };
         };
         QueekStoreProductReviewSummary: {
             product: {
-                /** Format: uuid */
+                /**
+                 * Format: uuid
+                 * @description The product UUID, as the review/question routes answer it beside `slug`.
+                 */
                 id: string;
                 slug: string;
                 title: string;
+                /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
+                thumbnail?: string | null;
             };
             summary: components["schemas"]["QueekStoreRatingSummary"];
             latest_reviews: components["schemas"]["QueekStoreReview"][];
         };
         QueekStoreProductQuestions: {
             product: {
-                /** Format: uuid */
+                /**
+                 * Format: uuid
+                 * @description The product UUID, as the review/question routes answer it beside `slug`.
+                 */
                 id: string;
                 slug: string;
                 title: string;
+                /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
+                thumbnail?: string | null;
             };
             questions: components["schemas"]["QueekStoreQuestion"][];
-            pagination: {
-                current_page: number;
-                per_page: number;
-                has_more: boolean;
-            };
         };
         QueekStoreReviewsBlock: {
             /** @description The slice this block covers (`store`, `product` or `ids`). */
@@ -1998,6 +2874,38 @@ export interface components {
         QueekStorePostDetail: components["schemas"]["QueekStorePage"] & {
             related: components["schemas"]["QueekStorePage"][];
         };
+        /** @description The signed-in customer behind the bearer credential. */
+        QueekStoreCustomerAccount: {
+            user: components["schemas"]["QueekStoreCustomer"];
+        };
+        /** @description What the storefront needs to collect an online payment: the order totals plus both link forms. 422 when the order is not payable (not online, already paid, cancelled, rejected, refunded, or the link is unavailable). */
+        QueekStoreOrderPay: {
+            order: {
+                /** Format: uuid */
+                id: string;
+                order_no: string;
+                status: string;
+                payment_status: string;
+                payment_method: string;
+                /** @example NGN */
+                currency: string;
+                is_payable: boolean;
+                is_paid: boolean;
+                /** @example 24225.00 */
+                grand_total: string;
+                grand_total_text: string;
+                payment_link?: string | null;
+                pay_link?: string | null;
+                items: components["schemas"]["QueekStoreOrderItem"][];
+            };
+        };
+        /** @description Follow state for this store. `shared_contact` rides on follow + status; unfollow answers without it. */
+        QueekStoreFollowStatus: {
+            following: boolean;
+            /** @description Whether the customer shares contact details with this store. */
+            shared_contact?: boolean;
+            followers_count: number;
+        };
     };
     responses: {
         /** @description Validation error */
@@ -2013,6 +2921,18 @@ export interface components {
                     errors: {
                         [key: string]: string[];
                     };
+                };
+            };
+        };
+        /** @description Unauthenticated */
+        AuthenticationException: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @description Error overview. */
+                    message: string;
                 };
             };
         };
@@ -2036,7 +2956,7 @@ export interface components {
 }
 export type $defs = Record<string, never>;
 export interface operations {
-    "clientAuth.emailRequestOtp": {
+    "auth_account.refresh": {
         parameters: {
             query?: never;
             header: {
@@ -2053,384 +2973,11 @@ export interface operations {
         };
         requestBody: {
             content: {
-                "application/json": components["schemas"]["EmailRequestOtpRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreEmailOtpChallenge"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.emailVerifyOtp": {
-        parameters: {
-            query?: never;
-            header: {
                 /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
+                 * @example {
+                 *       "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9"
+                 *     }
                  */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["EmailVerifyOtpRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreEmailVerifyResult"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.emailRegisterOtp": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["EmailRegisterOtpRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            201: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreAuthRegistration"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.requestOtp": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RequestOtpRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreOtpChallenge"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.verifyOtp": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["VerifyOtpRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreAuthSession"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.register": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
-                "application/json": components["schemas"]["RegisterRequest"];
-            };
-        };
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreAuthSession"];
-                    };
-                };
-            };
-            403: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
-                };
-            };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "clientAuth.refresh": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody: {
-            content: {
                 "application/json": components["schemas"]["RefreshTokenRequest"];
             };
         };
@@ -2441,6 +2988,40 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Token refreshed",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2449,35 +3030,91 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
             403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error_code: "client_not_allowed";
-                        /** @constant */
-                        message: "Client domain is not allowed.";
-                        data: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The refresh token field is required.",
+                     *         "field": "refresh_token",
+                     *         "errors": {
+                     *           "refresh_token": [
+                     *             "The refresh token field is required."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeContent.blogCategoriesForClient": {
+    "auth_account.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -2500,6 +3137,2466 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Authenticated",
+                     *       "data": {
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCustomerAccount"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_account.update": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                /**
+                 * @example {
+                 *       "name": "Adaeze Okafor",
+                 *       "phone": "+2348031234567",
+                 *       "city": "Lekki",
+                 *       "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos"
+                 *     }
+                 */
+                "application/json": components["schemas"]["UpdateClientProfileRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Profile updated",
+                     *       "data": {
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCustomerAccount"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The email field must be a valid email address.",
+                     *         "field": "email",
+                     *         "errors": {
+                     *           "email": [
+                     *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_account.logout": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: {
+            content: {
+                /**
+                 * @example {
+                 *       "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9"
+                 *     }
+                 */
+                "application/json": components["schemas"]["LogoutRequest"];
+            };
+        };
+        responses: {
+            /** @description Sign out. Answers `{status, message}` (`Logged out`) with no `data`. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Logged out"
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The refresh token field must be a string.",
+                     *         "field": "refresh_token",
+                     *         "errors": {
+                     *           "refresh_token": [
+                     *             "The refresh token field must be a string."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.request_otp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "email": "adaeze.okafor@gmail.com"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailRequestOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "OTP sent",
+                     *       "data": {
+                     *         "email": "adaeze.okafor@gmail.com",
+                     *         "next_action": "verify_otp",
+                     *         "user_exists": true,
+                     *         "expires_in": 300,
+                     *         "resend_in": 60
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreEmailOtpChallenge"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The email field must be a valid email address.",
+                     *         "field": "email",
+                     *         "errors": {
+                     *           "email": [
+                     *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.verify_otp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "otp_code": "730451"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailVerifyOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Email verified",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreEmailVerifyResult"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The otp code field must be 6 digits.",
+                     *         "field": "otp_code",
+                     *         "errors": {
+                     *           "otp_code": [
+                     *             "The otp code field must be 6 digits."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.register_otp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "first_name": "Adaeze",
+                 *       "last_name": "Okafor",
+                 *       "verified_token": "evt_7f3a9c2e1b5d48a6c0e2f4a6b8d0c1e3"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailRegisterOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Account created",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         },
+                     *         "is_new_user": true
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthRegistration"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The verified token field is required.",
+                     *         "field": "verified_token",
+                     *         "errors": {
+                     *           "verified_token": [
+                     *             "The verified token field is required."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.login": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "password": "s4nd4l-f0r-As0-ebe"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailLoginRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Signed in",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The email field must be a valid email address.",
+                     *         "field": "email",
+                     *         "errors": {
+                     *           "email": [
+                     *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.register_password": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "first_name": "Adaeze",
+                 *       "last_name": "Okafor",
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "password": "s4nd4l-f0r-As0-ebe"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailRegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Account created",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         },
+                     *         "is_new_user": true
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthRegistration"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The password field must be at least 8 characters.",
+                     *         "field": "password",
+                     *         "errors": {
+                     *           "password": [
+                     *             "The password field must be at least 8 characters."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.request_password_reset": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "email": "adaeze.okafor@gmail.com"
+                 *     }
+                 */
+                "application/json": components["schemas"]["EmailForgotPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Accepted. The answer is identical whether the address holds an account or not, so it can never be used to probe who shops here — check the inbox, not this response. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "If your account exists, you will receive a password reset email."
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The email field must be a valid email address.",
+                     *         "field": "email",
+                     *         "errors": {
+                     *           "email": [
+                     *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_email.reset_password": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "token": "rst_4b8e2f1a9c3d47e5a6b0c8d2e4f6a1b3",
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "password": "n3w-s4nd4l-f0r-As0",
+                 *       "password_confirmation": "n3w-s4nd4l-f0r-As0"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ResetPasswordRequest"];
+            };
+        };
+        responses: {
+            /** @description Reset. Consumes the emailed link credential and sets the new password; answers `{status, message}` with no `data`. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Your password has been reset successfully."
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Error. Switch on `error.code`. */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "bad_request",
+                     *         "message": "An unexpected error occurred.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#bad_request",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The password field must be at least 8 characters.",
+                     *         "field": "password",
+                     *         "errors": {
+                     *           "password": [
+                     *             "The password field must be at least 8 characters."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_phone.request_otp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "phone": "+2348031234567",
+                 *       "country_code": "NG",
+                 *       "channel": "whatsapp"
+                 *     }
+                 */
+                "application/json": components["schemas"]["RequestOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "OTP requested",
+                     *       "data": {
+                     *         "phone": "+2348031234567",
+                     *         "next_action": "verify_otp",
+                     *         "user_exists": true,
+                     *         "expires_in": 300,
+                     *         "resend_in": 60
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreOtpChallenge"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The phone field is required.",
+                     *         "field": "phone",
+                     *         "errors": {
+                     *           "phone": [
+                     *             "The phone field is required."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_phone.verify_otp": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "phone": "+2348031234567",
+                 *       "country_code": "NG",
+                 *       "otp_code": "482917"
+                 *     }
+                 */
+                "application/json": components["schemas"]["VerifyOtpRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Phone verified",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The otp code field is required.",
+                     *         "field": "otp_code",
+                     *         "errors": {
+                     *           "otp_code": [
+                     *             "The otp code field is required."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "auth_phone.register": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "first_name": "Adaeze",
+                 *       "last_name": "Okafor",
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "phone": "+2348031234567",
+                 *       "country_code": "NG",
+                 *       "otp_code": "482917"
+                 *     }
+                 */
+                "application/json": components["schemas"]["RegisterRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Account created",
+                     *       "data": {
+                     *         "token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "access_token": "cli_5f2c9b3e8a7d6c1b4a0e9f8d7c6b5a4e3",
+                     *         "refresh_token": "clr_9a1b2c3d4e5f60718293a4b5c6d7e8f9",
+                     *         "token_type": "Bearer",
+                     *         "expires_in": 3600,
+                     *         "expires_at": "2026-09-25T16:58:00+01:00",
+                     *         "refresh_expires_in": 2592000,
+                     *         "refresh_expires_at": "2026-10-25T15:58:00+01:00",
+                     *         "platform": "client_web",
+                     *         "user": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *           "name": "Adaeze Okafor",
+                     *           "email": "adaeze.okafor@gmail.com",
+                     *           "phone": "+2348031234567",
+                     *           "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg",
+                     *           "country": "Nigeria",
+                     *           "state": "Lagos",
+                     *           "region": null,
+                     *           "city": "Lekki",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000",
+                     *           "is_rider": false,
+                     *           "rider_approved": false,
+                     *           "profile_complete": true
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAuthSession"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The first name field must be at least 2 characters.",
+                     *         "field": "first_name",
+                     *         "errors": {
+                     *           "first_name": [
+                     *             "The first name field must be at least 2 characters."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "addresses.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Saved addresses retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca1",
+                     *           "label": "Home",
+                     *           "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *           "lat": 6.4474,
+                     *           "lng": 3.4712,
+                     *           "country_code": "NG",
+                     *           "state": "Lagos",
+                     *           "city": "Lekki",
+                     *           "area": "Lekki Phase 1",
+                     *           "state_id": 25,
+                     *           "area_id": 377,
+                     *           "is_default": true
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca2",
+                     *           "label": "Office",
+                     *           "address": "Plot 7, Block 12E Admiralty Way, Lekki Phase 1, Lagos",
+                     *           "lat": 6.4481,
+                     *           "lng": 3.4702,
+                     *           "country_code": "NG",
+                     *           "state": "Lagos",
+                     *           "city": "Lekki",
+                     *           "area": "Lekki Phase 1",
+                     *           "state_id": 25,
+                     *           "area_id": 377,
+                     *           "is_default": false
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAddress"][];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "addresses.create": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "label": "Home",
+                 *       "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                 *       "lat": 6.4474,
+                 *       "lng": 3.4712
+                 *     }
+                 */
+                "application/json": components["schemas"]["StoreCustomerAddressRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Address saved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca1",
+                     *         "label": "Home",
+                     *         "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *         "lat": 6.4474,
+                     *         "lng": 3.4712,
+                     *         "country_code": "NG",
+                     *         "state": "Lagos",
+                     *         "city": "Lekki",
+                     *         "area": "Lekki Phase 1",
+                     *         "state_id": 25,
+                     *         "area_id": 377,
+                     *         "is_default": true
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAddress"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The lat field must be between -90 and 90.",
+                     *         "field": "lat",
+                     *         "errors": {
+                     *           "lat": [
+                     *             "The lat field must be between -90 and 90."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "addresses.delete": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca2 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Remove a saved address. Deleting the default promotes the newest remaining address; answers `{status, message}` (`Address removed`) with no `data`. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Address removed"
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Address not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "addresses.set_default": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca1 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Default address updated",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5ca1",
+                     *         "label": "Home",
+                     *         "address": "4B Adebayo Doherty Road, Lekki Phase 1, Lagos",
+                     *         "lat": 6.4474,
+                     *         "lng": 3.4712,
+                     *         "country_code": "NG",
+                     *         "state": "Lagos",
+                     *         "city": "Lekki",
+                     *         "area": "Lekki Phase 1",
+                     *         "state_id": 25,
+                     *         "area_id": 377,
+                     *         "is_default": true
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAddress"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Address not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "blog_categories.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Blog categories retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c81",
+                     *           "name": "Style Notes",
+                     *           "slug": "style-notes",
+                     *           "position": 1,
+                     *           "posts_count": 1
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c82",
+                     *           "name": "Fabric Guide",
+                     *           "slug": "fabric-guide",
+                     *           "position": 2,
+                     *           "posts_count": 1
+                     *         }
+                     *       ]
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2508,37 +5605,66 @@ export interface operations {
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "customerCart.index": {
+    "cart.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -2566,19 +5692,108 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00"
+                     *         }
+                     *       ],
+                     *       "status": "success",
+                     *       "message": "Carts retrieved successfully",
+                     *       "meta": {
+                     *         "total_carts": 1
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreCart"][];
-                        /** @description Currency plus `total_carts` for this owner at this store. */
+                        /** @description `total_carts` for this owner at this store. */
                         meta?: {
-                            currency?: {
-                                /** @example NGN */
-                                code?: string;
-                                /** @example ₦ */
-                                symbol?: string;
-                            };
                             total_carts?: number;
                         } & {
                             [key: string]: unknown;
@@ -2586,18 +5801,85 @@ export interface operations {
                     };
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "Missing session token for anonymous cart.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "customerCart.store": {
+    "cart.replace": {
         parameters: {
             query?: never;
             header: {
@@ -2619,6 +5901,27 @@ export interface operations {
         };
         requestBody: {
             content: {
+                /**
+                 * @example {
+                 *       "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                 *       "cart_items": [
+                 *         {
+                 *           "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                 *           "title": "Ankara Midi Dress",
+                 *           "price": 28500,
+                 *           "quantity": 1,
+                 *           "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02"
+                 *         },
+                 *         {
+                 *           "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c43",
+                 *           "title": "Aso-Oke Head Wrap",
+                 *           "price": 8500,
+                 *           "quantity": 2
+                 *         }
+                 *       ],
+                 *       "source": "storefront"
+                 *     }
+                 */
                 "application/json": components["schemas"]["StoreCustomerCartRequest"];
             };
         };
@@ -2629,6 +5932,96 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Cart saved successfully",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *         "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *         "vendor": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "name": "Zuri Atelier",
+                     *           "distance": null,
+                     *           "delivery_info": {
+                     *             "is_free_delivery": true,
+                     *             "delivery_fee": 0,
+                     *             "delivery_fee_value": 0,
+                     *             "min_order": 1000,
+                     *             "min_order_fee": 2000,
+                     *             "d_p_value": 1.5,
+                     *             "s_p_value": 1.5,
+                     *             "delivery_time": "45-180 min",
+                     *             "delivery_message": "Open until 21:00",
+                     *             "offers_free_delivery": false,
+                     *             "pickup_enabled": true,
+                     *             "offer_instant_delivery": true
+                     *           },
+                     *           "notice": [],
+                     *           "slug": "zuri-atelier",
+                     *           "service": null,
+                     *           "currency": "NGN",
+                     *           "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *           "disable_order": false,
+                     *           "is_closed": false,
+                     *           "temporary_unavailable": false,
+                     *           "preorder_enabled": null,
+                     *           "area": "Lekki Phase 1",
+                     *           "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *           "support_phone": "+234 803 555 0147",
+                     *           "phone": "+234 803 555 0147",
+                     *           "country_code": "NG",
+                     *           "phone_code": "234",
+                     *           "support_email": "hello@zuriatelier.ng",
+                     *           "slogan": null,
+                     *           "tags": null,
+                     *           "tag": "fashion",
+                     *           "is_new": false,
+                     *           "rating": 4.7,
+                     *           "rating_count": 486,
+                     *           "short_description": null,
+                     *           "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *           "open_time": "09:00",
+                     *           "close_time": "21:00",
+                     *           "service_type": "fashion",
+                     *           "landmark": "Opposite NIIT",
+                     *           "region_id": null,
+                     *           "min_order_price": null
+                     *         },
+                     *         "cart_items": [
+                     *           {
+                     *             "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *             "title": "Ankara Midi Dress",
+                     *             "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *             "variant_title": "M",
+                     *             "variant_option_values": {
+                     *               "Size": "M"
+                     *             },
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "discount": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "amount": 4275
+                     *             },
+                     *             "quantity": 1,
+                     *             "selectedAddons": [],
+                     *             "requires_slot": false,
+                     *             "properties": null
+                     *           }
+                     *         ],
+                     *         "total_price": 24225,
+                     *         "source": "storefront",
+                     *         "promo_codes": [],
+                     *         "is_valid": true,
+                     *         "validation_errors": [],
+                     *         "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *         "created_at": "2026-09-25T15:32:00+01:00",
+                     *         "updated_at": "2026-09-25T15:40:00+01:00"
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2641,19 +6034,91 @@ export interface operations {
                     };
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The cart items field must have at least 1 items.",
+                     *         "field": "cart_items",
+                     *         "errors": {
+                     *           "cart_items": [
+                     *             "The cart items field must have at least 1 items."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "customerCart.addItem": {
+    "cart.add_item": {
         parameters: {
             query?: never;
             header: {
@@ -2675,6 +6140,13 @@ export interface operations {
         };
         requestBody: {
             content: {
+                /**
+                 * @example {
+                 *       "product_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                 *       "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                 *       "quantity": 1
+                 *     }
+                 */
                 "application/json": components["schemas"]["AddCartItemRequest"];
             };
         };
@@ -2685,6 +6157,99 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Item added to cart",
+                     *       "data": {
+                     *         "result": "added",
+                     *         "cart": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00"
+                     *         }
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2693,49 +6258,110 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Product not found";
-                        /** @constant */
-                        message: "Product not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The quantity field must be at least 1.",
+                     *         "field": "quantity",
+                     *         "errors": {
+                     *           "quantity": [
+                     *             "The quantity field must be at least 1."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "customerCart.validate": {
+    "cart.validate": {
         parameters: {
             query?: never;
             header: {
@@ -2757,6 +6383,11 @@ export interface operations {
         };
         requestBody: {
             content: {
+                /**
+                 * @example {
+                 *       "cart_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41"
+                 *     }
+                 */
                 "application/json": components["schemas"]["ValidateCustomerCartRequest"];
             };
         };
@@ -2767,76 +6398,246 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Cart is valid",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *         "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *         "vendor": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "name": "Zuri Atelier",
+                     *           "distance": null,
+                     *           "delivery_info": {
+                     *             "is_free_delivery": true,
+                     *             "delivery_fee": 0,
+                     *             "delivery_fee_value": 0,
+                     *             "min_order": 1000,
+                     *             "min_order_fee": 2000,
+                     *             "d_p_value": 1.5,
+                     *             "s_p_value": 1.5,
+                     *             "delivery_time": "45-180 min",
+                     *             "delivery_message": "Open until 21:00",
+                     *             "offers_free_delivery": false,
+                     *             "pickup_enabled": true,
+                     *             "offer_instant_delivery": true
+                     *           },
+                     *           "notice": [],
+                     *           "slug": "zuri-atelier",
+                     *           "service": null,
+                     *           "currency": "NGN",
+                     *           "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *           "disable_order": false,
+                     *           "is_closed": false,
+                     *           "temporary_unavailable": false,
+                     *           "preorder_enabled": null,
+                     *           "area": "Lekki Phase 1",
+                     *           "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *           "support_phone": "+234 803 555 0147",
+                     *           "phone": "+234 803 555 0147",
+                     *           "country_code": "NG",
+                     *           "phone_code": "234",
+                     *           "support_email": "hello@zuriatelier.ng",
+                     *           "slogan": null,
+                     *           "tags": null,
+                     *           "tag": "fashion",
+                     *           "is_new": false,
+                     *           "rating": 4.7,
+                     *           "rating_count": 486,
+                     *           "short_description": null,
+                     *           "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *           "open_time": "09:00",
+                     *           "close_time": "21:00",
+                     *           "service_type": "fashion",
+                     *           "landmark": "Opposite NIIT",
+                     *           "region_id": null,
+                     *           "min_order_price": null
+                     *         },
+                     *         "cart_items": [
+                     *           {
+                     *             "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *             "title": "Ankara Midi Dress",
+                     *             "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *             "variant_title": "M",
+                     *             "variant_option_values": {
+                     *               "Size": "M"
+                     *             },
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "discount": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "amount": 4275
+                     *             },
+                     *             "quantity": 1,
+                     *             "selectedAddons": [],
+                     *             "requires_slot": false,
+                     *             "properties": null
+                     *           }
+                     *         ],
+                     *         "total_price": 24225,
+                     *         "source": "storefront",
+                     *         "promo_codes": [],
+                     *         "is_valid": true,
+                     *         "validation_errors": [],
+                     *         "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *         "created_at": "2026-09-25T15:32:00+01:00",
+                     *         "updated_at": "2026-09-25T15:40:00+01:00"
+                     *       },
+                     *       "meta": {
+                     *         "is_valid": true,
+                     *         "validation_errors": []
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreCart"];
+                        /** @description The checkout verdict — read this before sending the shopper to `checkout_url`. */
+                        meta?: {
+                            /** @description Whether every line passed the stock, variant and availability checks. */
+                            is_valid?: boolean;
+                            /** @description One entry per failing line; empty when the cart is valid. */
+                            validation_errors?: {
+                                item_id: string;
+                                error: string;
+                            }[];
+                        } & {
+                            [key: string]: unknown;
+                        };
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Cart is empty";
-                        /** @constant */
-                        message: "Cart is empty";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Cart not found";
-                        /** @constant */
-                        message: "Cart not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Cart not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected cart id is invalid.",
+                     *         "field": "cart_id",
+                     *         "errors": {
+                     *           "cart_id": [
+                     *             "The selected cart id is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Server error — retry shortly and quote `error.request_id` in support. Switch on `error.code`. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        error: string;
-                        message: string;
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "server_error",
+                     *         "message": "An unexpected error occurred.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#server_error",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "customerCart.clear": {
+    "cart.clear": {
         parameters: {
             query?: {
+                /** @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41 */
                 cart_id?: string | null;
             };
             header: {
@@ -2864,6 +6665,15 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Cart cleared successfully",
+                     *       "data": {
+                     *         "cleared_cart_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41"
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2872,55 +6682,129 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Cart not found";
-                        /** @constant */
-                        message: "Cart not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Cart not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The cart id field must be a valid UUID.",
+                     *         "field": "cart_id",
+                     *         "errors": {
+                     *           "cart_id": [
+                     *             "The cart id field must be a valid UUID."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Server error — retry shortly and quote `error.request_id` in support. Switch on `error.code`. */
             500: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        error: string;
-                        message: string;
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "server_error",
+                     *         "message": "An unexpected error occurred.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#server_error",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorTaxonomy.indexForClient": {
+    "categories.list": {
         parameters: {
             query?: {
                 include_empty?: boolean | null;
@@ -2945,6 +6829,33 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
+                     *           "name": "Dresses",
+                     *           "slug": "dresses",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/dresses.jpg",
+                     *           "image_variants": null,
+                     *           "products_count": 1,
+                     *           "children": []
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c22",
+                     *           "name": "Head Wraps",
+                     *           "slug": "head-wraps",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/head-wraps.jpg",
+                     *           "image_variants": null,
+                     *           "products_count": 1,
+                     *           "children": []
+                     *         }
+                     *       ],
+                     *       "status": "success",
+                     *       "message": "Categories retrieved",
+                     *       "meta": []
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -2953,44 +6864,81 @@ export interface operations {
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorTaxonomy.productsForClient": {
+    "categories.list_products": {
         parameters: {
             query?: {
                 keyword?: string | null;
+                /** @example newest */
                 sort?: "newest" | "price_low" | "price_high" | "popular" | null;
                 in_stock?: boolean | null;
+                /** @example 15 */
                 per_page?: number | null;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
                 attributes?: (string | null)[][];
             };
             header: {
@@ -3003,93 +6951,387 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example dresses */
                 category: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Category products retrieved",
+                     *       "data": [
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "p_id": 31501,
+                     *           "title": "Ankara Midi Dress",
+                     *           "slug": "ankara-midi-dress",
+                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 28500,
+                     *           "discount_price": 24225,
+                     *           "compare_at_price": 28500,
+                     *           "is_price_from": false,
+                     *           "price_range": {
+                     *             "min": 28500,
+                     *             "max": 28500
+                     *           },
+                     *           "has_variants": true,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           },
+                     *           "discounts": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             }
+                     *           ],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 600
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 1000
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1350
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77101,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "alt": "Ankara midi dress on a mannequin",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": 77103,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                 "alt": "Ankara midi dress, back view",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 18
+                     *           },
+                     *           "variant_summary": {
+                     *             "count": 3,
+                     *             "min_price": 28500,
+                     *             "max_price": 28500,
+                     *             "total_stock": 18,
+                     *             "tracks_inventory": true,
+                     *             "in_stock": true
+                     *           },
+                     *           "variants_count": 3,
+                     *           "rating": 4.5,
+                     *           "review_count": 132,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-06-18 09:40:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           }
+                     *         }
+                     *       ],
+                     *       "meta": {
+                     *         "category": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
+                     *           "name": "Dresses",
+                     *           "slug": "dresses",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/dresses.jpg",
+                     *           "image_variants": null,
+                     *           "products_count": 1,
+                     *           "children": []
+                     *         },
+                     *         "filters": {
+                     *           "attributes": [
+                     *             {
+                     *               "name": "Size",
+                     *               "slug": "size",
+                     *               "type": "size",
+                     *               "values": [
+                     *                 {
+                     *                   "value": "L",
+                     *                   "slug": "l",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "M",
+                     *                   "slug": "m",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "S",
+                     *                   "slug": "s",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 }
+                     *               ]
+                     *             }
+                     *           ]
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStoreProduct"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Category not found";
-                        /** @constant */
-                        message: "Category not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Category not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected sort is invalid.",
+                     *         "field": "sort",
+                     *         "errors": {
+                     *           "sort": [
+                     *             "The selected sort is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorCollection.indexForClient": {
+    "collections.list": {
         parameters: {
             query?: {
                 mode?: "all" | "manual" | "smart" | null;
@@ -3116,6 +7358,41 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *           "name": "New Season",
+                     *           "slug": "new-season",
+                     *           "description": "Fresh off the atelier table.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/collections/new-season.jpg",
+                     *           "image_variants": null,
+                     *           "featured": true,
+                     *           "parent_id": null,
+                     *           "mode": "manual",
+                     *           "products_count": 2,
+                     *           "children": []
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c26",
+                     *           "name": "Owambe Ready",
+                     *           "slug": "owambe-ready",
+                     *           "description": "Party-season statement pieces.",
+                     *           "image": null,
+                     *           "image_variants": null,
+                     *           "featured": false,
+                     *           "parent_id": null,
+                     *           "mode": "smart",
+                     *           "products_count": 1,
+                     *           "children": []
+                     *         }
+                     *       ],
+                     *       "status": "success",
+                     *       "message": "Collections retrieved",
+                     *       "meta": []
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3124,44 +7401,105 @@ export interface operations {
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected mode is invalid.",
+                     *         "field": "mode",
+                     *         "errors": {
+                     *           "mode": [
+                     *             "The selected mode is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorCollection.productsForClient": {
+    "collections.list_products": {
         parameters: {
             query?: {
                 keyword?: string | null;
                 sort?: "newest" | "price_low" | "price_high" | "popular" | null;
                 in_stock?: boolean | null;
+                /** @example 15 */
                 per_page?: number | null;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
                 attributes?: (string | null)[][];
             };
             header: {
@@ -3174,93 +7512,521 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example new-season */
                 collection: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Collection products retrieved",
+                     *       "data": [
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "p_id": 31501,
+                     *           "title": "Ankara Midi Dress",
+                     *           "slug": "ankara-midi-dress",
+                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 28500,
+                     *           "discount_price": 24225,
+                     *           "compare_at_price": 28500,
+                     *           "is_price_from": false,
+                     *           "price_range": {
+                     *             "min": 28500,
+                     *             "max": 28500
+                     *           },
+                     *           "has_variants": true,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           },
+                     *           "discounts": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             }
+                     *           ],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 600
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 1000
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1350
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77101,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "alt": "Ankara midi dress on a mannequin",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": 77103,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                 "alt": "Ankara midi dress, back view",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 18
+                     *           },
+                     *           "variant_summary": {
+                     *             "count": 3,
+                     *             "min_price": 28500,
+                     *             "max_price": 28500,
+                     *             "total_stock": 18,
+                     *             "tracks_inventory": true,
+                     *             "in_stock": true
+                     *           },
+                     *           "variants_count": 3,
+                     *           "rating": 4.5,
+                     *           "review_count": 132,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-06-18 09:40:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           }
+                     *         },
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c12",
+                     *           "p_id": 31502,
+                     *           "title": "Aso-Oke Head Wrap",
+                     *           "slug": "aso-oke-head-wrap",
+                     *           "excerpt": "Hand-woven aso-oke wrap in burnt orange.",
+                     *           "description": "Hand-woven aso-oke head wrap in burnt orange with metallic striping. Two metres, ready to tie.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 8500,
+                     *           "discount_price": 8500,
+                     *           "compare_at_price": null,
+                     *           "is_price_from": false,
+                     *           "price_range": null,
+                     *           "has_variants": false,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": null,
+                     *           "discounts": [],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 480
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 800
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1080
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77102,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "alt": "Burnt-orange aso-oke head wrap, folded",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 480
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 800
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1080
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 34
+                     *           },
+                     *           "variant_summary": null,
+                     *           "variants_count": 0,
+                     *           "rating": 4.9,
+                     *           "review_count": 58,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-07-02 13:15:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           }
+                     *         }
+                     *       ],
+                     *       "meta": {
+                     *         "collection": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *           "name": "New Season",
+                     *           "slug": "new-season",
+                     *           "description": "Fresh off the atelier table.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/collections/new-season.jpg",
+                     *           "image_variants": null,
+                     *           "featured": true,
+                     *           "parent_id": null,
+                     *           "mode": "manual",
+                     *           "products_count": 2,
+                     *           "children": []
+                     *         },
+                     *         "filters": {
+                     *           "attributes": [
+                     *             {
+                     *               "name": "Size",
+                     *               "slug": "size",
+                     *               "type": "size",
+                     *               "values": [
+                     *                 {
+                     *                   "value": "L",
+                     *                   "slug": "l",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "M",
+                     *                   "slug": "m",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "S",
+                     *                   "slug": "s",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 }
+                     *               ]
+                     *             }
+                     *           ]
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStoreProduct"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Collection not found";
-                        /** @constant */
-                        message: "Collection not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Collection not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected sort is invalid.",
+                     *         "field": "sort",
+                     *         "errors": {
+                     *           "sort": [
+                     *             "The selected sort is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeContent.galleriesForClient": {
+    "follow.create": {
         parameters: {
             query?: never;
             header: {
@@ -3283,45 +8049,470 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Following",
+                     *       "data": {
+                     *         "following": true,
+                     *         "shared_contact": false,
+                     *         "followers_count": 1204
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
-                        data: components["schemas"]["QueekStorePage"][];
+                        data: components["schemas"]["QueekStoreFollowStatus"];
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Vendor not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeContent.galleryForClient": {
+    "follow.delete": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Unfollowed",
+                     *       "data": {
+                     *         "following": false,
+                     *         "followers_count": 1203
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreFollowStatus"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "follow.retrieve": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Follow status",
+                     *       "data": {
+                     *         "following": true,
+                     *         "shared_contact": false,
+                     *         "followers_count": 1204
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreFollowStatus"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Vendor not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "galleries.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store galleries retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c75",
+                     *           "type": "gallery",
+                     *           "template": null,
+                     *           "slug": "lagos-fashion-week",
+                     *           "title": "Lagos Fashion Week",
+                     *           "content": [
+                     *             {
+                     *               "type": "gallery",
+                     *               "data": {
+                     *                 "images": [
+                     *                   {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-1.jpg",
+                     *                     "alt": "Ankara midi on the runway",
+                     *                     "caption": "The midi, runway side"
+                     *                   },
+                     *                   {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-2.jpg",
+                     *                     "alt": "Finale walk",
+                     *                     "caption": "Finale walk"
+                     *                   }
+                     *                 ]
+                     *               }
+                     *             }
+                     *           ],
+                     *           "media_index": {},
+                     *           "excerpt": "Backstage and runway.",
+                     *           "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-1.jpg",
+                     *           "cover_image_variants": null,
+                     *           "tags": [],
+                     *           "seo": [],
+                     *           "blog_categories": [],
+                     *           "reading_time": 1,
+                     *           "is_home": false,
+                     *           "chrome": "full",
+                     *           "show_page_title": true,
+                     *           "status": "published",
+                     *           "position": 1,
+                     *           "published_at": "2026-09-15T07:00:00.000000Z",
+                     *           "created_at": "2026-09-14T15:20:00.000000Z",
+                     *           "updated_at": "2026-09-15T07:00:00.000000Z"
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "galleries.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -3334,6 +8525,7 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example lagos-fashion-week */
                 slug: string;
             };
             cookie?: never;
@@ -3346,6 +8538,54 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store gallery retrieved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c75",
+                     *         "type": "gallery",
+                     *         "template": null,
+                     *         "slug": "lagos-fashion-week",
+                     *         "title": "Lagos Fashion Week",
+                     *         "content": [
+                     *           {
+                     *             "type": "gallery",
+                     *             "data": {
+                     *               "images": [
+                     *                 {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-1.jpg",
+                     *                   "alt": "Ankara midi on the runway",
+                     *                   "caption": "The midi, runway side"
+                     *                 },
+                     *                 {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-2.jpg",
+                     *                   "alt": "Finale walk",
+                     *                   "caption": "Finale walk"
+                     *                 }
+                     *               ]
+                     *             }
+                     *           }
+                     *         ],
+                     *         "media_index": {},
+                     *         "excerpt": "Backstage and runway.",
+                     *         "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/galleries/runway-1.jpg",
+                     *         "cover_image_variants": null,
+                     *         "tags": [],
+                     *         "seo": [],
+                     *         "blog_categories": [],
+                     *         "reading_time": 1,
+                     *         "is_home": false,
+                     *         "chrome": "full",
+                     *         "show_page_title": true,
+                     *         "status": "published",
+                     *         "position": 1,
+                     *         "published_at": "2026-09-15T07:00:00.000000Z",
+                     *         "created_at": "2026-09-14T15:20:00.000000Z",
+                     *         "updated_at": "2026-09-15T07:00:00.000000Z"
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3354,48 +8594,85 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Gallery not found";
-                        /** @constant */
-                        message: "Gallery not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Gallery not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendor.showForClient": {
+    "info.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -3418,6 +8695,73 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Vendor retrieved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *         "name": "Zuri Atelier",
+                     *         "distance": 0,
+                     *         "distance_text": "0m away",
+                     *         "delivery_info": {
+                     *           "delivery_fee": 0,
+                     *           "delivery_time": "45-180 min",
+                     *           "pickup_enabled": true,
+                     *           "delivery_message": "Open until 21:00",
+                     *           "disable_delivery": false
+                     *         },
+                     *         "is_open": true,
+                     *         "message": "Open until 21:00",
+                     *         "temporary_unavailable": false,
+                     *         "preorder_enabled": false,
+                     *         "tags": null,
+                     *         "tag": "fashion",
+                     *         "is_new": false,
+                     *         "featured": false,
+                     *         "service_type": "fashion",
+                     *         "commerce_mode": "shop",
+                     *         "notice": [],
+                     *         "slug": "zuri-atelier",
+                     *         "service": null,
+                     *         "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *         "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *         "logo_variants": null,
+                     *         "banner_variants": null,
+                     *         "rating": 4.7,
+                     *         "rating_count": 486,
+                     *         "discounts": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": "15.00",
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           }
+                     *         ],
+                     *         "open_time": "09:00",
+                     *         "close_time": "21:00",
+                     *         "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *         "area": "Lekki Phase 1",
+                     *         "landmark": "Opposite NIIT",
+                     *         "support_phone": "+23*********47",
+                     *         "country_code": "NG",
+                     *         "phone_code": "234",
+                     *         "support_email": "he***@zuriatelier.ng",
+                     *         "slogan": null,
+                     *         "short_description": null,
+                     *         "disable_order": false,
+                     *         "region_id": null,
+                     *         "min_order_price": 0,
+                     *         "is_test": false,
+                     *         "dev_store": false,
+                     *         "password_required": false,
+                     *         "indexable": true,
+                     *         "is_closed": false,
+                     *         "currency": "NGN"
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3426,37 +8770,66 @@ export interface operations {
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorMetafieldDefinition.indexForClient": {
+    "metafield_definitions.list": {
         parameters: {
             query?: never;
             header: {
@@ -3479,6 +8852,53 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Metafield definitions",
+                     *       "data": [
+                     *         {
+                     *           "p_id": 512,
+                     *           "handle": "custom.fabric",
+                     *           "owner_type": "product",
+                     *           "namespace": "custom",
+                     *           "key": "fabric",
+                     *           "type": "single_line_text",
+                     *           "storefront_visible": true,
+                     *           "pinned": true,
+                     *           "pinned_position": 1,
+                     *           "name": "Fabric",
+                     *           "description": "The fabric a piece is cut in: cotton, ankara, silk or linen.",
+                     *           "validations": {
+                     *             "choices": [
+                     *               "cotton",
+                     *               "ankara",
+                     *               "silk",
+                     *               "linen"
+                     *             ]
+                     *           },
+                     *           "created_at": "2026-02-10T10:00:00.000000Z",
+                     *           "updated_at": "2026-02-10T10:00:00.000000Z"
+                     *         },
+                     *         {
+                     *           "p_id": 513,
+                     *           "handle": "custom.care",
+                     *           "owner_type": "product",
+                     *           "namespace": "custom",
+                     *           "key": "care",
+                     *           "type": "multi_line_text",
+                     *           "storefront_visible": true,
+                     *           "pinned": false,
+                     *           "pinned_position": null,
+                     *           "name": "Care instructions",
+                     *           "description": "How to wash and keep the piece.",
+                     *           "validations": [],
+                     *           "created_at": "2026-02-10T10:05:00.000000Z",
+                     *           "updated_at": "2026-02-10T10:05:00.000000Z"
+                     *         }
+                     *       ]
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3487,37 +8907,66 @@ export interface operations {
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeMetaobject.definitions": {
+    "metaobjects.list_definitions": {
         parameters: {
             query?: never;
             header: {
@@ -3540,6 +8989,37 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Metaobject definitions",
+                     *       "data": [
+                     *         {
+                     *           "type": "lookbook",
+                     *           "name": "Lookbook",
+                     *           "display_field": "title",
+                     *           "has_pages": true,
+                     *           "fields": [
+                     *             {
+                     *               "key": "title",
+                     *               "name": "Title",
+                     *               "type": "single_line_text"
+                     *             },
+                     *             {
+                     *               "key": "season",
+                     *               "name": "Season",
+                     *               "type": "single_line_text"
+                     *             },
+                     *             {
+                     *               "key": "story",
+                     *               "name": "Story",
+                     *               "type": "multi_line_text"
+                     *             }
+                     *           ]
+                     *         }
+                     *       ]
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3548,20 +9028,76 @@ export interface operations {
                     };
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeMetaobject.index": {
+    "metaobjects.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, clamps 1..50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -3572,81 +9108,180 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example lookbook */
                 type: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Metaobjects retrieved",
+                     *       "data": [
+                     *         {
+                     *           "p_id": 1301,
+                     *           "type": "lookbook",
+                     *           "handle": "harmattan-26",
+                     *           "display_name": "Harmattan ’26",
+                     *           "status": "active",
+                     *           "fields": {
+                     *             "title": "Harmattan ’26",
+                     *             "season": "Harmattan 2026",
+                     *             "story": "Dusty-rose layers for December travel."
+                     *           }
+                     *         },
+                     *         {
+                     *           "p_id": 1302,
+                     *           "type": "lookbook",
+                     *           "handle": "owambe-season",
+                     *           "display_name": "Owambe Season",
+                     *           "status": "active",
+                     *           "fields": {
+                     *             "title": "Owambe Season",
+                     *             "season": "Party season",
+                     *             "story": "Statement ankara for Saturday parties."
+                     *           }
+                     *         }
+                     *       ],
+                     *       "meta": {
+                     *         "definition": {
+                     *           "type": "lookbook",
+                     *           "name": "Lookbook",
+                     *           "has_pages": true
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStoreMetaobject"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreMetaobject"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Metaobjects not found";
-                        /** @constant */
-                        message: "Metaobjects not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Metaobjects not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The starting after cursor is invalid.",
+                     *         "field": "starting_after",
+                     *         "errors": {
+                     *           "starting_after": [
+                     *             "The starting after cursor is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeMetaobject.show": {
+    "metaobjects.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -3659,7 +9294,9 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example lookbook */
                 type: string;
+                /** @example harmattan-26 */
                 handle: string;
             };
             cookie?: never;
@@ -3672,6 +9309,31 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Metaobject entry",
+                     *       "data": {
+                     *         "p_id": 1301,
+                     *         "type": "lookbook",
+                     *         "handle": "harmattan-26",
+                     *         "display_name": "Harmattan ’26",
+                     *         "status": "active",
+                     *         "fields": {
+                     *           "title": "Harmattan ’26",
+                     *           "season": "Harmattan 2026",
+                     *           "story": "Dusty-rose layers for December travel."
+                     *         }
+                     *       },
+                     *       "meta": {
+                     *         "definition": {
+                     *           "type": "lookbook",
+                     *           "name": "Lookbook",
+                     *           "has_pages": true
+                     *         }
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -3680,312 +9342,101 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Metaobjects not found";
-                        /** @constant */
-                        message: "Metaobjects not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Metaobjects not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeContent.pagesForClient": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStorePage"][];
-                    };
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "storeContent.pageForClient": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path: {
-                slug: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStorePage"];
-                    };
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Page not found";
-                        /** @constant */
-                        message: "Page not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "storeContent.policiesForClient": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path?: never;
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStorePage"][];
-                    };
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "storeContent.policyForClient": {
-        parameters: {
-            query?: never;
-            header: {
-                /**
-                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
-                 * @example {{clientKey}}
-                 */
-                "X-Client-Key": string;
-                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
-                "X-Request-Id"?: string;
-            };
-            path: {
-                slug: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStorePage"];
-                    };
-                };
-            };
-            404: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Policy not found";
-                        /** @constant */
-                        message: "Policy not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
-                };
-            };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-        };
-    };
-    "storeContent.postsForClient": {
+    "orders.list": {
         parameters: {
             query?: {
-                tag?: string | null;
-                category?: string | null;
-                per_page?: number | null;
+                /**
+                 * @description Orders per page (default 10, max 50; alias of `limit`).
+                 * @example 10
+                 */
+                per_page?: number;
+                /** @description Only orders placed under this service of the store (its service slug, e.g. `fashion`). */
+                service?: string;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 10
+                 */
+                limit?: number;
             };
             header: {
                 /**
@@ -4001,76 +9452,285 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Orders retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c91",
+                     *           "title": "Zuri Atelier",
+                     *           "currency": "NGN",
+                     *           "total_price": 28500,
+                     *           "delivery_fee": 0,
+                     *           "grand_total": 24225,
+                     *           "payment_status": "paid",
+                     *           "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
+                     *           "is_verified": true,
+                     *           "order_no": "26-0925-74101",
+                     *           "status": "processing",
+                     *           "order_type": "instant",
+                     *           "scheduled_date": null,
+                     *           "scheduled_time": null,
+                     *           "is_backorder_held": false,
+                     *           "backorder_ready_date": null,
+                     *           "delivery_method": "pickup",
+                     *           "payment_method": "online",
+                     *           "delivery_address": null,
+                     *           "pickup_address": null,
+                     *           "stage": 0,
+                     *           "earliest_delivery_time": null,
+                     *           "latest_delivery_time": null,
+                     *           "ready_window": null,
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "phone": "+234 803 555 0147",
+                     *             "email": "hello@zuriatelier.ng",
+                     *             "map_lat": "6.4474000",
+                     *             "map_lng": "3.4712000"
+                     *           },
+                     *           "created_by_id": null,
+                     *           "timeline": [
+                     *             {
+                     *               "title": "Order Received",
+                     *               "description": "Waiting for Zuri Atelier to accept your order.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Preparing Your Order",
+                     *               "description": "Your order is being prepared and will be ready for pickup soon.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Ready for Pickup",
+                     *               "description": "Your order is ready! Head over to Zuri Atelier to pick it up.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Picked Up",
+                     *               "description": "Your order has been picked up. Enjoy!",
+                     *               "time": null
+                     *             }
+                     *           ],
+                     *           "vendor_timeline": [
+                     *             {
+                     *               "title": "Order Received",
+                     *               "description": "New order received for pickup.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Preparing Your Order",
+                     *               "description": "You accepted the order and started preparation.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Ready for Pickup",
+                     *               "description": "Order is ready — awaiting customer pickup.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Picked Up",
+                     *               "description": "Order has been picked up by the customer.",
+                     *               "time": null
+                     *             }
+                     *           ],
+                     *           "vendor_note": null,
+                     *           "rider_note": null,
+                     *           "shopforme_fee": 0,
+                     *           "service_fee": 0,
+                     *           "is_confirmed": false,
+                     *           "rejected": false,
+                     *           "is_completed": false,
+                     *           "cancelled": false,
+                     *           "items_count": null,
+                     *           "started_at": null,
+                     *           "completed_at": null,
+                     *           "created_at": "3:58pm, 25/9/2026",
+                     *           "updated_at": "4:20pm, 25/9/2026"
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c94",
+                     *           "title": "Zuri Atelier",
+                     *           "currency": "NGN",
+                     *           "total_price": 28500,
+                     *           "delivery_fee": 0,
+                     *           "grand_total": 24225,
+                     *           "payment_status": "pending",
+                     *           "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
+                     *           "is_verified": false,
+                     *           "order_no": "26-0926-74102",
+                     *           "status": "pending_payment",
+                     *           "order_type": "instant",
+                     *           "scheduled_date": null,
+                     *           "scheduled_time": null,
+                     *           "is_backorder_held": false,
+                     *           "backorder_ready_date": null,
+                     *           "delivery_method": "pickup",
+                     *           "payment_method": "online",
+                     *           "delivery_address": null,
+                     *           "pickup_address": null,
+                     *           "stage": 0,
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "phone": "+234 803 555 0147",
+                     *             "email": "hello@zuriatelier.ng",
+                     *             "map_lat": "6.4474000",
+                     *             "map_lng": "3.4712000"
+                     *           },
+                     *           "created_by_id": null,
+                     *           "timeline": [
+                     *             {
+                     *               "title": "Order Received",
+                     *               "description": "Waiting for Zuri Atelier to accept your order.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Preparing Your Order",
+                     *               "description": "Your order is being prepared and will be ready for pickup soon.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Ready for Pickup",
+                     *               "description": "Your order is ready! Head over to Zuri Atelier to pick it up.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Picked Up",
+                     *               "description": "Your order has been picked up. Enjoy!",
+                     *               "time": null
+                     *             }
+                     *           ],
+                     *           "vendor_timeline": [
+                     *             {
+                     *               "title": "Order Received",
+                     *               "description": "New order received for pickup.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Preparing Your Order",
+                     *               "description": "You accepted the order and started preparation.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Ready for Pickup",
+                     *               "description": "Order is ready — awaiting customer pickup.",
+                     *               "time": null
+                     *             },
+                     *             {
+                     *               "title": "Picked Up",
+                     *               "description": "Order has been picked up by the customer.",
+                     *               "time": null
+                     *             }
+                     *           ],
+                     *           "vendor_note": null,
+                     *           "rider_note": null,
+                     *           "shopforme_fee": 0,
+                     *           "service_fee": 0,
+                     *           "is_confirmed": false,
+                     *           "rejected": false,
+                     *           "is_completed": false,
+                     *           "cancelled": false,
+                     *           "items_count": null,
+                     *           "started_at": null,
+                     *           "completed_at": null,
+                     *           "created_at": "3:58pm, 25/9/2026",
+                     *           "updated_at": "4:20pm, 25/9/2026"
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStorePage"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreOrder"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeContent.postForClient": {
+    "orders.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -4083,6 +9743,594 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example 26-0925-74101 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c91",
+                     *         "title": "Zuri Atelier",
+                     *         "currency": "NGN",
+                     *         "total_price": 28500,
+                     *         "delivery_fee": 0,
+                     *         "grand_total": 24225,
+                     *         "payment_status": "paid",
+                     *         "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
+                     *         "is_verified": true,
+                     *         "order_no": "26-0925-74101",
+                     *         "status": "processing",
+                     *         "order_type": "instant",
+                     *         "scheduled_date": null,
+                     *         "scheduled_time": null,
+                     *         "is_backorder_held": false,
+                     *         "backorder_ready_date": null,
+                     *         "delivery_method": "pickup",
+                     *         "payment_method": "online",
+                     *         "delivery_address": null,
+                     *         "pickup_address": null,
+                     *         "table": null,
+                     *         "stage": 0,
+                     *         "earliest_delivery_time": null,
+                     *         "latest_delivery_time": null,
+                     *         "ready_window": null,
+                     *         "vendor": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "name": "Zuri Atelier",
+                     *           "slug": "zuri-atelier",
+                     *           "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *           "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *           "phone": "+234 803 555 0147",
+                     *           "email": "hello@zuriatelier.ng",
+                     *           "map_lat": "6.4474000",
+                     *           "map_lng": "3.4712000"
+                     *         },
+                     *         "created_by_id": null,
+                     *         "timeline": [
+                     *           {
+                     *             "title": "Order Received",
+                     *             "description": "Waiting for Zuri Atelier to accept your order.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Preparing Your Order",
+                     *             "description": "Your order is being prepared and will be ready for pickup soon.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Ready for Pickup",
+                     *             "description": "Your order is ready! Head over to Zuri Atelier to pick it up.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Picked Up",
+                     *             "description": "Your order has been picked up. Enjoy!",
+                     *             "time": null
+                     *           }
+                     *         ],
+                     *         "vendor_timeline": [
+                     *           {
+                     *             "title": "Order Received",
+                     *             "description": "New order received for pickup.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Preparing Your Order",
+                     *             "description": "You accepted the order and started preparation.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Ready for Pickup",
+                     *             "description": "Order is ready — awaiting customer pickup.",
+                     *             "time": null
+                     *           },
+                     *           {
+                     *             "title": "Picked Up",
+                     *             "description": "Order has been picked up by the customer.",
+                     *             "time": null
+                     *           }
+                     *         ],
+                     *         "vendor_note": null,
+                     *         "rider_note": null,
+                     *         "shopforme_fee": 0,
+                     *         "service_fee": 0,
+                     *         "is_confirmed": false,
+                     *         "rejected": false,
+                     *         "is_completed": false,
+                     *         "cancelled": false,
+                     *         "items_count": null,
+                     *         "started_at": null,
+                     *         "completed_at": null,
+                     *         "created_at": "3:58pm, 25/9/2026",
+                     *         "updated_at": "4:20pm, 25/9/2026",
+                     *         "status_label": "Processing",
+                     *         "status_img": "https://api.usequeek.com/images/icon/box.png",
+                     *         "user_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *         "pickup_map_lat": null,
+                     *         "pickup_map_lng": null,
+                     *         "items": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c92",
+                     *             "quantity": 1,
+                     *             "title": "Ankara Midi Dress",
+                     *             "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *             "variant_title": "M",
+                     *             "variant_option_values": {
+                     *               "Size": "M"
+                     *             },
+                     *             "variant_media": {
+                     *               "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "video_url": null,
+                     *               "source": "product"
+                     *             },
+                     *             "currency": "NGN",
+                     *             "total_price": 24225,
+                     *             "sale_price": 28500,
+                     *             "unit_price": 24225,
+                     *             "base_unit_price": 28500,
+                     *             "is_backorder": false,
+                     *             "backorder_ready_date": null,
+                     *             "discounted_amount": 4275,
+                     *             "created_at": "2026-09-25T14:58:00.000000Z",
+                     *             "addons": [],
+                     *             "properties": []
+                     *           }
+                     *         ],
+                     *         "created_by": null,
+                     *         "rider": null,
+                     *         "rider_rating": 0,
+                     *         "rider_review_status": null,
+                     *         "vendor_review_status": null,
+                     *         "vendor_rating": 0,
+                     *         "virtual_account_id": null,
+                     *         "payment_link": null,
+                     *         "pay_link": "https://usequeek.com/store/pay/019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c91",
+                     *         "viewer_type": "customer",
+                     *         "amount_summary": {
+                     *           "title": "Order Summary",
+                     *           "view": "customer",
+                     *           "items": [
+                     *             {
+                     *               "key": "sub_total",
+                     *               "label": "Sub Total",
+                     *               "type": "price",
+                     *               "amount": 28500
+                     *             },
+                     *             {
+                     *               "key": "discount",
+                     *               "label": "Discount",
+                     *               "type": "discount",
+                     *               "amount": 4275
+                     *             },
+                     *             {
+                     *               "key": "grand_total",
+                     *               "label": "Grand Total",
+                     *               "type": "total",
+                     *               "amount": 24225
+                     *             }
+                     *           ]
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreOrder"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Order not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "orders.retrieve_payment_link": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example 26-0926-74102 */
+                id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Order payment details fetched successfully",
+                     *       "data": {
+                     *         "order": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c94",
+                     *           "order_no": "26-0926-74102",
+                     *           "status": "pending_payment",
+                     *           "payment_status": "pending",
+                     *           "payment_method": "online",
+                     *           "currency": "NGN",
+                     *           "is_payable": true,
+                     *           "is_paid": false,
+                     *           "grand_total": "24225.00",
+                     *           "grand_total_text": "₦24225.00",
+                     *           "payment_link": "https://pay.usequeek.com/p/zuri-74102",
+                     *           "pay_link": "https://usequeek.com/store/pay/019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c94",
+                     *           "items": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c92",
+                     *               "quantity": 1,
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "variant_media": null,
+                     *               "currency": "NGN",
+                     *               "total_price": 24225,
+                     *               "sale_price": 28500,
+                     *               "unit_price": 24225,
+                     *               "base_unit_price": 28500,
+                     *               "is_backorder": false,
+                     *               "backorder_ready_date": null,
+                     *               "created_at": "2026-09-25T14:58:00.000000Z",
+                     *               "addons": [],
+                     *               "properties": {}
+                     *             }
+                     *           ]
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreOrderPay"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Order not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "Payment link is only available for online orders",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "pages.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store pages retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c71",
+                     *           "type": "page",
+                     *           "template": null,
+                     *           "slug": "about-us",
+                     *           "title": "About Zuri Atelier",
+                     *           "content": [
+                     *             {
+                     *               "type": "content",
+                     *               "data": {
+                     *                 "markdown": "Zuri Atelier cuts every piece in our Lekki atelier."
+                     *               }
+                     *             }
+                     *           ],
+                     *           "media_index": {},
+                     *           "excerpt": "Lagos-cut fashion since 2019.",
+                     *           "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/pages/atelier.jpg",
+                     *           "cover_image_variants": null,
+                     *           "tags": [],
+                     *           "seo": {
+                     *             "title": "About us | Zuri Atelier",
+                     *             "description": "Lagos-cut fashion since 2019."
+                     *           },
+                     *           "blog_categories": [],
+                     *           "reading_time": 1,
+                     *           "is_home": false,
+                     *           "chrome": "full",
+                     *           "show_page_title": true,
+                     *           "status": "published",
+                     *           "position": 1,
+                     *           "published_at": "2025-11-04T09:00:00.000000Z",
+                     *           "created_at": "2025-11-04T09:00:00.000000Z",
+                     *           "updated_at": "2026-09-10T11:00:00.000000Z"
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "pages.retrieve": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example about-us */
                 slug: string;
             };
             cookie?: never;
@@ -4095,6 +10343,780 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store page retrieved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c71",
+                     *         "type": "page",
+                     *         "template": null,
+                     *         "slug": "about-us",
+                     *         "title": "About Zuri Atelier",
+                     *         "content": [
+                     *           {
+                     *             "type": "content",
+                     *             "data": {
+                     *               "markdown": "Zuri Atelier cuts every piece in our Lekki atelier."
+                     *             }
+                     *           }
+                     *         ],
+                     *         "media_index": {},
+                     *         "excerpt": "Lagos-cut fashion since 2019.",
+                     *         "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/pages/atelier.jpg",
+                     *         "cover_image_variants": null,
+                     *         "tags": [],
+                     *         "seo": {
+                     *           "title": "About us | Zuri Atelier",
+                     *           "description": "Lagos-cut fashion since 2019."
+                     *         },
+                     *         "blog_categories": [],
+                     *         "reading_time": 1,
+                     *         "is_home": false,
+                     *         "chrome": "full",
+                     *         "show_page_title": true,
+                     *         "status": "published",
+                     *         "position": 1,
+                     *         "published_at": "2025-11-04T09:00:00.000000Z",
+                     *         "created_at": "2025-11-04T09:00:00.000000Z",
+                     *         "updated_at": "2026-09-10T11:00:00.000000Z"
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Page not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "policies.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store policies retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c72",
+                     *           "type": "policy",
+                     *           "template": null,
+                     *           "slug": "shipping-returns",
+                     *           "title": "Shipping & Returns",
+                     *           "content": [
+                     *             {
+                     *               "type": "content",
+                     *               "data": {
+                     *                 "markdown": "We deliver nationwide in 2–5 working days. Returns within 7 days, unworn with tags."
+                     *               }
+                     *             }
+                     *           ],
+                     *           "media_index": {},
+                     *           "excerpt": "Delivery in 2–5 days; 7-day returns.",
+                     *           "cover_image_url": null,
+                     *           "cover_image_variants": null,
+                     *           "tags": [],
+                     *           "seo": {
+                     *             "title": "Shipping & Returns | Zuri Atelier",
+                     *             "description": "Delivery in 2–5 days; 7-day returns."
+                     *           },
+                     *           "blog_categories": [],
+                     *           "reading_time": 1,
+                     *           "is_home": false,
+                     *           "chrome": "full",
+                     *           "show_page_title": true,
+                     *           "status": "published",
+                     *           "position": 2,
+                     *           "published_at": "2025-11-05T09:00:00.000000Z",
+                     *           "created_at": "2025-11-05T09:00:00.000000Z",
+                     *           "updated_at": "2026-08-30T11:10:00.000000Z"
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "policies.retrieve": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example shipping-returns */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store policy retrieved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c72",
+                     *         "type": "policy",
+                     *         "template": null,
+                     *         "slug": "shipping-returns",
+                     *         "title": "Shipping & Returns",
+                     *         "content": [
+                     *           {
+                     *             "type": "content",
+                     *             "data": {
+                     *               "markdown": "We deliver nationwide in 2–5 working days. Returns within 7 days, unworn with tags."
+                     *             }
+                     *           }
+                     *         ],
+                     *         "media_index": {},
+                     *         "excerpt": "Delivery in 2–5 days; 7-day returns.",
+                     *         "cover_image_url": null,
+                     *         "cover_image_variants": null,
+                     *         "tags": [],
+                     *         "seo": {
+                     *           "title": "Shipping & Returns | Zuri Atelier",
+                     *           "description": "Delivery in 2–5 days; 7-day returns."
+                     *         },
+                     *         "blog_categories": [],
+                     *         "reading_time": 1,
+                     *         "is_home": false,
+                     *         "chrome": "full",
+                     *         "show_page_title": true,
+                     *         "status": "published",
+                     *         "position": 2,
+                     *         "published_at": "2025-11-05T09:00:00.000000Z",
+                     *         "created_at": "2025-11-05T09:00:00.000000Z",
+                     *         "updated_at": "2026-08-30T11:10:00.000000Z"
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Policy not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "posts.list": {
+        parameters: {
+            query?: {
+                /** @example ankara */
+                tag?: string | null;
+                /** @example style-notes */
+                category?: string | null;
+                /** @example 12 */
+                per_page?: number | null;
+                page?: string;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store posts retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c73",
+                     *           "type": "post",
+                     *           "template": null,
+                     *           "slug": "how-to-style-ankara",
+                     *           "title": "How to style ankara without looking costumey",
+                     *           "content": [
+                     *             {
+                     *               "type": "content",
+                     *               "data": {
+                     *                 "markdown": "Rule one: one print at a time. Rule two: modern shoes. Rule three: confidence."
+                     *               }
+                     *             }
+                     *           ],
+                     *           "media_index": {},
+                     *           "excerpt": "Three rules for modern ankara.",
+                     *           "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/posts/ankara-style.jpg",
+                     *           "cover_image_variants": null,
+                     *           "tags": [
+                     *             "ankara",
+                     *             "style"
+                     *           ],
+                     *           "seo": {
+                     *             "title": "How to style ankara | Zuri Atelier",
+                     *             "description": "Three rules for modern ankara."
+                     *           },
+                     *           "blog_categories": [
+                     *             {
+                     *               "name": "Style Notes",
+                     *               "slug": "style-notes"
+                     *             }
+                     *           ],
+                     *           "reading_time": 1,
+                     *           "author": {
+                     *             "name": "Zuri Atelier",
+                     *             "avatar_url": "https://media.usequeek.com/uploads/stores/2207/logo.png"
+                     *           },
+                     *           "is_home": false,
+                     *           "chrome": "full",
+                     *           "show_page_title": true,
+                     *           "status": "published",
+                     *           "position": 1,
+                     *           "published_at": "2026-09-12T07:00:00.000000Z",
+                     *           "created_at": "2026-09-10T15:20:00.000000Z",
+                     *           "updated_at": "2026-09-12T07:00:00.000000Z"
+                     *         },
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c74",
+                     *           "type": "post",
+                     *           "template": null,
+                     *           "slug": "cotton-vs-ankara",
+                     *           "title": "Cotton vs ankara: what we cut and why",
+                     *           "content": [
+                     *             {
+                     *               "type": "content",
+                     *               "data": {
+                     *                 "markdown": "Zuri Atelier cuts every piece in our Lekki atelier."
+                     *               }
+                     *             }
+                     *           ],
+                     *           "media_index": {},
+                     *           "excerpt": "Fabric notes from the atelier.",
+                     *           "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/posts/fabric.jpg",
+                     *           "cover_image_variants": null,
+                     *           "tags": [
+                     *             "fabric"
+                     *           ],
+                     *           "seo": {
+                     *             "title": "Cotton vs ankara | Zuri Atelier",
+                     *             "description": "Fabric notes from the atelier."
+                     *           },
+                     *           "blog_categories": [
+                     *             {
+                     *               "name": "Fabric Guide",
+                     *               "slug": "fabric-guide"
+                     *             }
+                     *           ],
+                     *           "reading_time": 1,
+                     *           "author": {
+                     *             "name": "Zuri Atelier",
+                     *             "avatar_url": "https://media.usequeek.com/uploads/stores/2207/logo.png"
+                     *           },
+                     *           "is_home": false,
+                     *           "chrome": "full",
+                     *           "show_page_title": true,
+                     *           "status": "published",
+                     *           "position": 2,
+                     *           "published_at": "2026-09-05T07:00:00.000000Z",
+                     *           "created_at": "2026-09-03T15:20:00.000000Z",
+                     *           "updated_at": "2026-09-05T07:00:00.000000Z"
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStorePage"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The per page field must not be greater than 50.",
+                     *         "field": "per_page",
+                     *         "errors": {
+                     *           "per_page": [
+                     *             "The per page field must not be greater than 50."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "posts.retrieve": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example how-to-style-ankara */
+                slug: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store post retrieved",
+                     *       "data": {
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c73",
+                     *         "type": "post",
+                     *         "template": null,
+                     *         "slug": "how-to-style-ankara",
+                     *         "title": "How to style ankara without looking costumey",
+                     *         "content": [
+                     *           {
+                     *             "type": "content",
+                     *             "data": {
+                     *               "markdown": "Rule one: one print at a time. Rule two: modern shoes. Rule three: confidence."
+                     *             }
+                     *           }
+                     *         ],
+                     *         "media_index": {},
+                     *         "excerpt": "Three rules for modern ankara.",
+                     *         "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/posts/ankara-style.jpg",
+                     *         "cover_image_variants": null,
+                     *         "tags": [
+                     *           "ankara",
+                     *           "style"
+                     *         ],
+                     *         "seo": {
+                     *           "title": "How to style ankara | Zuri Atelier",
+                     *           "description": "Three rules for modern ankara."
+                     *         },
+                     *         "blog_categories": [
+                     *           {
+                     *             "name": "Style Notes",
+                     *             "slug": "style-notes"
+                     *           }
+                     *         ],
+                     *         "reading_time": 1,
+                     *         "author": {
+                     *           "name": "Zuri Atelier",
+                     *           "avatar_url": "https://media.usequeek.com/uploads/stores/2207/logo.png"
+                     *         },
+                     *         "is_home": false,
+                     *         "chrome": "full",
+                     *         "show_page_title": true,
+                     *         "status": "published",
+                     *         "position": 1,
+                     *         "published_at": "2026-09-12T07:00:00.000000Z",
+                     *         "created_at": "2026-09-10T15:20:00.000000Z",
+                     *         "updated_at": "2026-09-12T07:00:00.000000Z",
+                     *         "related": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c74",
+                     *             "type": "post",
+                     *             "template": null,
+                     *             "slug": "cotton-vs-ankara",
+                     *             "title": "Cotton vs ankara: what we cut and why",
+                     *             "content": [
+                     *               {
+                     *                 "type": "content",
+                     *                 "data": {
+                     *                   "markdown": "Zuri Atelier cuts every piece in our Lekki atelier."
+                     *                 }
+                     *               }
+                     *             ],
+                     *             "media_index": {},
+                     *             "excerpt": "Fabric notes from the atelier.",
+                     *             "cover_image_url": "https://media.usequeek.com/uploads/stores/2207/posts/fabric.jpg",
+                     *             "cover_image_variants": null,
+                     *             "tags": [
+                     *               "fabric"
+                     *             ],
+                     *             "seo": {
+                     *               "title": "Cotton vs ankara | Zuri Atelier",
+                     *               "description": "Fabric notes from the atelier."
+                     *             },
+                     *             "blog_categories": [
+                     *               {
+                     *                 "name": "Fabric Guide",
+                     *                 "slug": "fabric-guide"
+                     *               }
+                     *             ],
+                     *             "reading_time": 1,
+                     *             "author": {
+                     *               "name": "Zuri Atelier",
+                     *               "avatar_url": "https://media.usequeek.com/uploads/stores/2207/logo.png"
+                     *             },
+                     *             "is_home": false,
+                     *             "chrome": "full",
+                     *             "show_page_title": true,
+                     *             "status": "published",
+                     *             "position": 2,
+                     *             "published_at": "2026-09-05T07:00:00.000000Z",
+                     *             "created_at": "2026-09-03T15:20:00.000000Z",
+                     *             "updated_at": "2026-09-05T07:00:00.000000Z"
+                     *           }
+                     *         ]
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -4103,57 +11125,146 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Post not found";
-                        /** @constant */
-                        message: "Post not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Post not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorProduct.indexForClient": {
+    "products.list": {
         parameters: {
             query?: {
                 /**
-                 * @description Filter by a defined metafield: `metafield[custom.fabric]=cotton`. Up to 5 handles, ANDed. Values are compared using the definition's type (integer 10 matches 10, not 100). Undefined handle → 422 `metafield_definition_missing`.
-                 * @example {
-                 *       "custom.fabric": "cotton"
-                 *     }
+                 * @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`.
+                 * @example WzEsIjRhOTYzOGNlMjFlYTllNWFiOWJlMmZmZDdkZjA2ZWI5MTVmMzVhMzNlMmQ4NjU1MDUyNjBjNGQ3NTQ1YWZkNTEiLCJleUp3Y205a2RXTjBjeTVqY21WaGRHVmtYMkYwSWpvaU1qQXlOaTB3T1MweU1DQXhNRG93TURvd01DSXNJbkJ5YjJSMVkzUnpMbWxrSWpvaU1ERTVZakJqTkdRdE5XVTJaaTAzWVRoaUxUbGpNR1F0TVdVeVpqTmhOR0kxWXpFeElpd2lYM0J2YVc1MGMxUnZUbVY0ZEVsMFpXMXpJanAwY25WbGZRIl0
                  */
-                metafield?: Record<string, never>;
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 100). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
+                /**
+                 * @description Filter to products whose `custom.fabric` metafield exactly equals this value (`metafield[namespace.key]=value`, ANDed across handles, at most 5). The definition behind the handle is on `GET store/metafield-definitions`.
+                 * @example cotton
+                 */
+                "metafield[custom.fabric]"?: string;
+                /**
+                 * @description Search product titles and descriptions (at most 100 chars).
+                 * @example ankara
+                 */
+                keyword?: string;
+                /** @description Filter to one category by slug (resolved to its id — send either this or `category_id`, never both). */
+                category_slug?: string;
+                /**
+                 * @description Filter to one category by id (UUID).
+                 * @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21
+                 */
+                category_id?: string;
+                /**
+                 * @description Ordering: `latest` (default), `popular`, `price_low`, `price_high`.
+                 * @example latest
+                 */
+                sort?: "latest" | "popular" | "price_low" | "price_high";
+                /**
+                 * @description Only products with a video (`true`) or without one (`false`).
+                 * @example false
+                 */
+                has_video?: boolean;
+                /**
+                 * @description Items per page (1–100).
+                 * @example 15
+                 */
+                per_page?: number;
+                /**
+                 * @description Page number.
+                 * @example 1
+                 */
+                page?: number;
+                /**
+                 * @description Filter to variants carrying these option pairs (`attributes[Option]=Value`, one entry per option).
+                 * @example M
+                 */
+                "attributes[Size]"?: string;
+                /**
+                 * @description Hand-pick products by id (theme blocks that feature exact products; at most 20 UUIDs).
+                 * @example [
+                 *       "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11"
+                 *     ]
+                 */
+                "ids[]"?: string[];
             };
             header: {
                 /**
@@ -4169,75 +11280,467 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Products retrieved",
+                     *       "data": [
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "p_id": 31501,
+                     *           "title": "Ankara Midi Dress",
+                     *           "slug": "ankara-midi-dress",
+                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 28500,
+                     *           "discount_price": 24225,
+                     *           "compare_at_price": 28500,
+                     *           "is_price_from": false,
+                     *           "price_range": {
+                     *             "min": 28500,
+                     *             "max": 28500
+                     *           },
+                     *           "has_variants": true,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           },
+                     *           "discounts": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             }
+                     *           ],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 600
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 1000
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1350
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77101,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "alt": "Ankara midi dress on a mannequin",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": 77103,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                 "alt": "Ankara midi dress, back view",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 18
+                     *           },
+                     *           "variant_summary": {
+                     *             "count": 3,
+                     *             "min_price": 28500,
+                     *             "max_price": 28500,
+                     *             "total_stock": 18,
+                     *             "tracks_inventory": true,
+                     *             "in_stock": true
+                     *           },
+                     *           "variants_count": 3,
+                     *           "rating": 4.5,
+                     *           "review_count": 132,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-06-18 09:40:00",
+                     *           "updated_at": "2026-09-22 16:05:00"
+                     *         },
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c12",
+                     *           "p_id": 31502,
+                     *           "title": "Aso-Oke Head Wrap",
+                     *           "slug": "aso-oke-head-wrap",
+                     *           "excerpt": "Hand-woven aso-oke wrap in burnt orange.",
+                     *           "description": "Hand-woven aso-oke head wrap in burnt orange with metallic striping. Two metres, ready to tie.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 8500,
+                     *           "discount_price": 8500,
+                     *           "compare_at_price": null,
+                     *           "is_price_from": false,
+                     *           "price_range": null,
+                     *           "has_variants": false,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": null,
+                     *           "discounts": [],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 480
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 800
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1080
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77102,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "alt": "Burnt-orange aso-oke head wrap, folded",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 480
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 800
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1080
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 34
+                     *           },
+                     *           "variant_summary": null,
+                     *           "variants_count": 0,
+                     *           "rating": 4.9,
+                     *           "review_count": 58,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-07-02 13:15:00",
+                     *           "updated_at": "2026-09-22 16:05:00"
+                     *         }
+                     *       ],
+                     *       "meta": {
+                     *         "listing_mode": "listing",
+                     *         "filters": {
+                     *           "attributes": [
+                     *             {
+                     *               "name": "Size",
+                     *               "slug": "size",
+                     *               "type": "size",
+                     *               "values": [
+                     *                 {
+                     *                   "value": "L",
+                     *                   "slug": "l",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "M",
+                     *                   "slug": "m",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "S",
+                     *                   "slug": "s",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 }
+                     *               ]
+                     *             }
+                     *           ]
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStoreProduct"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The metafield field must be an array.",
+                     *         "field": "metafield",
+                     *         "errors": {
+                     *           "metafield": [
+                     *             "The metafield field must be an array."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorProduct.showForClient": {
+    "products.retrieve": {
         parameters: {
             query?: never;
             header: {
@@ -4250,6 +11753,7 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example ankara-midi-dress */
                 slug: string;
             };
             cookie?: never;
@@ -4262,6 +11766,702 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Product retrieved",
+                     *       "data": {
+                     *         "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *         "p_id": 31501,
+                     *         "title": "Ankara Midi Dress",
+                     *         "slug": "ankara-midi-dress",
+                     *         "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *         "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *         "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *         "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *         "video_url": null,
+                     *         "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *         "type": "product",
+                     *         "commerce_mode": "shop",
+                     *         "currency": "NGN",
+                     *         "price": 28500,
+                     *         "discount_price": 24225,
+                     *         "compare_at_price": 28500,
+                     *         "is_price_from": false,
+                     *         "price_range": {
+                     *           "min": 28500,
+                     *           "max": 28500
+                     *         },
+                     *         "has_variants": true,
+                     *         "has_addons": false,
+                     *         "tax_inclusive": false,
+                     *         "discount": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *           "title": "Lagos Fashion Week 15% Off",
+                     *           "type": "percentage",
+                     *           "value": 15,
+                     *           "amount": 4275,
+                     *           "final_price": 24225,
+                     *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *         },
+                     *         "discounts": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           }
+                     *         ],
+                     *         "media": {
+                     *           "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *           "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *           "primary_variant_image": null,
+                     *           "image_variants": {
+                     *             "thumb": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *               "w": null,
+                     *               "h": null
+                     *             },
+                     *             "card": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *               "w": 480,
+                     *               "h": 600
+                     *             },
+                     *             "card2x": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *               "w": 800,
+                     *               "h": 1000
+                     *             },
+                     *             "view": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *               "w": 1200,
+                     *               "h": 1500
+                     *             },
+                     *             "wa": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *               "w": 1080,
+                     *               "h": 1350
+                     *             },
+                     *             "original": {
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "w": 1200,
+                     *               "h": 1500
+                     *             }
+                     *           },
+                     *           "primary_variant_image_variants": null,
+                     *           "images": [
+                     *             {
+                     *               "id": 77101,
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *               "alt": "Ankara midi dress on a mannequin",
+                     *               "variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               }
+                     *             },
+                     *             {
+                     *               "id": 77103,
+                     *               "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *               "alt": "Ankara midi dress, back view",
+                     *               "variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               }
+                     *             }
+                     *           ],
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp"
+                     *         },
+                     *         "inventory": {
+                     *           "in_stock": true,
+                     *           "tracking": true,
+                     *           "quantity": 18,
+                     *           "allow_backorder": false,
+                     *           "low_stock_threshold": 5,
+                     *           "updated_at": "2026-09-22 16:05:00"
+                     *         },
+                     *         "variant_summary": {
+                     *           "count": 3,
+                     *           "min_price": 28500,
+                     *           "max_price": 28500,
+                     *           "total_stock": 18,
+                     *           "tracks_inventory": true,
+                     *           "in_stock": true
+                     *         },
+                     *         "variants_count": 3,
+                     *         "rating": 4.5,
+                     *         "review_count": 132,
+                     *         "flags": {
+                     *           "featured": false,
+                     *           "is_marketplace": false,
+                     *           "is_wholesale": false,
+                     *           "is_new": false
+                     *         },
+                     *         "metafields": {},
+                     *         "created_at": "2026-06-18 09:40:00",
+                     *         "updated_at": "2026-09-22 16:05:00",
+                     *         "shop": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "name": "Zuri Atelier",
+                     *           "slug": "zuri-atelier",
+                     *           "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *           "rating": 4.7,
+                     *           "rating_count": 486
+                     *         },
+                     *         "addons": [],
+                     *         "taxonomy": {
+                     *           "categories": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
+                     *               "name": "Dresses",
+                     *               "slug": "dresses"
+                     *             }
+                     *           ],
+                     *           "tags": [],
+                     *           "brand": null,
+                     *           "collections": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *               "name": "New Season",
+                     *               "slug": "new-season",
+                     *               "mode": "manual"
+                     *             }
+                     *           ]
+                     *         },
+                     *         "purchase_limits": {
+                     *           "min_qty": 1,
+                     *           "max_qty": null,
+                     *           "step_qty": 1
+                     *         },
+                     *         "measurement": {
+                     *           "weight": {
+                     *             "value": 0.5,
+                     *             "unit": "kg"
+                     *           },
+                     *           "dimensions": null
+                     *         },
+                     *         "specs": [],
+                     *         "options": [
+                     *           {
+                     *             "name": "Size",
+                     *             "type": "size",
+                     *             "values": [
+                     *               "S",
+                     *               "M",
+                     *               "L"
+                     *             ],
+                     *             "values_detailed": [
+                     *               {
+                     *                 "value": "S",
+                     *                 "color_code": null,
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *               },
+                     *               {
+                     *                 "value": "M",
+                     *                 "color_code": null,
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *               },
+                     *               {
+                     *                 "value": "L",
+                     *                 "color_code": null,
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *               }
+                     *             ]
+                     *           }
+                     *         ],
+                     *         "variants": [
+                     *           {
+                     *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a01",
+                     *             "sku": "ZRA-AMD-S",
+                     *             "title": "S",
+                     *             "option_values": {
+                     *               "Size": "S"
+                     *             },
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "discount_amount": 4275,
+                     *             "has_discount": true,
+                     *             "compare_at_price": null,
+                     *             "stock": 6,
+                     *             "track_inventory": true,
+                     *             "is_active": true,
+                     *             "in_stock": true,
+                     *             "weight": 0.4,
+                     *             "position": 0,
+                     *             "media": {
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image_media_id": null,
+                     *               "image_variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               },
+                     *               "images": [
+                     *                 {
+                     *                   "id": 77101,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "alt": "Ankara midi dress on a mannequin",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 },
+                     *                 {
+                     *                   "id": 77103,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                   "alt": "Ankara midi dress, back view",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 }
+                     *               ],
+                     *               "video_url": null,
+                     *               "source": "product"
+                     *             }
+                     *           },
+                     *           {
+                     *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *             "sku": "ZRA-AMD-M",
+                     *             "title": "M",
+                     *             "option_values": {
+                     *               "Size": "M"
+                     *             },
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "discount_amount": 4275,
+                     *             "has_discount": true,
+                     *             "compare_at_price": null,
+                     *             "stock": 8,
+                     *             "track_inventory": true,
+                     *             "is_active": true,
+                     *             "in_stock": true,
+                     *             "weight": 0.45,
+                     *             "position": 1,
+                     *             "media": {
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image_media_id": null,
+                     *               "image_variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               },
+                     *               "images": [
+                     *                 {
+                     *                   "id": 77101,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "alt": "Ankara midi dress on a mannequin",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 },
+                     *                 {
+                     *                   "id": 77103,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                   "alt": "Ankara midi dress, back view",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 }
+                     *               ],
+                     *               "video_url": null,
+                     *               "source": "product"
+                     *             }
+                     *           },
+                     *           {
+                     *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a03",
+                     *             "sku": "ZRA-AMD-L",
+                     *             "title": "L",
+                     *             "option_values": {
+                     *               "Size": "L"
+                     *             },
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "discount_amount": 4275,
+                     *             "has_discount": true,
+                     *             "compare_at_price": null,
+                     *             "stock": 4,
+                     *             "track_inventory": true,
+                     *             "is_active": true,
+                     *             "in_stock": true,
+                     *             "weight": 0.5,
+                     *             "position": 2,
+                     *             "media": {
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "image_media_id": null,
+                     *               "image_variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               },
+                     *               "images": [
+                     *                 {
+                     *                   "id": 77101,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "alt": "Ankara midi dress on a mannequin",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 },
+                     *                 {
+                     *                   "id": 77103,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                   "alt": "Ankara midi dress, back view",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 }
+                     *               ],
+                     *               "video_url": null,
+                     *               "source": "product"
+                     *             }
+                     *           }
+                     *         ],
+                     *         "fulfillment": {
+                     *           "type": "delivery_or_pickup",
+                     *           "is_digital": false,
+                     *           "delivery_available": true,
+                     *           "pickup_available": true,
+                     *           "lead_time_min": null,
+                     *           "lead_time_max": null
+                     *         },
+                     *         "compliance": {
+                     *           "warranty_months": 0,
+                     *           "country_of_origin": null,
+                     *           "safety_notes": null
+                     *         },
+                     *         "seo": {
+                     *           "meta_title": null,
+                     *           "meta_description": null,
+                     *           "canonical_url": null,
+                     *           "keywords": []
+                     *         },
+                     *         "analytics": {
+                     *           "sales_count": 0,
+                     *           "view_count": 0,
+                     *           "favorite_count": 0,
+                     *           "review_count": 132
+                     *         }
+                     *       }
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -4270,48 +12470,85 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Product not found";
-                        /** @constant */
-                        message: "Product not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorProduct.relatedForClient": {
+    "products.list_related": {
         parameters: {
             query?: never;
             header: {
@@ -4324,74 +12561,267 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example ankara-midi-dress */
                 slug: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Related products",
+                     *       "data": [
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c12",
+                     *           "p_id": 31502,
+                     *           "title": "Aso-Oke Head Wrap",
+                     *           "slug": "aso-oke-head-wrap",
+                     *           "excerpt": "Hand-woven aso-oke wrap in burnt orange.",
+                     *           "description": "Hand-woven aso-oke head wrap in burnt orange with metallic striping. Two metres, ready to tie.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 8500,
+                     *           "discount_price": 8500,
+                     *           "compare_at_price": null,
+                     *           "is_price_from": false,
+                     *           "price_range": null,
+                     *           "has_variants": false,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": null,
+                     *           "discounts": [],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 480
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 800
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1080
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1200
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77102,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "alt": "Burnt-orange aso-oke head wrap, folded",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 480
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 800
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1080
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1200
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 34
+                     *           },
+                     *           "variant_summary": null,
+                     *           "variants_count": 0,
+                     *           "rating": 4.9,
+                     *           "review_count": 58,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-07-02 13:15:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           }
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Product not found";
-                        /** @constant */
-                        message: "Product not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "productReview.indexForClient": {
+    "products.list_reviews": {
         parameters: {
             query?: {
+                /** @example 5 */
                 rating?: "1" | "2" | "3" | "4" | "5" | null;
+                /** @example newest */
                 sort?: "newest" | "oldest" | "highest" | "lowest" | null;
                 with_media?: boolean | null;
+                /** @example 10 */
                 per_page?: number | null;
+                page?: string;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
             };
             header: {
                 /**
@@ -4403,40 +12833,201 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example ankara-midi-dress */
                 slug: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Product reviews retrieved",
+                     *       "data": {
+                     *         "product": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "slug": "ankara-midi-dress",
+                     *           "title": "Ankara Midi Dress"
+                     *         },
+                     *         "summary": {
+                     *           "average_rating": 4.5,
+                     *           "total_reviews": 132,
+                     *           "rating_breakdown": {
+                     *             "1": 3,
+                     *             "2": 4,
+                     *             "3": 9,
+                     *             "4": 27,
+                     *             "5": 89
+                     *           }
+                     *         },
+                     *         "reviews": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c55",
+                     *             "rating": 5,
+                     *             "title": "Perfect fit, rich fabric",
+                     *             "description": "The M fits exactly like the size guide says and the cotton is thick, not the market thin stuff. Wore it to a wedding.",
+                     *             "media": [],
+                     *             "vendor_response": "Thank you Adaeze — you wore it so well! Send us pictures next time.",
+                     *             "vendor_response_at": "2026-09-21T09:05:00.000000Z",
+                     *             "status": "approved",
+                     *             "is_verified_purchase": true,
+                     *             "created_at": "2026-09-20T17:44:00.000000Z",
+                     *             "updated_at": "2026-09-21T09:05:00.000000Z",
+                     *             "edited_at": null,
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *               "name": "Adaeze Okafor",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg"
+                     *             }
+                     *           },
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c56",
+                     *             "rating": 4,
+                     *             "title": "Lovely, delivery took a while",
+                     *             "description": "Dress is beautiful and well finished. Took four days to reach Abuja, so order early.",
+                     *             "media": [],
+                     *             "vendor_response": null,
+                     *             "vendor_response_at": null,
+                     *             "status": "approved",
+                     *             "is_verified_purchase": true,
+                     *             "created_at": "2026-09-22T10:20:00.000000Z",
+                     *             "updated_at": "2026-09-22T10:20:00.000000Z",
+                     *             "edited_at": null,
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c52",
+                     *               "name": "Funmi Adeyinka",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/funmi-adeyinka.jpg"
+                     *             }
+                     *           }
+                     *         ]
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreProductReviews"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: components["responses"]["ModelNotFoundException"];
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected rating is invalid.",
+                     *         "field": "rating",
+                     *         "errors": {
+                     *           "rating": [
+                     *             "The selected rating is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "productReview.summaryForClient": {
+    "products.retrieve_rating_summary": {
         parameters: {
             query?: never;
             header: {
@@ -4449,42 +13040,169 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example ankara-midi-dress */
                 slug: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Product review summary retrieved",
+                     *       "data": {
+                     *         "product": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "slug": "ankara-midi-dress",
+                     *           "title": "Ankara Midi Dress"
+                     *         },
+                     *         "summary": {
+                     *           "average_rating": 4.5,
+                     *           "total_reviews": 132,
+                     *           "rating_breakdown": {
+                     *             "1": 3,
+                     *             "2": 4,
+                     *             "3": 9,
+                     *             "4": 27,
+                     *             "5": 89
+                     *           }
+                     *         },
+                     *         "latest_reviews": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c55",
+                     *             "rating": 5,
+                     *             "title": "Perfect fit, rich fabric",
+                     *             "description": "The M fits exactly like the size guide says and the cotton is thick, not the market thin stuff. Wore it to a wedding.",
+                     *             "media": [],
+                     *             "vendor_response": "Thank you Adaeze — you wore it so well! Send us pictures next time.",
+                     *             "vendor_response_at": "2026-09-21T09:05:00.000000Z",
+                     *             "status": "approved",
+                     *             "is_verified_purchase": true,
+                     *             "created_at": "2026-09-20T17:44:00.000000Z",
+                     *             "updated_at": "2026-09-21T09:05:00.000000Z",
+                     *             "edited_at": null,
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *               "name": "Adaeze Okafor",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg"
+                     *             }
+                     *           }
+                     *         ]
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreProductReviewSummary"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: components["responses"]["ModelNotFoundException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "productQuestion.indexForClient": {
+    "products.list_questions": {
         parameters: {
             query?: {
+                /** @example 10 */
                 per_page?: number | null;
+                page?: string;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
             };
             header: {
                 /**
@@ -4496,45 +13214,177 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example ankara-midi-dress */
                 slug: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Product questions retrieved",
+                     *       "data": {
+                     *         "product": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "slug": "ankara-midi-dress",
+                     *           "title": "Ankara Midi Dress"
+                     *         },
+                     *         "questions": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c61",
+                     *             "question": "Does this run true to size? I am between M and L.",
+                     *             "answer": "It runs true to size — take M if you are between sizes. The L is cut for a relaxed owambe fit.",
+                     *             "status": "answered",
+                     *             "created_at": "2026-09-19T08:12:00.000000Z",
+                     *             "answered_at": "2026-09-19T13:30:00.000000Z",
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *               "name": "Adaeze Okafor",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg"
+                     *             }
+                     *           }
+                     *         ]
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreProductQuestions"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: components["responses"]["ModelNotFoundException"];
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The per page field must not be greater than 50.",
+                     *         "field": "per_page",
+                     *         "errors": {
+                     *           "per_page": [
+                     *             "The per page field must not be greater than 50."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorPromotion.indexForClient": {
+    "promotions.list": {
         parameters: {
             query?: {
                 keyword?: string | null;
                 sort?: "priority" | "ending_soon" | "newest" | null;
                 per_page?: number | null;
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                starting_after?: string;
+                /**
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @example 15
+                 */
+                limit?: number;
             };
             header: {
                 /**
@@ -4550,59 +13400,146 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Promotions retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *           "title": "Lagos Fashion Week 15% Off",
+                     *           "description": "15% off every dress through the season.",
+                     *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg",
+                     *           "type": "percentage",
+                     *           "value": 15,
+                     *           "priority": 0,
+                     *           "valid_from": "2026-09-01T00:00:00+01:00",
+                     *           "valid_until": "2027-12-31T23:59:00+01:00",
+                     *           "status": "active",
+                     *           "is_live": true
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStorePromotion"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected sort is invalid.",
+                     *         "field": "sort",
+                     *         "errors": {
+                     *           "sort": [
+                     *             "The selected sort is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "vendorPromotion.productsForClient": {
+    "promotions.list_products": {
         parameters: {
             query?: {
                 keyword?: string | null;
                 sort?: "newest" | "price_low" | "price_high" | "popular" | null;
                 in_stock?: boolean | null;
+                /** @example 15 */
                 per_page?: number | null;
                 page?: number | null;
+                /** @description This list is page-only (in-memory slice): any `starting_after` answers 422 `cursor_unsupported_for_sort`. Walk with `page` (cap 50, `page_too_deep`). */
+                starting_after?: string;
                 attributes?: (string | null)[][];
             };
             header: {
@@ -4615,102 +13552,404 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
+                /** @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31 */
                 promotion: string;
             };
             cookie?: never;
         };
         requestBody?: never;
         responses: {
-            /** @description A paginated list. Walk `meta.pagination.current_page` … `meta.pagination.last_page`; `links` carries the ready-made page URLs. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Promotion products retrieved",
+                     *       "data": [
+                     *         {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "p_id": 31501,
+                     *           "title": "Ankara Midi Dress",
+                     *           "slug": "ankara-midi-dress",
+                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 28500,
+                     *           "discount_price": 24225,
+                     *           "compare_at_price": 28500,
+                     *           "is_price_from": false,
+                     *           "price_range": {
+                     *             "min": 28500,
+                     *             "max": 28500
+                     *           },
+                     *           "has_variants": true,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           },
+                     *           "discounts": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             }
+                     *           ],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 600
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 1000
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1350
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77101,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "alt": "Ankara midi dress on a mannequin",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": 77103,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                 "alt": "Ankara midi dress, back view",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ]
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 18
+                     *           },
+                     *           "variant_summary": {
+                     *             "count": 3,
+                     *             "min_price": 28500,
+                     *             "max_price": 28500,
+                     *             "total_stock": 18,
+                     *             "tracks_inventory": true,
+                     *             "in_stock": true
+                     *           },
+                     *           "variants_count": 3,
+                     *           "rating": 4.5,
+                     *           "review_count": 132,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-06-18 09:40:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           }
+                     *         }
+                     *       ],
+                     *       "meta": {
+                     *         "promotion": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *           "title": "Lagos Fashion Week 15% Off",
+                     *           "description": "15% off every dress through the season.",
+                     *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg",
+                     *           "type": "percentage",
+                     *           "value": 15,
+                     *           "priority": 0,
+                     *           "valid_from": "2026-09-01T00:00:00+01:00",
+                     *           "valid_until": "2027-12-31T23:59:00+01:00",
+                     *           "status": "active",
+                     *           "is_live": true
+                     *         },
+                     *         "filters": {
+                     *           "attributes": [
+                     *             {
+                     *               "name": "Size",
+                     *               "slug": "size",
+                     *               "type": "size",
+                     *               "values": [
+                     *                 {
+                     *                   "value": "L",
+                     *                   "slug": "l",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "M",
+                     *                   "slug": "m",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 },
+                     *                 {
+                     *                   "value": "S",
+                     *                   "slug": "s",
+                     *                   "count": 1,
+                     *                   "selected": false,
+                     *                   "color_code": null
+                     *                 }
+                     *               ]
+                     *             }
+                     *           ]
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
-                        data: components["schemas"]["QueekStoreProduct"][];
-                        /** @description Ready-made page URLs (`first`, `last`, `prev`, `next`), already in the public `/v1` form. */
-                        links?: Record<string, never>;
-                        /** @description Laravel pagination for the list, plus request-specific extras (e.g. `listing_mode`, `filters`, `pagination.has_more`). */
-                        meta: {
-                            current_page?: number;
-                            from?: number | null;
-                            last_page?: number;
-                            path?: string;
-                            per_page?: number;
-                            to?: number | null;
-                            total?: number;
-                            /** @description Compact page cursor: `current_page`, `last_page`, `per_page`, `total`, `from`, `to`, `has_more`. */
-                            pagination?: {
-                                current_page?: number;
-                                last_page?: number;
-                                per_page?: number;
-                                total?: number;
-                                from?: number | null;
-                                to?: number | null;
-                                has_more?: boolean;
-                            };
-                        } & {
-                            [key: string]: unknown;
-                        };
                         /** @example success */
                         status: string;
                         message: string;
+                        data: components["schemas"]["QueekStoreProduct"][];
+                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
+                        meta?: {
+                            [key: string]: unknown;
+                        };
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Promotion not found";
-                        /** @constant */
-                        message: "Promotion not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    } | {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Promotion not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected sort is invalid.",
+                     *         "field": "sort",
+                     *         "errors": {
+                     *           "sort": [
+                     *             "The selected sort is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "productReview.blockForClient": {
+    "reviews.list": {
         parameters: {
             query?: {
+                /** @example vendor */
                 scope?: "vendor" | "product" | "ids" | null;
                 product_slug?: string | null;
                 "ids[]"?: string[];
+                /** @example 4 */
                 min_rating?: "1" | "2" | "3" | "4" | "5" | null;
                 verified_only?: boolean | null;
                 with_media?: boolean | null;
+                /** @example 6 */
                 limit?: number | null;
+                /** @example newest */
                 sort?: "newest" | "highest" | "featured" | null;
             };
             header: {
@@ -4727,52 +13966,180 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Storefront reviews block retrieved",
+                     *       "data": {
+                     *         "scope": "vendor",
+                     *         "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *         "summary": {
+                     *           "average_rating": 4.5,
+                     *           "total_reviews": 132,
+                     *           "rating_breakdown": {
+                     *             "1": 3,
+                     *             "2": 4,
+                     *             "3": 9,
+                     *             "4": 27,
+                     *             "5": 89
+                     *           }
+                     *         },
+                     *         "reviews": [
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c55",
+                     *             "rating": 5,
+                     *             "title": "Perfect fit, rich fabric",
+                     *             "description": "The M fits exactly like the size guide says and the cotton is thick, not the market thin stuff. Wore it to a wedding.",
+                     *             "media": [],
+                     *             "vendor_response": "Thank you Adaeze — you wore it so well! Send us pictures next time.",
+                     *             "vendor_response_at": "2026-09-21T09:05:00.000000Z",
+                     *             "is_verified_purchase": true,
+                     *             "created_at": "2026-09-20T17:44:00.000000Z",
+                     *             "edited_at": null,
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
+                     *               "name": "Adaeze Okafor",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/adaeze-okafor.jpg"
+                     *             },
+                     *             "product": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *               "slug": "ankara-midi-dress",
+                     *               "title": "Ankara Midi Dress",
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *             }
+                     *           },
+                     *           {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c56",
+                     *             "rating": 4,
+                     *             "title": "Lovely, delivery took a while",
+                     *             "description": "Dress is beautiful and well finished. Took four days to reach Abuja, so order early.",
+                     *             "media": [],
+                     *             "vendor_response": null,
+                     *             "vendor_response_at": null,
+                     *             "is_verified_purchase": true,
+                     *             "created_at": "2026-09-22T10:20:00.000000Z",
+                     *             "edited_at": null,
+                     *             "user": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c52",
+                     *               "name": "Funmi Adeyinka",
+                     *               "avatar": "https://media.usequeek.com/uploads/avatars/funmi-adeyinka.jpg"
+                     *             },
+                     *             "product": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *               "slug": "ankara-midi-dress",
+                     *               "title": "Ankara Midi Dress",
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *             }
+                     *           }
+                     *         ]
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreReviewsBlock"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
                     };
                 };
             };
-            404: {
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "failed";
-                        /** @constant */
-                        error: "Vendor not found";
-                        /** @constant */
-                        message: "Vendor not found";
-                        /** @constant */
-                        error_type: "error";
-                        data: null;
-                        title: null;
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected scope is invalid.",
+                     *         "field": "scope",
+                     *         "errors": {
+                     *           "scope": [
+                     *             "The selected scope is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
         };
     };
-    "storeSubscription.subscribe": {
+    "subscribe.create": {
         parameters: {
             query?: never;
             header: {
@@ -4789,16 +14156,29 @@ export interface operations {
         };
         requestBody: {
             content: {
+                /**
+                 * @example {
+                 *       "email": "adaeze.okafor@gmail.com",
+                 *       "name": "Adaeze Okafor",
+                 *       "phone": "+2348031234567"
+                 *     }
+                 */
                 "application/json": components["schemas"]["SubscribeToStoreRequest"];
             };
         };
         responses: {
-            /** @description Subscribed. Identical whether the address was new, already subscribed, or previously opted out — this endpoint never reveals whether someone shops here, so it answers `{status, message}` with no `data`. */
+            /** @description Subscribe. Identical whether the address was new, already subscribed, or previously opted out — this endpoint never reveals whether someone shops here, so it answers `{status, message}` with no `data`. */
             200: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "You're subscribed. Watch your inbox for updates."
+                     *     }
+                     */
                     "application/json": {
                         /** @example success */
                         status: string;
@@ -4806,26 +14186,104 @@ export interface operations {
                     };
                 };
             };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
             404: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
-                    "application/json": {
-                        /** @constant */
-                        status: "error";
-                        /** @constant */
-                        message: "Store not found";
-                    };
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Store not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
                 };
             };
-            422: components["responses"]["ValidationException"];
-            /** @description Error. Switch on `error.code` — one of the documented codes; `validation_failed` carries per-field detail in `error.errors`. */
-            default: {
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
                 headers: {
                     [name: string]: unknown;
                 };
                 content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The email field must be a valid email address.",
+                     *         "field": "email",
+                     *         "errors": {
+                     *           "email": [
+                     *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
