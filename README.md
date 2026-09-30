@@ -25,10 +25,10 @@ public client API:
 Five minutes from clone to a running store — see the
 [example README](examples/nextjs-headless/README.md).
 
-## Get a test store
+## Get a dev store
 
-1. Create a store in the Queek dashboard.
-2. Go to **Settings → API** and create a secret key (`sk_test_…`).
+1. Create a dev store in the Queek dashboard under **Developers → Dev stores**.
+2. Copy its secret key (`sk_test_…`).
 3. Copy `.env.example` to `.env` in the example and paste the key.
 
 Sandbox base URL: `https://client.usequeek.com/v1`. Auth is one header,

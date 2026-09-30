@@ -11,13 +11,13 @@ endpoints: every call exists in https://client.usequeek.com/openapi.json.
 cd examples/nextjs-headless
 yarn install
 cp .env.example .env
-# paste your secret key: Dashboard → Settings → API (sk_test_… for sandbox)
+# paste your secret key: Developers → Dev stores (sk_test_… from your dev store)
 yarn build
 yarn start   # open http://localhost:3000
 ```
 
 Want the sandbox immediately? Use the publishable test key from
-`.env.example` (test store only, safe to share) and run `yarn smoke`
+`.env.example` (dev store only, safe to share) and run `yarn smoke`
 to prove the wiring without opening a browser.
 
 ## What each route does
