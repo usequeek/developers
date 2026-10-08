@@ -16,9 +16,8 @@ yarn build
 yarn start   # open http://localhost:3000
 ```
 
-Want the sandbox immediately? Use the publishable test key from
-`.env.example` (dev store only, safe to share) and run `yarn smoke`
-to prove the wiring without opening a browser.
+With your dev store's key in `.env`, run `yarn smoke` to prove the wiring
+against the live sandbox without opening a browser.
 
 ## What each route does
 

@@ -11,8 +11,9 @@ jobs:
       run:
         working-directory: examples/nextjs-headless
     env:
-      # Publishable sandbox TEST key (dev store only, safe to share).
-      QUEEK_SECRET_KEY: sk_test_J3OUdEMOrVKsVr5aTmsd7WezHt9uQAEf
+      # Secret key of a Queek dev store, stored as the QUEEK_SECRET_KEY repository
+      # secret. The smoke step is skipped when the secret is not set.
+      QUEEK_SECRET_KEY: ${{ secrets.QUEEK_SECRET_KEY }}
       QUEEK_API_BASE: https://client.usequeek.com/v1
     steps:
       - uses: actions/checkout@v4
@@ -29,3 +30,14 @@ jobs:
       - run: yarn test
       - run: yarn build
       - run: yarn smoke
+        if: ${{ env.QUEEK_SECRET_KEY != '' }}
+
+  public-text:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-public-text.mjs
+      - run: node --test scripts/check-public-text.test.mjs
