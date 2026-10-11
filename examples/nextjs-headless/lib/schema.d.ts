@@ -396,6 +396,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/store/cart/items/{line}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a cart line
+         * @description Removes the current line at this zero-based position. Send its current `item_id`, `variant_id` and `properties`; stale line positions answer 422.
+         */
+        delete: operations["cart.remove_item"];
+        options?: never;
+        head?: never;
+        /**
+         * Update a cart line
+         * @description Changes a line quantity after rechecking its product, variant, publication and stock. Send the current line `item_id`, `variant_id` and `properties` from the cart read; stale line positions answer 409.
+         */
+        patch: operations["cart.update_item"];
+        trace?: never;
+    };
+    "/store/cart/discounts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Apply a discount code
+         * @description Applies one vendor or platform coupon to the cart. Discount validity and amount follow checkout rules; repeated submissions are idempotent.
+         */
+        post: operations["cart.apply_discount"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/cart/discounts/{code}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a discount code
+         * @description Removes the specified code from the cart without changing its lines.
+         */
+        delete: operations["cart.remove_discount"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/store/cart/validate": {
         parameters: {
             query?: never;
@@ -444,10 +508,11 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List categories
-         * @description The store’s product categories. Use a category’s `id` or `slug` with `categories/{category}/products`.
+         * Removed. Use GET /store/collections
+         * @deprecated
+         * @description Removed. This route always answers 410 Gone. Gone. Use GET /store/collections and GET /store/collections/{collection}/products instead.
          */
-        get: operations["categories.list"];
+        get: operations["vendorTaxonomy.indexForClient"];
         put?: never;
         post?: never;
         delete?: never;
@@ -464,10 +529,11 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * List category products
-         * @description Paginated products in one category. Same product shape and filters as `products`.
+         * Removed. Use GET /store/collections
+         * @deprecated
+         * @description Removed. This route always answers 410 Gone. Gone. Use GET /store/collections and GET /store/collections/{collection}/products instead.
          */
-        get: operations["categories.list_products"];
+        get: operations["vendorTaxonomy.productsForClient"];
         put?: never;
         post?: never;
         delete?: never;
@@ -505,7 +571,7 @@ export interface paths {
         };
         /**
          * List collection products
-         * @description Paginated products in one collection, in the merchant’s order.
+         * @description Paginated products in one collection. Includes a capped total and price, availability and top-tag facets; manual collections retain merchant position order. Sort: newest, title_asc, title_desc, created_asc, price_asc, price_desc, price_low, price_high, popular, manual.
          */
         get: operations["collections.list_products"];
         put?: never;
@@ -612,6 +678,46 @@ export interface paths {
          * @description Name, slug, logo, description, currency, opening hours (`is_open`, `message`), address.
          */
         get: operations["info.retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/locales": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List store locales
+         * @description Published store locales, default language first: `locale`, `is_primary` (content language), `is_default` (served at the root address), `path_prefix` (`""` on the default-language locale), `hreflang`, `html_lang`, `dir`. Pass `locale` on any localized read (`products`, `categories`, `collections`, `pages`, `posts`, `galleries`, `policies`) to render that locale; every localized answer also carries it back in `Content-Language`.
+         */
+        get: operations["locales.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/theme-strings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List store theme strings
+         * @description This store’s theme-string overrides for `?locale=`: `{locale, theme, strings}` with flat dotted keys (theme-slug prefix stripped). Only the ACTIVE theme’s keys, only non-empty values. Primary, missing, unknown or unpublished locales answer `strings: {}` — never an error, never another store’s strings.
+         */
+        get: operations["theme_strings.list"];
         put?: never;
         post?: never;
         delete?: never;
@@ -889,7 +995,7 @@ export interface paths {
         };
         /**
          * List products
-         * @description The store’s published catalogue, one page at a time: walk with `starting_after` = the previous `next_cursor` while `has_more` is true, or read `page=N` (≤ 100 per page). No totals or page counts are sent. Filter with `keyword`, `category_slug` (or `category_id`), `sort` (`latest|popular|price_low|price_high`), `has_video`, and `metafield[namespace.key]=value` (typed, exact match against the store’s own definitions). Every `price` is the final customer price.
+         * @description The store’s published catalogue, one page at a time: walk with `starting_after` = the previous `next_cursor` while `has_more` is true, or read `page=N` (≤ 100 per page). The first page also carries a bounded `meta.total_count` (exact at ≤ 1000, else 1000 with `meta.total_count_capped`); later pages carry no total. Filter with `keyword`, `category_slug` (or `category_id`), `sort` (`latest|popular|price_low|price_high|title_asc|title_desc|created_asc`), `has_video`, and `metafield[namespace.key]=value` (typed, exact match against the store’s own definitions). Every `price` is the final customer price.
          */
         get: operations["products.list"];
         put?: never;
@@ -1060,6 +1166,46 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/store/search": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Search this store
+         * @description Grouped matches over the store's own published catalogue — products, collections, pages and posts, newest-first. `type=all` (default) answers the first page of every section; `type=product` (or `collection`, `page`, `post`) with `starting_after`/`page` walks one section's keyset. Product hits carry the same card and final customer price as `products`. Case-insensitive; never another store's rows.
+         */
+        get: operations["search.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/search/autocomplete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Autocomplete this store
+         * @description Instant search-as-you-type suggestions over the store's own catalogue — products, then collections, then query suggestions (at most 10). Cached per store, invalidated on catalogue changes.
+         */
+        get: operations["search.autocomplete"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/store/subscribe": {
         parameters: {
             query?: never;
@@ -1075,6 +1221,90 @@ export interface paths {
          */
         post: operations["subscribe.create"];
         delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/taxonomy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List taxonomy nodes
+         * @description Versioned global taxonomy. Filter direct children with `parent` or eligible candidate leaves with a service slug in `scope`. Unknown or inactive parents return 404. Revalidate with the ETag; a conditional request returns 304 when unchanged.
+         */
+        get: operations["taxonomy.list"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/taxonomy/{node}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Retrieve a taxonomy node
+         * @description Retrieve an active taxonomy node by string id or slug, with its active ancestors and children. Accepted, inactive and unknown nodes answer 404.
+         */
+        get: operations["taxonomy.retrieve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/wishlist-items": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List wishlist items
+         * @description Lists the signed-in customer’s saved products at this store with cursor pagination (`limit` up to 100 + `starting_after`). The store’s merchant, and apps holding `merchant-customers-detail`, can read these saved items.
+         */
+        get: operations["wishlists.list"];
+        put?: never;
+        /**
+         * Save a wishlist item
+         * @description Saves a published product or matching active variant for the signed-in customer. The store’s merchant, and apps holding `merchant-customers-detail`, can read saved items.
+         */
+        post: operations["wishlists.save"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/store/wishlist-items/{ref}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Remove a wishlist item
+         * @description Removes this customer’s saved product-only row or the specified variant row. The store’s merchant, and apps holding `merchant-customers-detail`, can read saved items.
+         */
+        delete: operations["wishlists.remove"];
         options?: never;
         head?: never;
         patch?: never;
@@ -1302,6 +1532,50 @@ export interface webhooks {
         patch?: never;
         trace?: never;
     };
+    "customers_email_marketing_consent/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * customers_email_marketing_consent/update
+         * @description A customer email marketing preference changed.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.customers_email_marketing_consent.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "customers_marketing_consent/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * customers_marketing_consent/update
+         * @description A customer's SMS marketing consent changed.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.customers_marketing_consent.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "inventory_levels/update": {
         parameters: {
             query?: never;
@@ -1324,10 +1598,120 @@ export interface webhooks {
         patch?: never;
         trace?: never;
     };
+    "locales/create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * locales/create
+         * @description A locale was added to the store.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.locales.create"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "locales/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * locales/update
+         * @description A locale was published or unpublished on the store.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.locales.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "locales/destroy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * locales/destroy
+         * @description A locale was removed from the store, with its translations.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.locales.destroy"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "translations/update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * translations/update
+         * @description Translations were registered on one resource, for the locales and keys in the payload.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.translations.update"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "translations/delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * translations/delete
+         * @description Translations were removed from one resource, for the locales and keys in the payload.
+         *
+         *     Delivered to every active endpoint of the store subscribed to this topic. Verify the signature, dedupe on the event `id`, acknowledge with a 2xx inside 5s, and do the work asynchronously.
+         */
+        post: operations["webhook.translations.delete"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export interface components {
     schemas: {
-        /** AddCartItemRequest */
+        /** Add cart item input */
         AddCartItemRequest: {
             /** Format: uuid */
             product_id: string;
@@ -1336,61 +1720,87 @@ export interface components {
             quantity?: number | null;
             properties?: (string | null)[] | null;
         };
-        /** App.Http.Resources.Api.OrderResource */
-        "App.Http.Resources.Api.OrderResource": {
+        /** AddonGroupResource */
+        AddonGroupResource: {
             id: number;
             uid: string;
-            order_number: string;
-            status: string;
-            payment_status: string;
-            payment_method: string;
-            /** @enum {string} */
-            fulfillment_status: "fulfilled" | "unfulfilled";
-            cancelled: boolean;
-            cancel_reason: string | null;
-            /**
-             * @description `channel` is the inbox (messaging) channel, typed against
-             *     MessagingChannel — never the sales channel. An importing app
-             *     recognises its own orders one key further down.
-             */
-            channel: string;
-            platform: string | null;
-            /**
-             * @description Import recognition: the sales channel that imported the order
-             *     (chowdeck, glovo — null for every other order) and the outside
-             *     platform's own reference (null unless imported). Together with
-             *     `platform` (third_party) an app matches orders events to its
-             *     own records with no link table. Additive: both keys are null
-             *     for every order that is not an import.
-             */
-            custom_channel: string | null;
-            external_ref: string;
-            delivery_method: string;
-            /**
-             * @description Vendor chain with the same unloaded-relation safety net as the
-             *     sibling order shapes: loaded relation first, then the
-             *     cache-backed lookup — never the silent platform default.
-             */
-            currency: string;
-            subtotal: string;
-            discount_total: string;
-            shipping_total: string;
-            tax_total: string;
-            total: string;
-            customer: {
+            title: string;
+            type: string;
+            required: boolean;
+            min: number;
+            max: number;
+            multiple_selection: boolean;
+            is_pack_group: string;
+            is_global: boolean;
+            items: components["schemas"]["AddonItemResource"][];
+            items_count: string;
+            items_truncated: boolean;
+        };
+        /** AddonItemResource */
+        AddonItemResource: {
+            id: number;
+            uid: string;
+            name: string;
+            price: string;
+            in_stock: boolean;
+            is_pack: boolean;
+            is_global: boolean;
+        };
+        /** Collection */
+        "App.Http.Resources.Api.CollectionResource": {
+            id: number;
+            uid: string;
+            name: string;
+            slug: string;
+            description: string;
+            image: string;
+            logo: string;
+            featured: boolean;
+            position: number | null;
+            collection_mode: string | null;
+            parent_uid: string | null;
+            products_count: number | null;
+            children: unknown[];
+            created_at: string | null;
+            updated_at: string | null;
+        };
+        /** Order */
+        "App.Http.Resources.Api.OrderResource": {
+            id: number | unknown;
+            uid: string | unknown;
+            order_number: string | unknown;
+            status: string | unknown;
+            payment_status: string | unknown;
+            payment_method: string | unknown;
+            fulfillment_status: ("fulfilled" | "unfulfilled") | unknown;
+            cancelled: boolean | unknown;
+            cancel_reason: (string | null) | unknown;
+            channel: string | unknown;
+            platform: (string | null) | unknown;
+            custom_channel: string | unknown;
+            external_ref: string | unknown;
+            publication: (string | null) | unknown;
+            delivery_method: string | unknown;
+            currency: string | unknown;
+            subtotal: string | unknown;
+            discount_total: string | unknown;
+            shipping_total: string | unknown;
+            tax_total: string | unknown;
+            total: string | unknown;
+            customer: ({
                 id: number;
                 name: string | null;
                 email: string | null;
                 phone: string | null;
-            } | null;
-            shipping_address: {
+            } | null) | unknown;
+            shipping_address: ({
                 address: string | null;
                 latitude: number | null;
                 longitude: number | null;
                 name: string | null;
                 phone: string | null;
-            } | null;
-            shipment: {
+            } | null) | unknown;
+            shipment: ({
                 carrier_name: string | null;
                 tracking_number: string | null;
                 tracking_url: string | null;
@@ -1398,7 +1808,7 @@ export interface components {
                 shipped_at: string | null;
                 estimated_delivery_at: string | null;
                 delivered_at: string | null;
-            } | null;
+            } | null) | unknown;
             line_items: {
                 id: string;
                 product_id: number | null;
@@ -1415,22 +1825,43 @@ export interface components {
                  *     app that issued them, never another app or key.
                  */
                 properties: string;
+            }[] | unknown;
+            note: string | unknown;
+            metafields: string | unknown;
+            metadata: string | unknown;
+            created_at: (string | null) | unknown;
+            updated_at: (string | null) | unknown;
+            fulfilled_at: (string | null) | unknown;
+            /** @description Present only when the caller has merchant-orders-read; webhook deliveries include these fields only for an active app installation granted that scope. */
+            transactions?: {
+                /** @description Transaction p_id. */
+                id: number;
+                /** @enum {string} */
+                type: "payment";
+                status: string;
+                payment_method: string | null;
+                payment_provider: string | null;
+                amount: string;
+                currency: string;
+                /** Format: date-time */
+                created_at: string | null;
             }[];
-            note: string;
-            /**
-             * @description The receiver's own fields coming back to them: typed metafields the
-             *     merchant defined, and the opaque metadata an integrator wrote. This
-             *     is the whole point of order extensions — a webhook that omits the
-             *     ERP id forces the receiver to make a second call to match the order
-             *     to their own record.
-             */
-            metafields: string;
-            metadata: string;
-            created_at: string | null;
-            updated_at: string | null;
-            fulfilled_at: string | null;
+            /** @description Present only when the caller has merchant-orders-read; webhook deliveries include these fields only for an active app installation granted that scope. Only recorded Queek wallet refunds are included. */
+            refunds?: {
+                /** @description Refund transaction p_id. */
+                id: number;
+                /** @description Original payment transaction p_id. */
+                transaction_id: number;
+                status: string;
+                amount: string;
+                currency: string;
+                /** Format: date-time */
+                created_at: string | null;
+            }[];
+        } & {
+            [key: string]: unknown;
         };
-        /** App.Http.Resources.Customer.OrderItemResource */
+        /** OrderItem */
         "App.Http.Resources.Customer.OrderItemResource": {
             id: string;
             quantity: string;
@@ -1464,15 +1895,15 @@ export interface components {
              */
             properties: string;
         };
-        /** App.Http.Resources.Customer.ProductResource */
+        /** Product */
         "App.Http.Resources.Customer.ProductResource": unknown[] | {
             shop_id: string;
             id: string;
             p_id: string;
-            title: string;
+            title: string | null;
             slug: string;
             excerpt: string | null;
-            description: string;
+            description: string | null;
             image: string | null;
             thumbnail_image: string | null;
             video_url: string | null;
@@ -1481,7 +1912,7 @@ export interface components {
             commerce_mode: string;
             currency: string;
             price: number;
-            discount_price: number;
+            discount_price: string;
             compare_at_price: number | null;
             is_price_from: boolean;
             price_range: {
@@ -1500,7 +1931,7 @@ export interface components {
                 final_price: number | null;
                 image_url: string | null;
             } | null;
-            discounts: unknown[];
+            discounts: string;
             media: {
                 thumbnail: string | null;
                 image: string | null;
@@ -1511,9 +1942,10 @@ export interface components {
                 original: string | null;
                 primary_variant_image: string | null;
                 /**
-                 * @description Additive — see decision_tree.json image-variants-contract-pr1/2.
-                 *     null when the primary image isn't Media-backed (raw URL only) or
-                 *     'variants' wasn't eager-loaded; existing keys above are unaffected.
+                 * @description Sized variants of the primary image (thumbnail, card, hero),
+                 *     keyed by size. Null when the image is a plain URL instead of an
+                 *     uploaded image, or when no sized variants exist for it; the
+                 *     other image keys are always present.
                  */
                 image_variants: {
                     [key: string]: unknown;
@@ -1558,6 +1990,22 @@ export interface components {
             shop: unknown[];
             barcode: string;
         };
+        /** AppMediaResource */
+        AppMediaResource: {
+            id: number;
+            url: string;
+            thumbnail_url: string;
+            variants: string;
+            mime_type: string;
+            size: number;
+            width: number | null;
+            height: number | null;
+            created_at: string;
+        };
+        /** Apply storefront cart discount input */
+        ApplyStorefrontCartDiscountRequest: {
+            code: string;
+        };
         /** BlogCategoryResource */
         BlogCategoryResource: {
             id: string;
@@ -1582,19 +2030,10 @@ export interface components {
             created_at: string;
             updated_at: string;
         } | {
-            /**
-             * @description The handoff for a vendor-built frontend: send the buyer here and the
-             *     hosted storefront adopts this exact cart (?cart= wins on any URL) and
-             *     runs checkout, payment and delivery on Queek. Guest carts only —
-             *     that is the token the storefront can adopt.
-             */
-            0: Record<string, never>;
             id: string;
             vendor_id: string;
             vendor: components["schemas"]["VendorItemResource"];
-            cart_items: {
-                [key: string]: unknown;
-            };
+            cart_items: unknown[];
             total_price: number | null;
             source: string;
             promo_codes: string | string[];
@@ -1603,6 +2042,21 @@ export interface components {
             last_validated_at: string | null;
             created_at: string | null;
             updated_at: string | null;
+            /**
+             * Format: uri
+             * @description Where to send the shopper: Queek's hosted checkout adopts this exact cart and completes address, delivery, payment and order confirmation. Present on a shopper's cart (the `X-Cart-Session` flow) for an API-key caller; absent otherwise.
+             */
+            checkout_url?: string;
+            discounts: {
+                [key: string]: {
+                    amount_applied: number | null;
+                } & {
+                    [key: string]: unknown;
+                };
+            };
+            subtotal: number | null;
+            discount_total: number | null;
+            total_after_discounts: number | null;
         };
         /** ClientAuthUserResource */
         ClientAuthUserResource: {
@@ -1628,12 +2082,24 @@ export interface components {
             rider_approved: boolean;
             profile_complete: string;
         };
+        /** CollectedRecordResource */
+        CollectedRecordResource: {
+            p_id: number;
+            definition_p_id?: number;
+            type?: string | null;
+            status: string | "new";
+            source: string | null;
+            submitted_at: string;
+            values: string;
+            created_at: string;
+            updated_at: string;
+        };
         /** CollectionResource */
         CollectionResource: {
             id: string;
             name: string;
             slug: string;
-            description: string;
+            description: string | null;
             image: string;
             /**
              * @description Pre-sized copies of the image, resolved from its URL (categories
@@ -1643,8 +2109,42 @@ export interface components {
             featured: boolean;
             parent_id: string | null;
             mode: string | null;
+            /** @enum {string} */
+            type: "smart" | "manual";
+            ranking: {
+                sort: string;
+                limit: unknown;
+            } | null;
+            sort: string;
+            rules_count: number;
             products_count: number;
-            children: unknown[];
+            children: string[];
+        };
+        /** CouponResource */
+        CouponResource: {
+            id: string;
+            code: string;
+            title: string;
+            description: string;
+            discount_type: string;
+            discount_value: string;
+            applies_to: string;
+            target_product_ids: unknown[];
+            target_category_ids: unknown[];
+            minimum_order_amount: string;
+            capped_amount: string | null;
+            capped_amount_per_user: string | null;
+            usage_limit: number | null;
+            usage_limit_per_user: number | null;
+            used_count: number;
+            is_active: boolean;
+            is_valid: boolean;
+            is_expired: boolean;
+            image_url: string;
+            starts_at: string | null;
+            expires_at: string | null;
+            created_at: string | null;
+            updated_at: string | null;
         };
         /** CustomerAddressResource */
         CustomerAddressResource: {
@@ -1672,8 +2172,53 @@ export interface components {
             created_at: string | null;
             updated_at: string | null;
         };
+        /** Customer wishlist item input */
+        CustomerWishlistItemRequest: {
+            product: string;
+            variant?: string | null;
+        };
+        /** CustomerWishlistItemResource */
+        CustomerWishlistItemResource: {
+            created_at: string | null;
+            product: unknown[];
+            variant: {
+                id: string;
+                p_id: number;
+                title: string;
+                option_values: string;
+            } | null;
+        };
+        /** DiscountResource */
+        DiscountResource: {
+            id: string;
+            reference: string;
+            title: string;
+            description: string;
+            type: string;
+            value: string;
+            product_ids: unknown[];
+            category_ids: unknown[];
+            minimum_order_amount: string;
+            minimum_quantity: number;
+            capped_amount: string | null;
+            capped_amount_per_user: string | null;
+            max_usage_total: number | null;
+            max_usage_per_user: number | null;
+            usage_count: number;
+            auto_apply: boolean;
+            /** @enum {string} */
+            status: "active" | "inactive";
+            is_active: boolean;
+            is_published: boolean;
+            image_url: string;
+            valid_from: string | null;
+            valid_until: string | null;
+            published_at: string | null;
+            created_at: string | null;
+            updated_at: string | null;
+        };
         /**
-         * EmailForgotPasswordRequest
+         * Email forgot password input
          * @description The body of the forgot-password call: the account email that receives
          *     the reset code. Declared here (rather than inline on the route) so the
          *     public reference shows the body.
@@ -1682,21 +2227,21 @@ export interface components {
             /** Format: email */
             email: string;
         };
-        /** EmailLoginRequest */
+        /** Email login input */
         EmailLoginRequest: {
             /** Format: email */
             email: string;
             password: string;
             platform?: string | null;
         };
-        /** EmailRegisterOtpRequest */
+        /** Email register otp input */
         EmailRegisterOtpRequest: {
             first_name: string;
             last_name?: string | null;
             verified_token: string;
             platform?: string | null;
         };
-        /** EmailRegisterRequest */
+        /** Email register input */
         EmailRegisterRequest: {
             first_name: string;
             last_name?: string | null;
@@ -1706,17 +2251,29 @@ export interface components {
             phone?: string | null;
             platform?: string | null;
         };
-        /** EmailRequestOtpRequest */
+        /** Email request otp input */
         EmailRequestOtpRequest: {
             /** Format: email */
             email: string;
         };
-        /** EmailVerifyOtpRequest */
+        /** Email verify otp input */
         EmailVerifyOtpRequest: {
             /** Format: email */
             email: string;
             otp_code: string;
             platform?: string | null;
+        };
+        /** FollowerResource */
+        FollowerResource: {
+            id: string;
+            customer_id: number | null;
+            name: string | null;
+            email: string | null;
+            phone: string | null;
+            avatar: string | null;
+            shared_contact: boolean;
+            is_customer: boolean;
+            followed_at: string | null;
         };
         /** InventoryLevelResource */
         InventoryLevelResource: {
@@ -1731,10 +2288,89 @@ export interface components {
             previous_quantity: number;
             reason: string;
         };
-        /** LogoutRequest */
+        /** Logout input */
         LogoutRequest: {
             refresh_token?: string | null;
         };
+        /** MerchantAddonGroup */
+        MerchantAddonGroup: components["schemas"]["AddonGroupResource"];
+        /** MerchantCollectedRecord */
+        MerchantCollectedRecord: components["schemas"]["CollectedRecordResource"];
+        /** MerchantCollection */
+        MerchantCollection: components["schemas"]["App.Http.Resources.Api.CollectionResource"];
+        /** MerchantCoupon */
+        MerchantCoupon: components["schemas"]["CouponResource"];
+        /** MerchantCustomer */
+        MerchantCustomer: components["schemas"]["CustomerResource"];
+        /** MerchantDiscount */
+        MerchantDiscount: components["schemas"]["DiscountResource"];
+        /** MerchantFollower */
+        MerchantFollower: components["schemas"]["FollowerResource"];
+        /** MerchantImportedProductReviewResource */
+        MerchantImportedProductReviewResource: {
+            source_review_id: string;
+            source: string | null;
+            author_display_name: string;
+            product_p_id: string | null;
+            rating: number;
+            title: string;
+            description: string;
+            media: string | string[];
+            status: string;
+            is_verified_purchase: boolean;
+            submitted_at: string;
+            created_at: string;
+            edited_at: string;
+        };
+        /** MerchantImportedReview */
+        MerchantImportedReview: components["schemas"]["MerchantImportedProductReviewResource"];
+        /** MerchantInventoryAdjustment */
+        MerchantInventoryAdjustment: components["schemas"]["MerchantInventoryAdjustmentResource"];
+        /** MerchantInventoryAdjustmentResource */
+        MerchantInventoryAdjustmentResource: {
+            result: string;
+            level: {
+                product_p_id: number;
+                variant_p_id: number | null;
+                mode: string;
+                before: string;
+                change: string;
+                after: string;
+                reason_code: string;
+            };
+            adjustment: unknown[] | null;
+        };
+        /** MerchantInventoryLevels */
+        MerchantInventoryLevels: components["schemas"]["MerchantInventoryLevelsResource"];
+        /** MerchantInventoryLevelsResource */
+        MerchantInventoryLevelsResource: {
+            p_id: number;
+            slug: string;
+            barcode: string;
+            stock: number;
+            effective_tracking: string;
+            variants: string;
+        };
+        /** MerchantMedia */
+        MerchantMedia: components["schemas"]["AppMediaResource"];
+        /** MerchantOrder */
+        MerchantOrder: components["schemas"]["App.Http.Resources.Api.OrderResource"];
+        /** MerchantPost */
+        MerchantPost: components["schemas"]["PostResource"];
+        /** MerchantProduct */
+        MerchantProduct: components["schemas"]["ProductResource"];
+        /** MerchantProductImage */
+        MerchantProductImage: components["schemas"]["ProductImageResource"];
+        /** MerchantPublication */
+        MerchantPublication: components["schemas"]["PublicationResource"];
+        /** MerchantShippingZone */
+        MerchantShippingZone: components["schemas"]["ShippingZoneResource"];
+        /** MerchantStockAdjustment */
+        MerchantStockAdjustment: components["schemas"]["StockAdjustmentResource"];
+        /** MerchantTeamMember */
+        MerchantTeamMember: components["schemas"]["TeamDirectoryResource"];
+        /** MerchantWishlistItem */
+        MerchantWishlistItem: components["schemas"]["CustomerWishlistItemResource"];
         /** MetafieldDefinitionResource */
         MetafieldDefinitionResource: {
             p_id: number;
@@ -2004,6 +2640,29 @@ export interface components {
             created_at: string;
             updated_at: string;
         };
+        /** PostResource */
+        PostResource: {
+            id: string;
+            parent_id: string | null;
+            blog_category_ids: string | string[];
+            type: string;
+            template: string;
+            slug: string;
+            title: string;
+            content: string;
+            excerpt: string;
+            cover_image_url: string;
+            status: string;
+            tags: string | string[];
+            seo: string | string[];
+            position: number;
+            is_home: boolean;
+            chrome: string;
+            show_page_title: boolean;
+            published_at: string | null;
+            created_at: string | null;
+            updated_at: string | null;
+        };
         /** ProductImageResource */
         ProductImageResource: {
             id: number | null;
@@ -2037,32 +2696,33 @@ export interface components {
         };
         /** ProductResource */
         ProductResource: {
-            id: number;
-            uid: string;
-            title: string;
-            slug: string;
-            excerpt: string | null;
-            description: string;
-            /** @enum {string} */
-            status: "active" | "out_of_stock" | "draft" | "archived";
-            published: boolean;
-            in_stock: boolean;
-            price: string;
-            storefront_price: string;
-            storefront_compare_at_price: string | null;
-            url: string | null;
-            currency: string;
-            sku: string;
-            barcode: string;
-            stock: number | null;
-            track_inventory: boolean;
-            is_digital: boolean;
-            has_variants: boolean;
-            image: string;
-            thumbnail_image: string;
-            primary_image_url: string | null;
-            variants: components["schemas"]["ProductVariantResource"][];
-            images: components["schemas"]["ProductImageResource"][];
+            id: number | unknown;
+            uid: string | unknown;
+            title: string | unknown;
+            slug: string | unknown;
+            excerpt: (string | null) | unknown;
+            description: string | unknown;
+            status: ("active" | "out_of_stock" | "draft" | "archived") | unknown;
+            published: boolean | unknown;
+            in_stock: boolean | unknown;
+            price: string | unknown;
+            storefront_price: string | unknown;
+            storefront_compare_at_price: (string | null) | unknown;
+            url: (string | null) | unknown;
+            currency: string | unknown;
+            sku: string | unknown;
+            barcode: string | unknown;
+            stock: (number | null) | unknown;
+            track_inventory: boolean | unknown;
+            is_digital: boolean | unknown;
+            has_variants: boolean | unknown;
+            image: string | unknown;
+            thumbnail_image: string | unknown;
+            primary_image_url: (string | null) | unknown;
+            variants: components["schemas"]["ProductVariantResource"][] | unknown;
+            options: unknown[] | unknown;
+            addons: components["schemas"]["AddonGroupResource"][] | unknown;
+            images: components["schemas"]["ProductImageResource"][] | unknown;
             /**
              * @description The receiver's own fields coming back to them: typed metafields
              *     the merchant defined, and the opaque metadata an integrator
@@ -2073,6 +2733,8 @@ export interface components {
             created_at: string | null;
             updated_at: string | null;
             deleted_at: string | null;
+        } & {
+            [key: string]: unknown;
         };
         /** ProductReviewResource */
         ProductReviewResource: {
@@ -2088,11 +2750,10 @@ export interface components {
             created_at: string;
             updated_at: string;
             edited_at: string;
-            user?: {
-                id: string;
-                name: string;
-                avatar: string;
-            };
+            submitted_at: string;
+            source: string | null;
+            author_display_name: string;
+            user?: string;
             product?: {
                 id: string;
                 slug: string;
@@ -2105,6 +2766,7 @@ export interface components {
             id: number;
             uid: string;
             sku: string;
+            barcode: string;
             title: string;
             option_values: string;
             price: string;
@@ -2142,14 +2804,24 @@ export interface components {
             status: "expired";
             is_live: boolean;
         };
-        /** @description The one error shape the Storefront API answers with: `error{code,message,field?,errors?,doc_url,request_id}`. Switch on `error.code`, never on the message. */
+        /** PublicationResource */
+        PublicationResource: {
+            id: number;
+            key: string;
+            name: string;
+            kind: string;
+            status: string;
+            created_at: string | null;
+        };
+        /** @description The error envelope every Storefront API error body answers. Switch on `error.code`, never on the message. The additive legacy-compatibility top-level keys some surfaces emit beside it are documented separately under `QueekLegacyErrorKeys`, which no operation references. */
         QueekError: {
+            /** @description The canonical error. Switch on `error.code`, never on the message. */
             error: {
                 /**
                  * @description Stable identifier a client switches on. A new failure mode gets a new code; an existing code never changes meaning.
                  * @enum {string}
                  */
-                code: "ai_unavailable_in_test_mode" | "api_key_expired" | "api_key_mode_mismatch" | "api_key_revoked" | "app_embed_not_ready" | "app_grant_insufficient" | "app_handoff_failed" | "app_installation_gone" | "app_installation_pending" | "app_ip_not_allowed" | "app_proxy_failed" | "app_proxy_gone" | "app_token_revoked" | "bad_request" | "client_key_required" | "conflict" | "custom_gateway_forbidden" | "custom_gateway_kyc_required" | "custom_gateway_not_configured" | "custom_gateway_not_verified" | "custom_gateway_plan_required" | "custom_gateway_store_ineligible" | "custom_gateway_verification_failed" | "forbidden" | "gone" | "idempotency_key_in_progress" | "idempotency_key_reuse" | "insufficient_scope" | "invalid_client" | "invalid_client_key" | "metafield_definition_missing" | "metafield_filter_unsupported_type" | "metafield_namespace_reserved" | "metafield_value_invalid" | "metaobject_definition_missing" | "metaobject_field_invalid" | "metaobject_reference_invalid" | "metaobject_type_reserved" | "method_not_allowed" | "not_found" | "origin_not_allowed" | "origin_required" | "payload_too_large" | "payment_amount_mismatch" | "plan_inactive" | "private_key_required" | "requires_slot" | "resync_cooldown" | "route_not_available" | "server_error" | "service_unavailable" | "subscription_feature_locked" | "too_many_requests" | "unauthenticated" | "unknown_product_ref" | "unknown_service" | "unknown_variant_ref" | "unsupported_media_type" | "validation_failed" | "vendor_access_denied" | "vendor_mail_sender_forbidden" | "vendor_mail_sender_not_configured" | "vendor_mail_sender_plan_required" | "vendor_mail_sender_verification_failed";
+                code: "ai_unavailable_in_test_mode" | "api_key_expired" | "api_key_mode_mismatch" | "api_key_revoked" | "app_embed_not_ready" | "app_grant_insufficient" | "app_handoff_failed" | "app_installation_gone" | "app_installation_pending" | "app_ip_not_allowed" | "app_proxy_failed" | "app_proxy_gone" | "app_token_revoked" | "bad_request" | "channel_gateway_unreachable" | "client_key_required" | "conflict" | "custom_domain_provisioning_failed" | "custom_gateway_forbidden" | "custom_gateway_kyc_required" | "custom_gateway_not_configured" | "custom_gateway_not_verified" | "custom_gateway_plan_required" | "custom_gateway_store_ineligible" | "custom_gateway_verification_failed" | "forbidden" | "gone" | "idempotency_key_in_progress" | "idempotency_key_reuse" | "insufficient_scope" | "invalid_client" | "invalid_client_key" | "metafield_definition_missing" | "metafield_filter_unsupported_type" | "metafield_namespace_reserved" | "metafield_value_invalid" | "metaobject_definition_missing" | "metaobject_field_invalid" | "metaobject_reference_invalid" | "metaobject_type_reserved" | "method_not_allowed" | "not_found" | "origin_not_allowed" | "origin_required" | "payload_too_large" | "payment_amount_mismatch" | "plan_inactive" | "private_key_required" | "requires_slot" | "resync_cooldown" | "route_not_available" | "server_error" | "service_unavailable" | "subscription_feature_locked" | "too_many_requests" | "translation_digest_stale" | "translation_locale_is_default" | "translation_locale_is_primary" | "translation_locale_not_published" | "translation_max_published_locales" | "translation_unknown_key" | "translation_unknown_locale" | "unauthenticated" | "unknown_product_ref" | "unknown_service" | "unknown_variant_ref" | "unsupported_media_type" | "validation_failed" | "vendor_access_denied" | "vendor_mail_sender_forbidden" | "vendor_mail_sender_key_unavailable" | "vendor_mail_sender_not_configured" | "vendor_mail_sender_plan_required" | "vendor_mail_sender_verification_failed";
                 /** @description Human-readable explanation. Not stable — never switch on it. */
                 message: string;
                 /** @description First offending field, on validation failures only. */
@@ -2160,8 +2832,8 @@ export interface components {
                 };
                 /** @description Deep link to this code in the error reference: https://docs.usequeek.com/docs/versioning-and-errors#<code>. */
                 doc_url: string;
-                /** @description The X-Request-Id of this request. Quote it in support. */
-                request_id?: string | null;
+                /** @description The X-Request-Id of this request. Always a string. Quote it in support. */
+                request_id?: string;
             };
         };
         /** QueekMerchantStore */
@@ -2183,12 +2855,12 @@ export interface components {
         QueekStoreBlogCategory: components["schemas"]["BlogCategoryResource"];
         /** QueekStoreCart */
         QueekStoreCart: components["schemas"]["CartResource"];
-        /** QueekStoreCategory */
-        QueekStoreCategory: components["schemas"]["TaxonomyCategoryResource"];
         /** QueekStoreCollection */
         QueekStoreCollection: components["schemas"]["CollectionResource"];
         /** QueekStoreCustomer */
         QueekStoreCustomer: components["schemas"]["ClientAuthUserResource"];
+        /** QueekStoreLocale */
+        QueekStoreLocale: components["schemas"]["StoreLocaleResource"];
         /** QueekStoreMetafieldDefinition */
         QueekStoreMetafieldDefinition: components["schemas"]["MetafieldDefinitionResource"];
         /** @description One storefront-visible metaobject entry (timestamps omitted on the storefront). `fields` carries the values keyed by field key, media ids resolved to URLs — each value's shape follows the type definition (`GET store/metaobject-definitions`). */
@@ -2222,6 +2894,31 @@ export interface components {
         /** QueekStoreVendor */
         QueekStoreVendor: components["schemas"]["VendorResource"];
         /**
+         * QueekWebhookCustomerEmailMarketingConsentEvent
+         * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
+         */
+        QueekWebhookCustomerEmailMarketingConsentEvent: {
+            /** @description Event id, identical to the `webhook-id` header. Dedupe on it — a retry reuses it. */
+            id: string;
+            topic: components["schemas"]["QueekWebhookTopic"];
+            /** @description Payload contract version. Additive within a major. */
+            api_version: string;
+            /** @description ISO-8601 timestamp of the event. */
+            created_at: string;
+            data: components["schemas"]["QueekWebhookCustomerEmailMarketingConsentPayload"];
+        };
+        /** QueekWebhookCustomerEmailMarketingConsentPayload */
+        QueekWebhookCustomerEmailMarketingConsentPayload: {
+            id: number;
+            email_marketing_consent: {
+                /** @enum {string} */
+                state: "not_opted_out" | "unsubscribed";
+                /** @enum {string|null} */
+                opt_in_level: "SINGLE_OPT_IN" | "CONFIRMED_OPT_IN" | null;
+                consent_updated_at: string | null;
+            };
+        };
+        /**
          * QueekWebhookCustomerEvent
          * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
          */
@@ -2237,6 +2934,31 @@ export interface components {
         };
         /** QueekWebhookCustomerPayload */
         QueekWebhookCustomerPayload: components["schemas"]["CustomerResource"];
+        /**
+         * QueekWebhookCustomerSmsMarketingConsentEvent
+         * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
+         */
+        QueekWebhookCustomerSmsMarketingConsentEvent: {
+            /** @description Event id, identical to the `webhook-id` header. Dedupe on it — a retry reuses it. */
+            id: string;
+            topic: components["schemas"]["QueekWebhookTopic"];
+            /** @description Payload contract version. Additive within a major. */
+            api_version: string;
+            /** @description ISO-8601 timestamp of the event. */
+            created_at: string;
+            data: components["schemas"]["QueekWebhookCustomerSmsMarketingConsentPayload"];
+        };
+        /** QueekWebhookCustomerSmsMarketingConsentPayload */
+        QueekWebhookCustomerSmsMarketingConsentPayload: {
+            id: number;
+            sms_marketing_consent: {
+                /** @enum {string} */
+                state: "subscribed" | "unsubscribed" | "not_subscribed";
+                /** @enum {string|null} */
+                opt_in_level: "SINGLE_OPT_IN" | "CONFIRMED_OPT_IN" | null;
+                consent_updated_at: string | null;
+            };
+        };
         /**
          * QueekWebhookEvent
          * @description The signed body of a webhook delivery. Signed as `{webhook-id}.{webhook-timestamp}.{raw body}` with HMAC-SHA256 over the base64-decoded secret, value `v1,<base64>`; verify before trusting it.
@@ -2295,16 +3017,23 @@ export interface components {
          *     `products/delete` — A product was deleted, soft-delete included.
          *     `customers/create` — A customer record was created for the store.
          *     `customers/update` — A customer profile field changed.
+         *     `customers_email_marketing_consent/update` — A customer email marketing preference changed.
+         *     `customers_marketing_consent/update` — A customer's SMS marketing consent changed.
          *     `inventory_levels/update` — A product or variant stock level changed, with the reason.
+         *     `locales/create` — A locale was added to the store.
+         *     `locales/update` — A locale was published or unpublished on the store.
+         *     `locales/destroy` — A locale was removed from the store, with its translations.
+         *     `translations/update` — Translations were registered on one resource, for the locales and keys in the payload.
+         *     `translations/delete` — Translations were removed from one resource, for the locales and keys in the payload.
          * @enum {string}
          */
-        QueekWebhookTopic: "orders/create" | "orders/paid" | "orders/updated" | "orders/fulfilled" | "orders/cancelled" | "products/create" | "products/update" | "products/delete" | "customers/create" | "customers/update" | "inventory_levels/update";
-        /** RefreshTokenRequest */
+        QueekWebhookTopic: "orders/create" | "orders/paid" | "orders/updated" | "orders/fulfilled" | "orders/cancelled" | "products/create" | "products/update" | "products/delete" | "customers/create" | "customers/update" | "customers_email_marketing_consent/update" | "customers_marketing_consent/update" | "inventory_levels/update" | "locales/create" | "locales/update" | "locales/destroy" | "translations/update" | "translations/delete";
+        /** Refresh token input */
         RefreshTokenRequest: {
             refresh_token: string;
             platform?: string | null;
         };
-        /** RegisterRequest */
+        /** Register input */
         RegisterRequest: {
             first_name: string;
             last_name?: string | null;
@@ -2316,14 +3045,14 @@ export interface components {
             username?: string | null;
             platform?: string | null;
         };
-        /** RequestOtpRequest */
+        /** Request otp input */
         RequestOtpRequest: {
             phone: string;
             country_code?: string | null;
             /** @enum {string|null} */
             channel?: "sms" | "whatsapp" | null;
         };
-        /** ResetPasswordRequest */
+        /** Reset password input */
         ResetPasswordRequest: {
             token: string;
             /** Format: email */
@@ -2343,11 +3072,10 @@ export interface components {
             is_verified_purchase: boolean;
             created_at: string;
             edited_at: string;
-            user?: {
-                id: string;
-                name: string;
-                avatar: string;
-            };
+            submitted_at: string;
+            source: string | null;
+            author_display_name: string;
+            user?: string;
             product?: {
                 id: string;
                 slug: string;
@@ -2355,7 +3083,59 @@ export interface components {
                 thumbnail: string;
             };
         };
-        /** StoreCustomerAddressRequest */
+        /** ShippingZoneResource */
+        ShippingZoneResource: {
+            id: string;
+            name: string;
+            zone_type: string;
+            countries: unknown[];
+            state_ids: unknown[];
+            area_ids: unknown[];
+            /**
+             * @description Vendor chain, never the silent platform default: loaded relation first,
+             *     then the cache-backed lookup (zero DB queries on a warm cache).
+             */
+            currency: string;
+            base_rate: string;
+            per_kg_rate: string | null;
+            min_weight_kg: string | null;
+            max_weight_kg: string | null;
+            min_days: number;
+            max_days: number;
+            active: boolean;
+            position: number;
+            created_at: string | null;
+            updated_at: string | null;
+        };
+        /** StockAdjustmentResource */
+        StockAdjustmentResource: {
+            id: string;
+            type: string;
+            quantity_before: number;
+            quantity_change: number;
+            quantity_after: number;
+            reason: string;
+            reason_code: string | null;
+            scope: string;
+            product: {
+                id: number;
+                uid: string;
+                title: string;
+                slug: string;
+            } | null;
+            variant: {
+                uid: string;
+                title: string;
+                option_values: string;
+            } | null;
+            order: {
+                id: number;
+                uid: string;
+            } | null;
+            shortfall: string;
+            created_at: string | null;
+        };
+        /** Store customer address input */
         StoreCustomerAddressRequest: {
             label?: string | null;
             address: string;
@@ -2364,7 +3144,7 @@ export interface components {
             place_id?: string | null;
             set_active?: boolean | null;
         };
-        /** StoreCustomerCartRequest */
+        /** Store customer cart input */
         StoreCustomerCartRequest: {
             /** Format: uuid */
             vendor_id: string;
@@ -2388,6 +3168,18 @@ export interface components {
              */
             partial?: boolean | null;
         };
+        /** StoreLocaleResource */
+        StoreLocaleResource: {
+            locale: string;
+            name: string;
+            native_name: string;
+            is_primary: boolean;
+            is_default: boolean;
+            path_prefix: string;
+            hreflang: string;
+            html_lang: string;
+            dir: string;
+        };
         /** StorePageResource */
         StorePageResource: {
             id: string;
@@ -2406,7 +3198,7 @@ export interface components {
              */
             content: string | string[];
             media_index: string;
-            excerpt: string;
+            excerpt: string | null;
             cover_image_url: string;
             cover_image_variants: string | null;
             tags: string | string[];
@@ -2484,28 +3276,21 @@ export interface components {
             created_at: string | null;
             updated_at: string | null;
         };
-        /** SubscribeToStoreRequest */
+        /** Subscribe to store input */
         SubscribeToStoreRequest: {
             /** Format: email */
             email: string;
             name?: string | null;
             phone?: string | null;
         };
-        /** TaxonomyCategoryResource */
-        TaxonomyCategoryResource: {
-            id: string;
-            name: string;
-            slug: string;
-            image: string;
-            /**
-             * @description Pre-sized copies of the image, resolved from its URL (categories
-             *     and collections store no media id).
-             */
-            image_variants: string | null;
-            products_count: number;
-            children: unknown[];
+        /** TeamDirectoryResource */
+        TeamDirectoryResource: {
+            id: number;
+            name: string | null;
+            role_names: string;
+            is_active: boolean;
         };
-        /** UpdateClientProfileRequest */
+        /** Update client profile input */
         UpdateClientProfileRequest: {
             name?: string | null;
             phone?: string | null;
@@ -2519,6 +3304,16 @@ export interface components {
             map_lat?: number | null;
             map_lng?: number | null;
             avatar?: string | null;
+        };
+        /** Update customer cart line input */
+        UpdateCustomerCartLineRequest: {
+            line: number;
+            /** Format: uuid */
+            item_id: string;
+            /** Format: uuid */
+            variant_id: string | null;
+            properties: string[] | null;
+            quantity: number;
         };
         /** UserItemResource */
         UserItemResource: {
@@ -2545,7 +3340,7 @@ export interface components {
             last_seen: string | null;
             wallet?: components["schemas"]["WalletResource"];
         };
-        /** ValidateCustomerCartRequest */
+        /** Validate customer cart input */
         ValidateCustomerCartRequest: {
             /** Format: uuid */
             cart_id: string;
@@ -2676,7 +3471,7 @@ export interface components {
              */
             is_test?: boolean;
             /**
-             * @description S-E: the core storefront renders a password page for dev
+             * @description The storefront renders a password page for dev
              *     stores. One flag per fact: dev_store says WHAT it is,
              *     password_required gates the token; this response itself
              *     stays public — gated reads 401. indexable:false tells the
@@ -2701,7 +3496,7 @@ export interface components {
                 socials: unknown[];
             };
         };
-        /** VerifyOtpRequest */
+        /** Verify otp input */
         VerifyOtpRequest: {
             phone: string;
             country_code?: string | null;
@@ -2716,6 +3511,41 @@ export interface components {
             account_number: string | null;
             account_name: string | null;
             account_provider: string | null;
+        };
+        /** @description Additive legacy-compatibility top-level keys the runtime still emits on error bodies — never a replacement for `error.*`, which is the contract. `error_code` and `message` ride top-level on helper-produced refusals; `request_id` and `doc_url` ride top-level ONLY on non-reissued controller-helper bodies (storefront, client, developer and dashboard surfaces) — merchant routes reissue refusals, so there they live inside `error` and the `X-Request-Id` header. Handler-produced bodies keep their own top-level keys with `error` stapled beside them. Not referenced by any operation response: new integrations switch on `error.code`. */
+        QueekLegacyErrorKeys: {
+            /** @description Top-level mirror of `error.code` on helper-produced refusals (shared controller error helpers, client-auth handler branches). */
+            error_code?: string;
+            /** @description Top-level mirror of `error.message` on the same helper-produced refusals as `error_code`. */
+            message?: string;
+            /** @description Top-level mirror of `error.request_id` ONLY on non-reissued controller-helper bodies. Always a string when present. */
+            request_id?: string;
+            /** @description Top-level mirror of `error.doc_url`, same per-producer scope as top-level `request_id`: non-reissued controller-helper bodies only. */
+            doc_url?: string;
+        };
+        QueekStoreTaxonomyNode: {
+            id: string;
+            parent_id: string | null;
+            name: string;
+            slug: string;
+            level: number;
+            vertical: string;
+            is_leaf: boolean;
+        };
+        QueekStoreTaxonomyDetail: {
+            id: string;
+            parent_id: string | null;
+            name: string;
+            slug: string;
+            level: number;
+            vertical: string;
+            is_leaf: boolean;
+            ancestors: {
+                id: string;
+                name: string;
+                slug: string;
+            }[];
+            children: components["schemas"]["QueekStoreTaxonomyNode"][];
         };
         QueekStoreRatingSummary: {
             average_rating: number;
@@ -2777,6 +3607,17 @@ export interface components {
             summary: components["schemas"]["QueekStoreRatingSummary"];
             reviews: components["schemas"]["QueekStoreReviewsBlockItem"][];
         };
+        /** @description This store’s theme-string overrides for one locale: the effective locale, the active theme slug, and the flat dotted-key map (theme-slug prefix stripped). */
+        QueekStoreThemeStrings: {
+            /** @description The effective locale these strings are for. */
+            locale: string;
+            /** @description The store’s active theme slug. */
+            theme: string;
+            /** @description Flat dotted-key overrides for the active theme; `{}` for primary, missing, unknown or unpublished locales. */
+            strings: {
+                [key: string]: string;
+            };
+        };
         /** @description One storefront-visible metaobject type: its display field and typed field schema. */
         QueekStoreMetaobjectDefinition: {
             type: string;
@@ -2799,6 +3640,9 @@ export interface components {
              * @enum {string}
              */
             reason?: "variant_selection_required" | "addon_selection_required";
+        };
+        QueekStoreCartMutation: {
+            cart: components["schemas"]["QueekStoreCart"];
         };
         /** @description Clearing one cart names it; clearing all answers an empty `data` array. */
         QueekStoreCartClear: unknown[] | {
@@ -2874,6 +3718,116 @@ export interface components {
         QueekStorePostDetail: components["schemas"]["QueekStorePage"] & {
             related: components["schemas"]["QueekStorePage"][];
         };
+        /** @description One product hit: the store product card (`QueekStoreProduct`, same final customer price as `products`) with presence meta stamped beside it — `distance`/`distance_text`/`delivery_fee` (also inside `shop`) stay null until the shopper shares a location. */
+        QueekStoreSearchProduct: components["schemas"]["QueekStoreProduct"] & {
+            /** @description Kilometres to the vendor, 2dp; null without a shopper location. */
+            distance: number | null;
+            /** @example 2.5km away */
+            distance_text: string | null;
+            /** @description Delivery fee to the shopper (store currency); null when it cannot be computed. */
+            delivery_fee: number | null;
+        };
+        /** @description Grouped matches over the store’s own published catalogue, newest-first. `type=all` (default) answers the first page of every section; a single `type` answers only that section — walk it with `starting_after`/`page` while its `has_more` is true. */
+        QueekStoreSearch: {
+            /** @description The echoed search term. */
+            query: string;
+            /** @enum {string} */
+            type: "all" | "product" | "collection" | "page" | "post";
+            /** @description Only the requested section is present for a single-type search; all four for `type=all` (an empty section still answers `items: []`). */
+            sections: {
+                /** @description Product hits, same card and final customer price as `GET store/products`. */
+                products?: {
+                    items: components["schemas"]["QueekStoreSearchProduct"][];
+                    has_more: boolean;
+                    next_cursor: string | null;
+                };
+                /** @description Collection hits: id-title-slug stubs, never full cards. */
+                collections?: {
+                    items: {
+                        /**
+                         * Format: uuid
+                         * @description Collection id. Prefer `slug` when linking.
+                         */
+                        id: string;
+                        name: string;
+                        slug: string;
+                        /** @description Cover image URL, else null. */
+                        image?: string | null;
+                    }[];
+                    has_more: boolean;
+                    next_cursor: string | null;
+                };
+                /** @description Page hits: id-title-slug stubs, never full cards. */
+                pages?: {
+                    items: {
+                        /**
+                         * Format: uuid
+                         * @description Page/post id (UUID). Prefer `slug` when linking.
+                         */
+                        id: string;
+                        title: string;
+                        slug: string;
+                        excerpt?: string | null;
+                        /** @constant */
+                        type: "page";
+                    }[];
+                    has_more: boolean;
+                    next_cursor: string | null;
+                };
+                /** @description Post hits: id-title-slug stubs, never full cards. */
+                posts?: {
+                    items: {
+                        /**
+                         * Format: uuid
+                         * @description Page/post id (UUID). Prefer `slug` when linking.
+                         */
+                        id: string;
+                        title: string;
+                        slug: string;
+                        excerpt?: string | null;
+                        /** @constant */
+                        type: "post";
+                    }[];
+                    has_more: boolean;
+                    next_cursor: string | null;
+                };
+            };
+        };
+        /** @description Instant suggestions over the store’s own catalogue: product hits, then collection hits, then query completions derived from the matched titles — at most 10 items. */
+        QueekStoreAutocomplete: {
+            /** @description The echoed search term. */
+            query: string;
+            items: ({
+                /** @constant */
+                type: "product";
+                /**
+                 * Format: uuid
+                 * @description Product id. Prefer `slug` when linking.
+                 */
+                id: string;
+                title: string;
+                slug: string;
+                thumbnail_image?: string | null;
+                /** @description Selling price (store currency); the full card carries `currency`. */
+                price: number;
+            } | {
+                /** @constant */
+                type: "collection";
+                /**
+                 * Format: uuid
+                 * @description Collection id. Prefer `slug` when linking.
+                 */
+                id: string;
+                name: string;
+                slug: string;
+                image?: string | null;
+            } | {
+                /** @constant */
+                type: "query";
+                /** @description A completion to run as `q`. */
+                text: string;
+            })[];
+        };
         /** @description The signed-in customer behind the bearer credential. */
         QueekStoreCustomerAccount: {
             user: components["schemas"]["QueekStoreCustomer"];
@@ -2905,6 +3859,24 @@ export interface components {
             /** @description Whether the customer shares contact details with this store. */
             shared_contact?: boolean;
             followers_count: number;
+        };
+        QueekStoreWishlistRemoval: {
+            removed: boolean;
+        };
+        /** @description A saved wishlist row with the existing customer product card and optional self-contained variant details. */
+        QueekStoreWishlistItem: {
+            /** Format: date-time */
+            created_at: string;
+            product: components["schemas"]["QueekStoreProduct"];
+            variant: {
+                /** Format: uuid */
+                id: string;
+                p_id: number;
+                title: string;
+                option_values: {
+                    [key: string]: string;
+                };
+            } | null;
         };
     };
     responses: {
@@ -2938,6 +3910,18 @@ export interface components {
         };
         /** @description Not found */
         ModelNotFoundException: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": {
+                    /** @description Error overview. */
+                    message: string;
+                };
+            };
+        };
+        /** @description Authorization error */
+        AuthorizationException: {
             headers: {
                 [name: string]: unknown;
             };
@@ -5749,6 +6733,7 @@ export interface operations {
                      *           },
                      *           "cart_items": [
                      *             {
+                     *               "line": 0,
                      *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
                      *               "title": "Ankara Midi Dress",
                      *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
@@ -5777,7 +6762,11 @@ export interface operations {
                      *           "validation_errors": [],
                      *           "last_validated_at": "2026-09-25T15:40:00+01:00",
                      *           "created_at": "2026-09-25T15:32:00+01:00",
-                     *           "updated_at": "2026-09-25T15:40:00+01:00"
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 0,
+                     *           "total_after_discounts": 24225
                      *         }
                      *       ],
                      *       "status": "success",
@@ -5990,6 +6979,7 @@ export interface operations {
                      *         },
                      *         "cart_items": [
                      *           {
+                     *             "line": 0,
                      *             "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
                      *             "title": "Ankara Midi Dress",
                      *             "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
@@ -6018,7 +7008,11 @@ export interface operations {
                      *         "validation_errors": [],
                      *         "last_validated_at": "2026-09-25T15:40:00+01:00",
                      *         "created_at": "2026-09-25T15:32:00+01:00",
-                     *         "updated_at": "2026-09-25T15:40:00+01:00"
+                     *         "updated_at": "2026-09-25T15:40:00+01:00",
+                     *         "discounts": [],
+                     *         "subtotal": 24225,
+                     *         "discount_total": 0,
+                     *         "total_after_discounts": 24225
                      *       }
                      *     }
                      */
@@ -6217,6 +7211,7 @@ export interface operations {
                      *           },
                      *           "cart_items": [
                      *             {
+                     *               "line": 0,
                      *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
                      *               "title": "Ankara Midi Dress",
                      *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
@@ -6245,7 +7240,11 @@ export interface operations {
                      *           "validation_errors": [],
                      *           "last_validated_at": "2026-09-25T15:40:00+01:00",
                      *           "created_at": "2026-09-25T15:32:00+01:00",
-                     *           "updated_at": "2026-09-25T15:40:00+01:00"
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 0,
+                     *           "total_after_discounts": 24225
                      *         }
                      *       }
                      *     }
@@ -6332,6 +7331,992 @@ export interface operations {
                      *             "The quantity field must be at least 1."
                      *           ]
                      *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "cart.remove_item": {
+        parameters: {
+            query: {
+                line: number;
+                item_id: string;
+                variant_id: string | null;
+                "properties[]": string[] | null;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example 0 */
+                line: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Cart line removed",
+                     *       "data": {
+                     *         "cart": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "line": 0,
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 0,
+                     *           "total_after_discounts": 24225
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartMutation"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Cart line not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The item id field must be a valid UUID.",
+                     *         "field": "item_id",
+                     *         "errors": {
+                     *           "item_id": [
+                     *             "The item id field must be a valid UUID."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "cart.update_item": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example 0 */
+                line: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                 *       "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                 *       "properties": null,
+                 *       "quantity": 2
+                 *     }
+                 */
+                "application/json": components["schemas"]["UpdateCustomerCartLineRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Cart line updated",
+                     *       "data": {
+                     *         "cart": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "line": 0,
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 0,
+                     *           "total_after_discounts": 24225
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartMutation"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Cart line not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Idempotency conflict — `idempotency_key_reuse` or `idempotency_key_in_progress`. Switch on `error.code`. */
+            409: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "conflict",
+                     *         "message": "An unexpected error occurred.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#conflict",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The quantity field must not be greater than 999.",
+                     *         "field": "quantity",
+                     *         "errors": {
+                     *           "quantity": [
+                     *             "The quantity field must not be greater than 999."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "cart.apply_discount": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "code": "ZURI10"
+                 *     }
+                 */
+                "application/json": components["schemas"]["ApplyStorefrontCartDiscountRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Coupon applied successfully",
+                     *       "data": {
+                     *         "cart": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "line": 0,
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [
+                     *             "ZURI10"
+                     *           ],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [
+                     *             {
+                     *               "code": "ZURI10",
+                     *               "title": "Welcome to Zuri",
+                     *               "type": "percentage",
+                     *               "amount_applied": 2422.5,
+                     *               "status": "applicable",
+                     *               "reason": null
+                     *             }
+                     *           ],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 2422.5,
+                     *           "total_after_discounts": 21802.5
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartMutation"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The code field is required.",
+                     *         "field": "code",
+                     *         "errors": {
+                     *           "code": [
+                     *             "The code field is required."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "cart.remove_discount": {
+        parameters: {
+            query: {
+                code: string;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /**
+                 * @description Identifies a signed-out shopper's cart. Required when no customer token is sent — without it the cart answers 422 `validation_failed` (`Missing session token for anonymous cart.`); ignored when an `Authorization: Bearer` customer token is present. Generate any opaque string (a UUID) when the shopper first adds to cart and send it on every cart call. The same value is also accepted as the `session_token` body field.
+                 * @example a3f1b8e2-4c5d-4e6f-8a9b-0c1d2e3f4a5b
+                 */
+                "X-Cart-Session"?: string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example ZURI10 */
+                code: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Coupon removed successfully",
+                     *       "data": {
+                     *         "cart": {
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c41",
+                     *           "vendor_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "vendor": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "distance": null,
+                     *             "delivery_info": {
+                     *               "is_free_delivery": true,
+                     *               "delivery_fee": 0,
+                     *               "delivery_fee_value": 0,
+                     *               "min_order": 1000,
+                     *               "min_order_fee": 2000,
+                     *               "d_p_value": 1.5,
+                     *               "s_p_value": 1.5,
+                     *               "delivery_time": "45-180 min",
+                     *               "delivery_message": "Open until 21:00",
+                     *               "offers_free_delivery": false,
+                     *               "pickup_enabled": true,
+                     *               "offer_instant_delivery": true
+                     *             },
+                     *             "notice": [],
+                     *             "slug": "zuri-atelier",
+                     *             "service": null,
+                     *             "currency": "NGN",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "disable_order": false,
+                     *             "is_closed": false,
+                     *             "temporary_unavailable": false,
+                     *             "preorder_enabled": null,
+                     *             "area": "Lekki Phase 1",
+                     *             "banner": "https://media.usequeek.com/uploads/stores/2207/banner.png",
+                     *             "support_phone": "+234 803 555 0147",
+                     *             "phone": "+234 803 555 0147",
+                     *             "country_code": "NG",
+                     *             "phone_code": "234",
+                     *             "support_email": "hello@zuriatelier.ng",
+                     *             "slogan": null,
+                     *             "tags": null,
+                     *             "tag": "fashion",
+                     *             "is_new": false,
+                     *             "rating": 4.7,
+                     *             "rating_count": 486,
+                     *             "short_description": null,
+                     *             "address": "12B Admiralty Way, Lekki Phase 1, Lagos",
+                     *             "open_time": "09:00",
+                     *             "close_time": "21:00",
+                     *             "service_type": "fashion",
+                     *             "landmark": "Opposite NIIT",
+                     *             "region_id": null,
+                     *             "min_order_price": null
+                     *           },
+                     *           "cart_items": [
+                     *             {
+                     *               "line": 0,
+                     *               "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
+                     *               "title": "Ankara Midi Dress",
+                     *               "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "variant_title": "M",
+                     *               "variant_option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount": {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "amount": 4275
+                     *               },
+                     *               "quantity": 1,
+                     *               "selectedAddons": [],
+                     *               "requires_slot": false,
+                     *               "properties": null
+                     *             }
+                     *           ],
+                     *           "total_price": 24225,
+                     *           "source": "storefront",
+                     *           "promo_codes": [],
+                     *           "is_valid": true,
+                     *           "validation_errors": [],
+                     *           "last_validated_at": "2026-09-25T15:40:00+01:00",
+                     *           "created_at": "2026-09-25T15:32:00+01:00",
+                     *           "updated_at": "2026-09-25T15:40:00+01:00",
+                     *           "discounts": [],
+                     *           "subtotal": 24225,
+                     *           "discount_total": 0,
+                     *           "total_after_discounts": 24225
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreCartMutation"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Cart not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "Missing session token for anonymous cart.",
                      *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
                      *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
                      *       }
@@ -6456,6 +8441,7 @@ export interface operations {
                      *         },
                      *         "cart_items": [
                      *           {
+                     *             "line": 0,
                      *             "item_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c42",
                      *             "title": "Ankara Midi Dress",
                      *             "variant_id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
@@ -6484,7 +8470,11 @@ export interface operations {
                      *         "validation_errors": [],
                      *         "last_validated_at": "2026-09-25T15:40:00+01:00",
                      *         "created_at": "2026-09-25T15:32:00+01:00",
-                     *         "updated_at": "2026-09-25T15:40:00+01:00"
+                     *         "updated_at": "2026-09-25T15:40:00+01:00",
+                     *         "discounts": [],
+                     *         "subtotal": 24225,
+                     *         "discount_total": 0,
+                     *         "total_after_discounts": 24225
                      *       },
                      *       "meta": {
                      *         "is_valid": true,
@@ -6804,11 +8794,9 @@ export interface operations {
             };
         };
     };
-    "categories.list": {
+    "vendorTaxonomy.indexForClient": {
         parameters: {
-            query?: {
-                include_empty?: boolean | null;
-            };
+            query?: never;
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -6823,47 +8811,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "data": [
-                     *         {
-                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
-                     *           "name": "Dresses",
-                     *           "slug": "dresses",
-                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/dresses.jpg",
-                     *           "image_variants": null,
-                     *           "products_count": 1,
-                     *           "children": []
-                     *         },
-                     *         {
-                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c22",
-                     *           "name": "Head Wraps",
-                     *           "slug": "head-wraps",
-                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/head-wraps.jpg",
-                     *           "image_variants": null,
-                     *           "products_count": 1,
-                     *           "children": []
-                     *         }
-                     *       ],
-                     *       "status": "success",
-                     *       "message": "Categories retrieved",
-                     *       "meta": []
-                     *     }
-                     */
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreCategory"][];
-                    };
-                };
-            };
             /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
             401: {
                 headers: {
@@ -6895,6 +8842,25 @@ export interface operations {
                      *         "code": "origin_not_allowed",
                      *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
                      *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Error. Switch on `error.code`. */
+            410: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "gone",
+                     *         "message": "Gone. Use GET /store/collections and GET /store/collections/{collection}/products instead.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#gone",
                      *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
                      *       }
                      *     }
@@ -6923,24 +8889,9 @@ export interface operations {
             };
         };
     };
-    "categories.list_products": {
+    "vendorTaxonomy.productsForClient": {
         parameters: {
-            query?: {
-                keyword?: string | null;
-                /** @example newest */
-                sort?: "newest" | "price_low" | "price_high" | "popular" | null;
-                in_stock?: boolean | null;
-                /** @example 15 */
-                per_page?: number | null;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
-                starting_after?: string;
-                /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
-                 * @example 15
-                 */
-                limit?: number;
-                attributes?: (string | null)[][];
-            };
+            query?: never;
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -6958,276 +8909,6 @@ export interface operations {
         };
         requestBody?: never;
         responses: {
-            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "status": "success",
-                     *       "message": "Category products retrieved",
-                     *       "data": [
-                     *         {
-                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
-                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
-                     *           "p_id": 31501,
-                     *           "title": "Ankara Midi Dress",
-                     *           "slug": "ankara-midi-dress",
-                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
-                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
-                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
-                     *           "video_url": null,
-                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *           "type": "product",
-                     *           "commerce_mode": "shop",
-                     *           "currency": "NGN",
-                     *           "price": 28500,
-                     *           "discount_price": 24225,
-                     *           "compare_at_price": 28500,
-                     *           "is_price_from": false,
-                     *           "price_range": {
-                     *             "min": 28500,
-                     *             "max": 28500
-                     *           },
-                     *           "has_variants": true,
-                     *           "has_addons": false,
-                     *           "tax_inclusive": false,
-                     *           "discount": {
-                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
-                     *             "title": "Lagos Fashion Week 15% Off",
-                     *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
-                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
-                     *           },
-                     *           "discounts": [
-                     *             {
-                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
-                     *               "title": "Lagos Fashion Week 15% Off",
-                     *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
-                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
-                     *             }
-                     *           ],
-                     *           "media": {
-                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
-                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
-                     *             "primary_variant_image": null,
-                     *             "image_variants": {
-                     *               "thumb": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
-                     *                 "w": null,
-                     *                 "h": null
-                     *               },
-                     *               "card": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *                 "w": 480,
-                     *                 "h": 600
-                     *               },
-                     *               "card2x": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
-                     *                 "w": 800,
-                     *                 "h": 1000
-                     *               },
-                     *               "view": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
-                     *                 "w": 1200,
-                     *                 "h": 1500
-                     *               },
-                     *               "wa": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
-                     *                 "w": 1080,
-                     *                 "h": 1350
-                     *               },
-                     *               "original": {
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
-                     *                 "w": 1200,
-                     *                 "h": 1500
-                     *               }
-                     *             },
-                     *             "primary_variant_image_variants": null,
-                     *             "images": [
-                     *               {
-                     *                 "id": 77101,
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *                 "alt": "Ankara midi dress on a mannequin",
-                     *                 "variants": {
-                     *                   "thumb": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
-                     *                     "w": null,
-                     *                     "h": null
-                     *                   },
-                     *                   "card": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
-                     *                     "w": 480,
-                     *                     "h": 600
-                     *                   },
-                     *                   "card2x": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
-                     *                     "w": 800,
-                     *                     "h": 1000
-                     *                   },
-                     *                   "view": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
-                     *                     "w": 1200,
-                     *                     "h": 1500
-                     *                   },
-                     *                   "wa": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
-                     *                     "w": 1080,
-                     *                     "h": 1350
-                     *                   },
-                     *                   "original": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
-                     *                     "w": 1200,
-                     *                     "h": 1500
-                     *                   }
-                     *                 }
-                     *               },
-                     *               {
-                     *                 "id": 77103,
-                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
-                     *                 "alt": "Ankara midi dress, back view",
-                     *                 "variants": {
-                     *                   "thumb": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
-                     *                     "w": null,
-                     *                     "h": null
-                     *                   },
-                     *                   "card": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
-                     *                     "w": 480,
-                     *                     "h": 600
-                     *                   },
-                     *                   "card2x": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
-                     *                     "w": 800,
-                     *                     "h": 1000
-                     *                   },
-                     *                   "view": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
-                     *                     "w": 1200,
-                     *                     "h": 1500
-                     *                   },
-                     *                   "wa": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
-                     *                     "w": 1080,
-                     *                     "h": 1350
-                     *                   },
-                     *                   "original": {
-                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
-                     *                     "w": 1200,
-                     *                     "h": 1500
-                     *                   }
-                     *                 }
-                     *               }
-                     *             ]
-                     *           },
-                     *           "inventory": {
-                     *             "in_stock": true,
-                     *             "tracking": true,
-                     *             "quantity": 18
-                     *           },
-                     *           "variant_summary": {
-                     *             "count": 3,
-                     *             "min_price": 28500,
-                     *             "max_price": 28500,
-                     *             "total_stock": 18,
-                     *             "tracks_inventory": true,
-                     *             "in_stock": true
-                     *           },
-                     *           "variants_count": 3,
-                     *           "rating": 4.5,
-                     *           "review_count": 132,
-                     *           "flags": {
-                     *             "featured": false,
-                     *             "is_marketplace": false,
-                     *             "is_wholesale": false,
-                     *             "is_new": false
-                     *           },
-                     *           "metafields": {},
-                     *           "created_at": "2026-06-18 09:40:00",
-                     *           "updated_at": "2026-09-22 16:05:00",
-                     *           "shop": {
-                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
-                     *             "name": "Zuri Atelier",
-                     *             "slug": "zuri-atelier",
-                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
-                     *             "rating": 4.7,
-                     *             "rating_count": 486
-                     *           }
-                     *         }
-                     *       ],
-                     *       "meta": {
-                     *         "category": {
-                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
-                     *           "name": "Dresses",
-                     *           "slug": "dresses",
-                     *           "image": "https://media.usequeek.com/uploads/stores/2207/categories/dresses.jpg",
-                     *           "image_variants": null,
-                     *           "products_count": 1,
-                     *           "children": []
-                     *         },
-                     *         "filters": {
-                     *           "attributes": [
-                     *             {
-                     *               "name": "Size",
-                     *               "slug": "size",
-                     *               "type": "size",
-                     *               "values": [
-                     *                 {
-                     *                   "value": "L",
-                     *                   "slug": "l",
-                     *                   "count": 1,
-                     *                   "selected": false,
-                     *                   "color_code": null
-                     *                 },
-                     *                 {
-                     *                   "value": "M",
-                     *                   "slug": "m",
-                     *                   "count": 1,
-                     *                   "selected": false,
-                     *                   "color_code": null
-                     *                 },
-                     *                 {
-                     *                   "value": "S",
-                     *                   "slug": "s",
-                     *                   "count": 1,
-                     *                   "selected": false,
-                     *                   "color_code": null
-                     *                 }
-                     *               ]
-                     *             }
-                     *           ]
-                     *         }
-                     *       },
-                     *       "has_more": false,
-                     *       "next_cursor": null
-                     *     }
-                     */
-                    "application/json": {
-                        /** @example success */
-                        status: string;
-                        message: string;
-                        data: components["schemas"]["QueekStoreProduct"][];
-                        /** @description Context beside the page, never page state: e.g. `listing_mode` and `filters` (available attribute values with their selected state) on products, and the `category` / `collection` / `promotion` / `definition` the list belongs to. Currency rides on each priced item, never here. No totals, page counts or page URLs — walk with `has_more` / `next_cursor`. */
-                        meta?: {
-                            [key: string]: unknown;
-                        };
-                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
-                        has_more: boolean;
-                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
-                        next_cursor: string | null;
-                    };
-                };
-            };
             /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
             401: {
                 headers: {
@@ -7266,8 +8947,8 @@ export interface operations {
                     "application/json": components["schemas"]["QueekError"];
                 };
             };
-            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
-            404: {
+            /** @description Error. Switch on `error.code`. */
+            410: {
                 headers: {
                     [name: string]: unknown;
                 };
@@ -7275,34 +8956,9 @@ export interface operations {
                     /**
                      * @example {
                      *       "error": {
-                     *         "code": "not_found",
-                     *         "message": "Category not found",
-                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
-                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
-                     *       }
-                     *     }
-                     */
-                    "application/json": components["schemas"]["QueekError"];
-                };
-            };
-            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    /**
-                     * @example {
-                     *       "error": {
-                     *         "code": "validation_failed",
-                     *         "message": "The selected sort is invalid.",
-                     *         "field": "sort",
-                     *         "errors": {
-                     *           "sort": [
-                     *             "The selected sort is invalid."
-                     *           ]
-                     *         },
-                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "code": "gone",
+                     *         "message": "Gone. Use GET /store/collections and GET /store/collections/{collection}/products instead.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#gone",
                      *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
                      *       }
                      *     }
@@ -7337,6 +8993,8 @@ export interface operations {
                 mode?: "all" | "manual" | "smart" | null;
                 include_empty?: boolean | null;
                 storefront?: boolean | null;
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
             };
             header: {
                 /**
@@ -7355,6 +9013,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7371,6 +9031,10 @@ export interface operations {
                      *           "featured": true,
                      *           "parent_id": null,
                      *           "mode": "manual",
+                     *           "type": "manual",
+                     *           "ranking": null,
+                     *           "sort": "manual",
+                     *           "rules_count": 0,
                      *           "products_count": 2,
                      *           "children": []
                      *         },
@@ -7384,6 +9048,13 @@ export interface operations {
                      *           "featured": false,
                      *           "parent_id": null,
                      *           "mode": "smart",
+                     *           "type": "smart",
+                     *           "ranking": {
+                     *             "sort": "newest",
+                     *             "limit": null
+                     *           },
+                     *           "sort": "newest",
+                     *           "rules_count": 0,
                      *           "products_count": 1,
                      *           "children": []
                      *         }
@@ -7489,7 +9160,8 @@ export interface operations {
         parameters: {
             query?: {
                 keyword?: string | null;
-                sort?: "newest" | "price_low" | "price_high" | "popular" | null;
+                /** @example title_asc */
+                sort?: "newest" | "price_low" | "price_high" | "popular" | "title_asc" | "title_desc" | "created_asc" | "price_asc" | "price_desc" | "manual" | null;
                 in_stock?: boolean | null;
                 /** @example 15 */
                 per_page?: number | null;
@@ -7501,6 +9173,8 @@ export interface operations {
                  */
                 limit?: number;
                 attributes?: (string | null)[][];
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
             };
             header: {
                 /**
@@ -7522,6 +9196,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -7867,10 +9543,25 @@ export interface operations {
                      *           "featured": true,
                      *           "parent_id": null,
                      *           "mode": "manual",
+                     *           "type": "manual",
+                     *           "ranking": null,
+                     *           "sort": "manual",
+                     *           "rules_count": 0,
                      *           "products_count": 2,
                      *           "children": []
                      *         },
+                     *         "total_count": 2,
+                     *         "total_count_capped": false,
                      *         "filters": {
+                     *           "price": {
+                     *             "min": 12500,
+                     *             "max": 25000
+                     *           },
+                     *           "availability": {
+                     *             "in_stock": 2,
+                     *             "out_of_stock": 0
+                     *           },
+                     *           "tags": [],
                      *           "attributes": [
                      *             {
                      *               "name": "Size",
@@ -8368,7 +10059,10 @@ export interface operations {
     };
     "galleries.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -8386,6 +10080,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8514,7 +10210,10 @@ export interface operations {
     };
     "galleries.retrieve": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -8535,6 +10234,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -8767,6 +10468,230 @@ export interface operations {
                         status: string;
                         message: string;
                         data: components["schemas"]["QueekStoreVendor"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "locales.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store locales retrieved",
+                     *       "data": [
+                     *         {
+                     *           "locale": "en",
+                     *           "name": "English",
+                     *           "native_name": "English",
+                     *           "is_primary": true,
+                     *           "is_default": true,
+                     *           "path_prefix": "",
+                     *           "hreflang": "en",
+                     *           "html_lang": "en",
+                     *           "dir": "ltr"
+                     *         },
+                     *         {
+                     *           "locale": "fr",
+                     *           "name": "French",
+                     *           "native_name": "Français",
+                     *           "is_primary": false,
+                     *           "is_default": false,
+                     *           "path_prefix": "fr",
+                     *           "hreflang": "fr",
+                     *           "html_lang": "fr",
+                     *           "dir": "ltr"
+                     *         }
+                     *       ]
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreLocale"][];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "theme_strings.list": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store theme strings retrieved",
+                     *       "data": {
+                     *         "locale": "fr",
+                     *         "theme": "allure",
+                     *         "strings": {
+                     *           "cart.title": "Votre panier",
+                     *           "cart.add": "Ajouter au panier"
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreThemeStrings"];
                     };
                 };
             };
@@ -10187,7 +12112,10 @@ export interface operations {
     };
     "pages.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -10205,6 +12133,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10319,7 +12249,10 @@ export interface operations {
     };
     "pages.retrieve": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -10340,6 +12273,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10471,7 +12406,10 @@ export interface operations {
     };
     "policies.list": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -10489,6 +12427,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10603,7 +12543,10 @@ export interface operations {
     };
     "policies.retrieve": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -10624,6 +12567,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10770,6 +12715,8 @@ export interface operations {
                  * @example 15
                  */
                 limit?: number;
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
             };
             header: {
                 /**
@@ -10788,6 +12735,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -10994,7 +12943,10 @@ export interface operations {
     };
     "posts.retrieve": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -11015,6 +12967,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -11226,18 +13180,18 @@ export interface operations {
                  * @example ankara
                  */
                 keyword?: string;
-                /** @description Filter to one category by slug (resolved to its id — send either this or `category_id`, never both). */
+                /** @description Filter to one collection by slug (resolved to its id — send either this or `category_id`, never both). */
                 category_slug?: string;
                 /**
-                 * @description Filter to one category by id (UUID).
-                 * @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21
+                 * @description Filter to one collection by id (UUID).
+                 * @example 019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25
                  */
                 category_id?: string;
                 /**
-                 * @description Ordering: `latest` (default), `popular`, `price_low`, `price_high`.
+                 * @description Ordering: `latest` (default), `popular`, `price_low`, `price_high`, `title_asc`, `title_desc`, `created_asc`.
                  * @example latest
                  */
-                sort?: "latest" | "popular" | "price_low" | "price_high";
+                sort?: "latest" | "popular" | "price_low" | "price_high" | "title_asc" | "title_desc" | "created_asc";
                 /**
                  * @description Only products with a video (`true`) or without one (`false`).
                  * @example false
@@ -11265,6 +13219,8 @@ export interface operations {
                  *     ]
                  */
                 "ids[]"?: string[];
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
             };
             header: {
                 /**
@@ -11283,6 +13239,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -11634,7 +13592,9 @@ export interface operations {
                      *               ]
                      *             }
                      *           ]
-                     *         }
+                     *         },
+                     *         "total_count": 2,
+                     *         "total_count_capped": false
                      *       },
                      *       "has_more": false,
                      *       "next_cursor": null
@@ -11742,7 +13702,10 @@ export interface operations {
     };
     "products.retrieve": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -11763,6 +13726,8 @@ export interface operations {
             /** @description Success. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -12005,6 +13970,7 @@ export interface operations {
                      *         "options": [
                      *           {
                      *             "name": "Size",
+                     *             "position": 0,
                      *             "type": "size",
                      *             "values": [
                      *               "S",
@@ -12034,6 +14000,7 @@ export interface operations {
                      *           {
                      *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a01",
                      *             "sku": "ZRA-AMD-S",
+                     *             "barcode": "6151101770011",
                      *             "title": "S",
                      *             "option_values": {
                      *               "Size": "S"
@@ -12168,6 +14135,7 @@ export interface operations {
                      *           {
                      *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
                      *             "sku": "ZRA-AMD-M",
+                     *             "barcode": "6151101770028",
                      *             "title": "M",
                      *             "option_values": {
                      *               "Size": "M"
@@ -12302,6 +14270,7 @@ export interface operations {
                      *           {
                      *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a03",
                      *             "sku": "ZRA-AMD-L",
+                     *             "barcode": "6151101770035",
                      *             "title": "L",
                      *             "option_values": {
                      *               "Size": "L"
@@ -12550,7 +14519,10 @@ export interface operations {
     };
     "products.list_related": {
         parameters: {
-            query?: never;
+            query?: {
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
             header: {
                 /**
                  * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
@@ -12571,6 +14543,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -12881,6 +14855,9 @@ export interface operations {
                      *             "created_at": "2026-09-20T17:44:00.000000Z",
                      *             "updated_at": "2026-09-21T09:05:00.000000Z",
                      *             "edited_at": null,
+                     *             "submitted_at": null,
+                     *             "source": null,
+                     *             "author_display_name": null,
                      *             "user": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
                      *               "name": "Adaeze Okafor",
@@ -12900,6 +14877,9 @@ export interface operations {
                      *             "created_at": "2026-09-22T10:20:00.000000Z",
                      *             "updated_at": "2026-09-22T10:20:00.000000Z",
                      *             "edited_at": null,
+                     *             "submitted_at": null,
+                     *             "source": null,
+                     *             "author_display_name": null,
                      *             "user": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c52",
                      *               "name": "Funmi Adeyinka",
@@ -13088,6 +15068,9 @@ export interface operations {
                      *             "created_at": "2026-09-20T17:44:00.000000Z",
                      *             "updated_at": "2026-09-21T09:05:00.000000Z",
                      *             "edited_at": null,
+                     *             "submitted_at": null,
+                     *             "source": null,
+                     *             "author_display_name": null,
                      *             "user": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
                      *               "name": "Adaeze Okafor",
@@ -13541,6 +15524,8 @@ export interface operations {
                 /** @description This list is page-only (in-memory slice): any `starting_after` answers 422 `cursor_unsupported_for_sort`. Walk with `page` (cap 50, `page_too_deep`). */
                 starting_after?: string;
                 attributes?: (string | null)[][];
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
             };
             header: {
                 /**
@@ -13562,6 +15547,8 @@ export interface operations {
             /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
             200: {
                 headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
                     [name: string]: unknown;
                 };
                 content: {
@@ -14002,6 +15989,9 @@ export interface operations {
                      *             "is_verified_purchase": true,
                      *             "created_at": "2026-09-20T17:44:00.000000Z",
                      *             "edited_at": null,
+                     *             "submitted_at": null,
+                     *             "source": null,
+                     *             "author_display_name": null,
                      *             "user": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c51",
                      *               "name": "Adaeze Okafor",
@@ -14025,6 +16015,9 @@ export interface operations {
                      *             "is_verified_purchase": true,
                      *             "created_at": "2026-09-22T10:20:00.000000Z",
                      *             "edited_at": null,
+                     *             "submitted_at": null,
+                     *             "source": null,
+                     *             "author_display_name": null,
                      *             "user": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c52",
                      *               "name": "Funmi Adeyinka",
@@ -14108,6 +16101,685 @@ export interface operations {
                      *         "errors": {
                      *           "scope": [
                      *             "The selected scope is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "search.list": {
+        parameters: {
+            query: {
+                /** @example ankara */
+                q: string;
+                /** @example all */
+                type?: "all" | "product" | "collection" | "page" | "post" | null;
+                /** @example 5 */
+                limit?: number | null;
+                starting_after?: string | null;
+                page?: number | null;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Store search results",
+                     *       "data": {
+                     *         "query": "ankara",
+                     *         "type": "all",
+                     *         "sections": {
+                     *           "products": {
+                     *             "items": [
+                     *               {
+                     *                 "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *                 "p_id": 31501,
+                     *                 "title": "Ankara Midi Dress",
+                     *                 "slug": "ankara-midi-dress",
+                     *                 "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *                 "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "video_url": null,
+                     *                 "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "type": "product",
+                     *                 "commerce_mode": "shop",
+                     *                 "currency": "NGN",
+                     *                 "price": 28500,
+                     *                 "discount_price": 24225,
+                     *                 "compare_at_price": 28500,
+                     *                 "is_price_from": false,
+                     *                 "price_range": {
+                     *                   "min": 28500,
+                     *                   "max": 28500
+                     *                 },
+                     *                 "has_variants": true,
+                     *                 "has_addons": false,
+                     *                 "tax_inclusive": false,
+                     *                 "discount": {
+                     *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                   "title": "Lagos Fashion Week 15% Off",
+                     *                   "type": "percentage",
+                     *                   "value": 15,
+                     *                   "amount": 4275,
+                     *                   "final_price": 24225,
+                     *                   "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *                 },
+                     *                 "discounts": [
+                     *                   {
+                     *                     "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                     "title": "Lagos Fashion Week 15% Off",
+                     *                     "type": "percentage",
+                     *                     "value": 15,
+                     *                     "amount": 4275,
+                     *                     "final_price": 24225,
+                     *                     "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *                   }
+                     *                 ],
+                     *                 "media": {
+                     *                   "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "primary_variant_image": null,
+                     *                   "image_variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   },
+                     *                   "primary_variant_image_variants": null,
+                     *                   "images": [
+                     *                     {
+                     *                       "id": 77101,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "alt": "Ankara midi dress on a mannequin",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     },
+                     *                     {
+                     *                       "id": 77103,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "alt": "Ankara midi dress, back view",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     }
+                     *                   ]
+                     *                 },
+                     *                 "inventory": {
+                     *                   "in_stock": true,
+                     *                   "tracking": true,
+                     *                   "quantity": 18
+                     *                 },
+                     *                 "variant_summary": {
+                     *                   "count": 3,
+                     *                   "min_price": 28500,
+                     *                   "max_price": 28500,
+                     *                   "total_stock": 18,
+                     *                   "tracks_inventory": true,
+                     *                   "in_stock": true
+                     *                 },
+                     *                 "variants_count": 3,
+                     *                 "rating": 4.5,
+                     *                 "review_count": 132,
+                     *                 "flags": {
+                     *                   "featured": false,
+                     *                   "is_marketplace": false,
+                     *                   "is_wholesale": false,
+                     *                   "is_new": false
+                     *                 },
+                     *                 "metafields": {},
+                     *                 "created_at": "2026-06-18 09:40:00",
+                     *                 "updated_at": "2026-09-22 16:05:00",
+                     *                 "shop": {
+                     *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *                   "name": "Zuri Atelier",
+                     *                   "slug": "zuri-atelier",
+                     *                   "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *                   "rating": 4.7,
+                     *                   "rating_count": 486,
+                     *                   "distance": null,
+                     *                   "distance_text": null,
+                     *                   "delivery_fee": null
+                     *                 },
+                     *                 "distance": null,
+                     *                 "distance_text": null,
+                     *                 "delivery_fee": null
+                     *               },
+                     *               {
+                     *                 "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c12",
+                     *                 "p_id": 31502,
+                     *                 "title": "Aso-Oke Head Wrap",
+                     *                 "slug": "aso-oke-head-wrap",
+                     *                 "excerpt": "Hand-woven aso-oke wrap in burnt orange.",
+                     *                 "description": "Hand-woven aso-oke head wrap in burnt orange with metallic striping. Two metres, ready to tie.",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                 "video_url": null,
+                     *                 "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                 "type": "product",
+                     *                 "commerce_mode": "shop",
+                     *                 "currency": "NGN",
+                     *                 "price": 8500,
+                     *                 "discount_price": 8500,
+                     *                 "compare_at_price": null,
+                     *                 "is_price_from": false,
+                     *                 "price_range": null,
+                     *                 "has_variants": false,
+                     *                 "has_addons": false,
+                     *                 "tax_inclusive": false,
+                     *                 "discount": null,
+                     *                 "discounts": [],
+                     *                 "media": {
+                     *                   "thumbnail": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                   "original": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                   "primary_variant_image": null,
+                     *                   "image_variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 480
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 800
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1200
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1080
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1200
+                     *                     }
+                     *                   },
+                     *                   "primary_variant_image_variants": null,
+                     *                   "images": [
+                     *                     {
+                     *                       "id": 77102,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                       "alt": "Burnt-orange aso-oke head wrap, folded",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 480
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 800
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1200
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1080
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/aso-oke-head-wrap.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1200
+                     *                         }
+                     *                       }
+                     *                     }
+                     *                   ]
+                     *                 },
+                     *                 "inventory": {
+                     *                   "in_stock": true,
+                     *                   "tracking": true,
+                     *                   "quantity": 34
+                     *                 },
+                     *                 "variant_summary": null,
+                     *                 "variants_count": 0,
+                     *                 "rating": 4.9,
+                     *                 "review_count": 58,
+                     *                 "flags": {
+                     *                   "featured": false,
+                     *                   "is_marketplace": false,
+                     *                   "is_wholesale": false,
+                     *                   "is_new": false
+                     *                 },
+                     *                 "metafields": {},
+                     *                 "created_at": "2026-07-02 13:15:00",
+                     *                 "updated_at": "2026-09-22 16:05:00",
+                     *                 "shop": {
+                     *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *                   "name": "Zuri Atelier",
+                     *                   "slug": "zuri-atelier",
+                     *                   "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *                   "rating": 4.7,
+                     *                   "rating_count": 486,
+                     *                   "distance": null,
+                     *                   "distance_text": null,
+                     *                   "delivery_fee": null
+                     *                 },
+                     *                 "distance": null,
+                     *                 "distance_text": null,
+                     *                 "delivery_fee": null
+                     *               }
+                     *             ],
+                     *             "has_more": false,
+                     *             "next_cursor": null
+                     *           },
+                     *           "collections": {
+                     *             "items": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *                 "name": "New Season",
+                     *                 "slug": "new-season",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/collections/new-season.jpg"
+                     *               }
+                     *             ],
+                     *             "has_more": false,
+                     *             "next_cursor": null
+                     *           },
+                     *           "pages": {
+                     *             "items": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c71",
+                     *                 "title": "About Zuri Atelier",
+                     *                 "slug": "about-us",
+                     *                 "excerpt": "Lagos-cut fashion since 2019.",
+                     *                 "type": "page"
+                     *               }
+                     *             ],
+                     *             "has_more": false,
+                     *             "next_cursor": null
+                     *           },
+                     *           "posts": {
+                     *             "items": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c73",
+                     *                 "title": "How to style ankara without looking costumey",
+                     *                 "slug": "how-to-style-ankara",
+                     *                 "excerpt": "Three rules for modern ankara.",
+                     *                 "type": "post"
+                     *               }
+                     *             ],
+                     *             "has_more": false,
+                     *             "next_cursor": null
+                     *           }
+                     *         }
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreSearch"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The q field must be at least 2 characters.",
+                     *         "field": "q",
+                     *         "errors": {
+                     *           "q": [
+                     *             "The q field must be at least 2 characters."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "search.autocomplete": {
+        parameters: {
+            query: {
+                /** @example ank */
+                q: string;
+                /** @example 10 */
+                limit?: number | null;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Autocomplete suggestions",
+                     *       "data": {
+                     *         "query": "ank",
+                     *         "items": [
+                     *           {
+                     *             "type": "product",
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *             "title": "Ankara Midi Dress",
+                     *             "slug": "ankara-midi-dress",
+                     *             "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "price": 28500
+                     *           },
+                     *           {
+                     *             "type": "collection",
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *             "name": "New Season",
+                     *             "slug": "new-season",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/collections/new-season.jpg"
+                     *           },
+                     *           {
+                     *             "type": "query",
+                     *             "text": "Ankara Midi Dress"
+                     *           }
+                     *         ]
+                     *       },
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreAutocomplete"];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The limit field must not be greater than 10.",
+                     *         "field": "limit",
+                     *         "errors": {
+                     *           "limit": [
+                     *             "The limit field must not be greater than 10."
                      *           ]
                      *         },
                      *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
@@ -14258,6 +16930,2367 @@ export interface operations {
                      *         "errors": {
                      *           "email": [
                      *             "The email field must be a valid email address."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "taxonomy.list": {
+        parameters: {
+            query?: {
+                parent?: string;
+                /** @example foods */
+                scope?: "pharmacy" | "foods" | "boli" | "suya" | "shawarma-pizza-snacks" | "local-meals" | "fruits-fresh-natural" | "laundry" | "supermarket" | "groceries" | "meat-fish" | "gas-refill" | "local-market" | "fashion" | "beauty-cosmetics" | "electronics" | "phones-accessories" | "home-living" | "baby-kids" | "health-wellness-store" | "office-school";
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    /** @description Strong validator for this taxonomy version and filter set. */
+                    ETag?: string;
+                    /** @description Revalidate with the ETag; a conditional request returns 304 when unchanged. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Taxonomy retrieved",
+                     *       "data": [
+                     *         {
+                     *           "id": "ap-2-1",
+                     *           "parent_id": "ap-2",
+                     *           "name": "Bird Supplies",
+                     *           "slug": "bird-supplies",
+                     *           "level": 2,
+                     *           "vertical": "ap",
+                     *           "is_leaf": true
+                     *         }
+                     *       ],
+                     *       "version": "2026-08+qk-1"
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreTaxonomyNode"][];
+                        version: string;
+                    };
+                };
+            };
+            /** @description Not modified. The cached representation remains current. */
+            304: {
+                headers: {
+                    /** @description Strong validator for this taxonomy version and filter set. */
+                    ETag?: string;
+                    /** @description Revalidate with the ETag; a conditional request returns 304 when unchanged. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Taxonomy parent not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected scope is invalid.",
+                     *         "field": "scope",
+                     *         "errors": {
+                     *           "scope": [
+                     *             "The selected scope is invalid."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "taxonomy.retrieve": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example ap-2-1 */
+                node: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    /** @description Strong validator for this taxonomy version and filter set. */
+                    ETag?: string;
+                    /** @description Revalidate with the ETag; a conditional request returns 304 when unchanged. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Taxonomy node retrieved",
+                     *       "data": {
+                     *         "id": "aa-1",
+                     *         "parent_id": "aa",
+                     *         "name": "Clothing",
+                     *         "slug": "clothing",
+                     *         "level": 1,
+                     *         "vertical": "aa",
+                     *         "is_leaf": false,
+                     *         "ancestors": [
+                     *           {
+                     *             "id": "aa",
+                     *             "name": "Fashion",
+                     *             "slug": "fashion"
+                     *           }
+                     *         ],
+                     *         "children": [
+                     *           {
+                     *             "id": "aa-1-1",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Activewear",
+                     *             "slug": "activewear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-25",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Kids' Clothing",
+                     *             "slug": "kids-clothing",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-13",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Clothing Tops",
+                     *             "slug": "clothing-tops",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-4",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Dresses",
+                     *             "slug": "dresses",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-6",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Lingerie",
+                     *             "slug": "lingerie",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-7",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Maternity Clothing",
+                     *             "slug": "maternity-clothing",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-8",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Men's Undergarments",
+                     *             "slug": "mens-undergarments",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-9",
+                     *             "parent_id": "aa-1",
+                     *             "name": "One-Pieces",
+                     *             "slug": "one-pieces",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-10",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Outerwear",
+                     *             "slug": "outerwear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-11",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Outfit Sets",
+                     *             "slug": "outfit-sets",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-12",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Pants",
+                     *             "slug": "pants",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-14",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Shorts",
+                     *             "slug": "shorts",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-15",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Skirts",
+                     *             "slug": "skirts",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-16",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Skorts",
+                     *             "slug": "skorts",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-17",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Sleepwear & Loungewear",
+                     *             "slug": "sleepwear-loungewear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-18",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Socks",
+                     *             "slug": "socks",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-19",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Suits",
+                     *             "slug": "suits",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-20",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Swimwear",
+                     *             "slug": "swimwear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           },
+                     *           {
+                     *             "id": "aa-1-23",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Native Wear",
+                     *             "slug": "native-wear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-24",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Uniforms & Workwear",
+                     *             "slug": "uniforms-workwear",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": false
+                     *           },
+                     *           {
+                     *             "id": "aa-1-22",
+                     *             "parent_id": "aa-1",
+                     *             "name": "Wedding & Bridal Party Dresses",
+                     *             "slug": "wedding-bridal-party-dresses",
+                     *             "level": 2,
+                     *             "vertical": "aa",
+                     *             "is_leaf": true
+                     *           }
+                     *         ]
+                     *       },
+                     *       "version": "2026-08+qk-1"
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreTaxonomyDetail"];
+                        version: string;
+                    };
+                };
+            };
+            /** @description Not modified. The cached representation remains current. */
+            304: {
+                headers: {
+                    /** @description Strong validator for this taxonomy version and filter set. */
+                    ETag?: string;
+                    /** @description Revalidate with the ETag; a conditional request returns 304 when unchanged. */
+                    "Cache-Control"?: string;
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_key_required",
+                     *         "message": "Send your store API key in the X-Client-Key header (Dashboard → Settings → API keys).",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_key_required",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "origin_not_allowed",
+                     *         "message": "Origin https://evil.example is not on this key's allowlist (https://zuriatelier.ng). Add it under Dashboard → Settings → API keys, or set the origins to `*` while building.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#origin_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Taxonomy node not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "wishlists.list": {
+        parameters: {
+            query?: {
+                /** @example 2 */
+                limit?: number | null;
+                /** @example WzEsIjkzNDkxZTc2ZDBmYzk5N2Q0ZjI3NjFlNGUzNzFhZTY0YjgyZWZhMDE4NzM4NjQ5MDM1NzBjMzhmNWUxMDIwZDIiLCJleUpqZFhOMGIyMWxjbDkzYVhOb2JHbHpkRjlwZEdWdGN5NWpjbVZoZEdWa1gyRjBJam9pTWpBeU5pMHdPUzB5TUNBeE1Eb3dNRG93TUNJc0ltTjFjM1J2YldWeVgzZHBjMmhzYVhOMFgybDBaVzF6TG1sa0lqb2lNREU1WWpCak5HUXROV1UyWmkwM1lUaGlMVGxqTUdRdE1XVXlaak5oTkdJMVl6azVJaXdpWDNCdmFXNTBjMVJ2VG1WNGRFbDBaVzF6SWpwMGNuVmxmUSJd */
+                starting_after?: string | null;
+                /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
+                locale?: string;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. One page of the list: walk while `has_more` is true — no totals, page counts or page URLs are sent. */
+            200: {
+                headers: {
+                    /** @description The locale this read rendered in — the `locale` query code, or the primary locale on fallback. */
+                    "Content-Language"?: string;
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Wishlist items retrieved",
+                     *       "data": [
+                     *         {
+                     *           "created_at": "2026-09-20T09:00:00.000000Z",
+                     *           "product": {
+                     *             "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *             "p_id": 31501,
+                     *             "title": "Ankara Midi Dress",
+                     *             "slug": "ankara-midi-dress",
+                     *             "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *             "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *             "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "video_url": null,
+                     *             "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *             "type": "product",
+                     *             "commerce_mode": "shop",
+                     *             "currency": "NGN",
+                     *             "price": 28500,
+                     *             "discount_price": 24225,
+                     *             "compare_at_price": 28500,
+                     *             "is_price_from": false,
+                     *             "price_range": {
+                     *               "min": 28500,
+                     *               "max": 28500
+                     *             },
+                     *             "has_variants": true,
+                     *             "has_addons": false,
+                     *             "tax_inclusive": false,
+                     *             "discount": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             },
+                     *             "discounts": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *                 "title": "Lagos Fashion Week 15% Off",
+                     *                 "type": "percentage",
+                     *                 "value": 15,
+                     *                 "amount": 4275,
+                     *                 "final_price": 24225,
+                     *                 "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *               }
+                     *             ],
+                     *             "media": {
+                     *               "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *               "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *               "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *               "primary_variant_image": null,
+                     *               "image_variants": {
+                     *                 "thumb": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                   "w": null,
+                     *                   "h": null
+                     *                 },
+                     *                 "card": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "w": 480,
+                     *                   "h": 600
+                     *                 },
+                     *                 "card2x": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                   "w": 800,
+                     *                   "h": 1000
+                     *                 },
+                     *                 "view": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 },
+                     *                 "wa": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                   "w": 1080,
+                     *                   "h": 1350
+                     *                 },
+                     *                 "original": {
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "w": 1200,
+                     *                   "h": 1500
+                     *                 }
+                     *               },
+                     *               "primary_variant_image_variants": null,
+                     *               "images": [
+                     *                 {
+                     *                   "id": 77101,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                   "alt": "Ankara midi dress on a mannequin",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 },
+                     *                 {
+                     *                   "id": 77103,
+                     *                   "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                   "alt": "Ankara midi dress, back view",
+                     *                   "variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   }
+                     *                 }
+                     *               ],
+                     *               "video_url": null,
+                     *               "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp"
+                     *             },
+                     *             "inventory": {
+                     *               "in_stock": true,
+                     *               "tracking": true,
+                     *               "quantity": 18,
+                     *               "allow_backorder": false,
+                     *               "low_stock_threshold": 5,
+                     *               "updated_at": "2026-09-22 16:05:00"
+                     *             },
+                     *             "variant_summary": {
+                     *               "count": 3,
+                     *               "min_price": 28500,
+                     *               "max_price": 28500,
+                     *               "total_stock": 18,
+                     *               "tracks_inventory": true,
+                     *               "in_stock": true
+                     *             },
+                     *             "variants_count": 3,
+                     *             "rating": 4.8,
+                     *             "review_count": 14,
+                     *             "flags": {
+                     *               "featured": false,
+                     *               "is_marketplace": false,
+                     *               "is_wholesale": false,
+                     *               "is_new": false
+                     *             },
+                     *             "metafields": {},
+                     *             "created_at": "2026-06-18 09:40:00",
+                     *             "updated_at": "2026-09-22 16:05:00",
+                     *             "shop": {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *               "name": "Zuri Atelier",
+                     *               "slug": "zuri-atelier",
+                     *               "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *               "rating": 4.7,
+                     *               "rating_count": 486
+                     *             },
+                     *             "addons": [],
+                     *             "taxonomy": {
+                     *               "categories": [
+                     *                 {
+                     *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
+                     *                   "name": "Dresses",
+                     *                   "slug": "dresses"
+                     *                 }
+                     *               ],
+                     *               "tags": [],
+                     *               "brand": null,
+                     *               "collections": [
+                     *                 {
+                     *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *                   "name": "New Season",
+                     *                   "slug": "new-season",
+                     *                   "mode": "manual"
+                     *                 }
+                     *               ]
+                     *             },
+                     *             "purchase_limits": {
+                     *               "min_qty": 1,
+                     *               "max_qty": null,
+                     *               "step_qty": 1
+                     *             },
+                     *             "measurement": {
+                     *               "weight": {
+                     *                 "value": 0.5,
+                     *                 "unit": "kg"
+                     *               },
+                     *               "dimensions": null
+                     *             },
+                     *             "specs": [],
+                     *             "options": [
+                     *               {
+                     *                 "name": "Size",
+                     *                 "position": 0,
+                     *                 "type": "size",
+                     *                 "values": [
+                     *                   "S",
+                     *                   "M",
+                     *                   "L"
+                     *                 ],
+                     *                 "values_detailed": [
+                     *                   {
+                     *                     "value": "S",
+                     *                     "color_code": null,
+                     *                     "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                   },
+                     *                   {
+                     *                     "value": "M",
+                     *                     "color_code": null,
+                     *                     "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                   },
+                     *                   {
+                     *                     "value": "L",
+                     *                     "color_code": null,
+                     *                     "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                   }
+                     *                 ]
+                     *               }
+                     *             ],
+                     *             "variants": [
+                     *               {
+                     *                 "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a01",
+                     *                 "sku": "ZRA-AMD-S",
+                     *                 "barcode": "6151101770011",
+                     *                 "title": "S",
+                     *                 "option_values": {
+                     *                   "Size": "S"
+                     *                 },
+                     *                 "price": 28500,
+                     *                 "discount_price": 24225,
+                     *                 "discount_amount": 4275,
+                     *                 "has_discount": true,
+                     *                 "compare_at_price": null,
+                     *                 "stock": 6,
+                     *                 "track_inventory": true,
+                     *                 "is_active": true,
+                     *                 "in_stock": true,
+                     *                 "weight": 0.4,
+                     *                 "position": 0,
+                     *                 "media": {
+                     *                   "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image_media_id": null,
+                     *                   "image_variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   },
+                     *                   "images": [
+                     *                     {
+                     *                       "id": 77101,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "alt": "Ankara midi dress on a mannequin",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     },
+                     *                     {
+                     *                       "id": 77103,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "alt": "Ankara midi dress, back view",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     }
+                     *                   ],
+                     *                   "video_url": null,
+                     *                   "source": "product"
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *                 "sku": "ZRA-AMD-M",
+                     *                 "barcode": "6151101770028",
+                     *                 "title": "M",
+                     *                 "option_values": {
+                     *                   "Size": "M"
+                     *                 },
+                     *                 "price": 28500,
+                     *                 "discount_price": 24225,
+                     *                 "discount_amount": 4275,
+                     *                 "has_discount": true,
+                     *                 "compare_at_price": null,
+                     *                 "stock": 8,
+                     *                 "track_inventory": true,
+                     *                 "is_active": true,
+                     *                 "in_stock": true,
+                     *                 "weight": 0.45,
+                     *                 "position": 1,
+                     *                 "media": {
+                     *                   "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image_media_id": null,
+                     *                   "image_variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   },
+                     *                   "images": [
+                     *                     {
+                     *                       "id": 77101,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "alt": "Ankara midi dress on a mannequin",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     },
+                     *                     {
+                     *                       "id": 77103,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "alt": "Ankara midi dress, back view",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     }
+                     *                   ],
+                     *                   "video_url": null,
+                     *                   "source": "product"
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a03",
+                     *                 "sku": "ZRA-AMD-L",
+                     *                 "barcode": "6151101770035",
+                     *                 "title": "L",
+                     *                 "option_values": {
+                     *                   "Size": "L"
+                     *                 },
+                     *                 "price": 28500,
+                     *                 "discount_price": 24225,
+                     *                 "discount_amount": 4275,
+                     *                 "has_discount": true,
+                     *                 "compare_at_price": null,
+                     *                 "stock": 4,
+                     *                 "track_inventory": true,
+                     *                 "is_active": true,
+                     *                 "in_stock": true,
+                     *                 "weight": 0.5,
+                     *                 "position": 2,
+                     *                 "media": {
+                     *                   "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                   "image_media_id": null,
+                     *                   "image_variants": {
+                     *                     "thumb": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                       "w": null,
+                     *                       "h": null
+                     *                     },
+                     *                     "card": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "w": 480,
+                     *                       "h": 600
+                     *                     },
+                     *                     "card2x": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                       "w": 800,
+                     *                       "h": 1000
+                     *                     },
+                     *                     "view": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     },
+                     *                     "wa": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                       "w": 1080,
+                     *                       "h": 1350
+                     *                     },
+                     *                     "original": {
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                       "w": 1200,
+                     *                       "h": 1500
+                     *                     }
+                     *                   },
+                     *                   "images": [
+                     *                     {
+                     *                       "id": 77101,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                       "alt": "Ankara midi dress on a mannequin",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     },
+                     *                     {
+                     *                       "id": 77103,
+                     *                       "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                       "alt": "Ankara midi dress, back view",
+                     *                       "variants": {
+                     *                         "thumb": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                           "w": null,
+                     *                           "h": null
+                     *                         },
+                     *                         "card": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                           "w": 480,
+                     *                           "h": 600
+                     *                         },
+                     *                         "card2x": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                           "w": 800,
+                     *                           "h": 1000
+                     *                         },
+                     *                         "view": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         },
+                     *                         "wa": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                           "w": 1080,
+                     *                           "h": 1350
+                     *                         },
+                     *                         "original": {
+                     *                           "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                           "w": 1200,
+                     *                           "h": 1500
+                     *                         }
+                     *                       }
+                     *                     }
+                     *                   ],
+                     *                   "video_url": null,
+                     *                   "source": "product"
+                     *                 }
+                     *               }
+                     *             ],
+                     *             "fulfillment": {
+                     *               "type": "delivery_or_pickup",
+                     *               "is_digital": false,
+                     *               "delivery_available": true,
+                     *               "pickup_available": true,
+                     *               "lead_time_min": null,
+                     *               "lead_time_max": null
+                     *             },
+                     *             "compliance": {
+                     *               "warranty_months": 0,
+                     *               "country_of_origin": null,
+                     *               "safety_notes": null
+                     *             },
+                     *             "seo": {
+                     *               "meta_title": null,
+                     *               "meta_description": null,
+                     *               "canonical_url": null,
+                     *               "keywords": []
+                     *             },
+                     *             "analytics": {
+                     *               "sales_count": 31,
+                     *               "view_count": 218,
+                     *               "favorite_count": 0,
+                     *               "review_count": 14
+                     *             }
+                     *           },
+                     *           "variant": {
+                     *             "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *             "p_id": 44102,
+                     *             "title": "M",
+                     *             "option_values": {
+                     *               "Size": "M"
+                     *             }
+                     *           }
+                     *         }
+                     *       ],
+                     *       "has_more": false,
+                     *       "next_cursor": null
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreWishlistItem"][];
+                        /** @description Another page follows. Page mode: read `page + 1`; cursor mode: pass `next_cursor` as `starting_after`. `false` on the last page and on single-read lists. */
+                        has_more: boolean;
+                        /** @description Opaque cursor for the next page (send it as `starting_after`); `null` on the last page and on page-only lists. */
+                        next_cursor: string | null;
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The limit field must not be greater than 100.",
+                     *         "field": "limit",
+                     *         "errors": {
+                     *           "limit": [
+                     *             "The limit field must not be greater than 100."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "wishlists.save": {
+        parameters: {
+            query?: never;
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                /**
+                 * @example {
+                 *       "product": "ankara-midi-dress",
+                 *       "variant": "44102"
+                 *     }
+                 */
+                "application/json": components["schemas"]["CustomerWishlistItemRequest"];
+            };
+        };
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Wishlist item saved",
+                     *       "data": {
+                     *         "created_at": "2026-09-20T09:00:00.000000Z",
+                     *         "product": {
+                     *           "shop_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c11",
+                     *           "p_id": 31501,
+                     *           "title": "Ankara Midi Dress",
+                     *           "slug": "ankara-midi-dress",
+                     *           "excerpt": "Flared ankara midi with pockets, cut in Lagos.",
+                     *           "description": "Our signature flared midi in premium cotton ankara, with side pockets and a concealed back zip. Cut and finished in our Lekki atelier.",
+                     *           "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *           "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *           "video_url": null,
+                     *           "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *           "type": "product",
+                     *           "commerce_mode": "shop",
+                     *           "currency": "NGN",
+                     *           "price": 28500,
+                     *           "discount_price": 24225,
+                     *           "compare_at_price": 28500,
+                     *           "is_price_from": false,
+                     *           "price_range": {
+                     *             "min": 28500,
+                     *             "max": 28500
+                     *           },
+                     *           "has_variants": true,
+                     *           "has_addons": false,
+                     *           "tax_inclusive": false,
+                     *           "discount": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *             "title": "Lagos Fashion Week 15% Off",
+                     *             "type": "percentage",
+                     *             "value": 15,
+                     *             "amount": 4275,
+                     *             "final_price": 24225,
+                     *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *           },
+                     *           "discounts": [
+                     *             {
+                     *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
+                     *               "title": "Lagos Fashion Week 15% Off",
+                     *               "type": "percentage",
+                     *               "value": 15,
+                     *               "amount": 4275,
+                     *               "final_price": 24225,
+                     *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
+                     *             }
+                     *           ],
+                     *           "media": {
+                     *             "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *             "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *             "original": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *             "primary_variant_image": null,
+                     *             "image_variants": {
+                     *               "thumb": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                 "w": null,
+                     *                 "h": null
+                     *               },
+                     *               "card": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "w": 480,
+                     *                 "h": 600
+                     *               },
+                     *               "card2x": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                 "w": 800,
+                     *                 "h": 1000
+                     *               },
+                     *               "view": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               },
+                     *               "wa": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                 "w": 1080,
+                     *                 "h": 1350
+                     *               },
+                     *               "original": {
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "w": 1200,
+                     *                 "h": 1500
+                     *               }
+                     *             },
+                     *             "primary_variant_image_variants": null,
+                     *             "images": [
+                     *               {
+                     *                 "id": 77101,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                 "alt": "Ankara midi dress on a mannequin",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               },
+                     *               {
+                     *                 "id": 77103,
+                     *                 "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                 "alt": "Ankara midi dress, back view",
+                     *                 "variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 }
+                     *               }
+                     *             ],
+                     *             "video_url": null,
+                     *             "video_poster_url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp"
+                     *           },
+                     *           "inventory": {
+                     *             "in_stock": true,
+                     *             "tracking": true,
+                     *             "quantity": 18,
+                     *             "allow_backorder": false,
+                     *             "low_stock_threshold": 5,
+                     *             "updated_at": "2026-09-22 16:05:00"
+                     *           },
+                     *           "variant_summary": {
+                     *             "count": 3,
+                     *             "min_price": 28500,
+                     *             "max_price": 28500,
+                     *             "total_stock": 18,
+                     *             "tracks_inventory": true,
+                     *             "in_stock": true
+                     *           },
+                     *           "variants_count": 3,
+                     *           "rating": 4.8,
+                     *           "review_count": 14,
+                     *           "flags": {
+                     *             "featured": false,
+                     *             "is_marketplace": false,
+                     *             "is_wholesale": false,
+                     *             "is_new": false
+                     *           },
+                     *           "metafields": {},
+                     *           "created_at": "2026-06-18 09:40:00",
+                     *           "updated_at": "2026-09-22 16:05:00",
+                     *           "shop": {
+                     *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c01",
+                     *             "name": "Zuri Atelier",
+                     *             "slug": "zuri-atelier",
+                     *             "logo": "https://media.usequeek.com/uploads/stores/2207/logo.png",
+                     *             "rating": 4.7,
+                     *             "rating_count": 486
+                     *           },
+                     *           "addons": [],
+                     *           "taxonomy": {
+                     *             "categories": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c21",
+                     *                 "name": "Dresses",
+                     *                 "slug": "dresses"
+                     *               }
+                     *             ],
+                     *             "tags": [],
+                     *             "brand": null,
+                     *             "collections": [
+                     *               {
+                     *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c25",
+                     *                 "name": "New Season",
+                     *                 "slug": "new-season",
+                     *                 "mode": "manual"
+                     *               }
+                     *             ]
+                     *           },
+                     *           "purchase_limits": {
+                     *             "min_qty": 1,
+                     *             "max_qty": null,
+                     *             "step_qty": 1
+                     *           },
+                     *           "measurement": {
+                     *             "weight": {
+                     *               "value": 0.5,
+                     *               "unit": "kg"
+                     *             },
+                     *             "dimensions": null
+                     *           },
+                     *           "specs": [],
+                     *           "options": [
+                     *             {
+                     *               "name": "Size",
+                     *               "position": 0,
+                     *               "type": "size",
+                     *               "values": [
+                     *                 "S",
+                     *                 "M",
+                     *                 "L"
+                     *               ],
+                     *               "values_detailed": [
+                     *                 {
+                     *                   "value": "S",
+                     *                   "color_code": null,
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                 },
+                     *                 {
+                     *                   "value": "M",
+                     *                   "color_code": null,
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                 },
+                     *                 {
+                     *                   "value": "L",
+                     *                   "color_code": null,
+                     *                   "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg"
+                     *                 }
+                     *               ]
+                     *             }
+                     *           ],
+                     *           "variants": [
+                     *             {
+                     *               "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a01",
+                     *               "sku": "ZRA-AMD-S",
+                     *               "barcode": "6151101770011",
+                     *               "title": "S",
+                     *               "option_values": {
+                     *                 "Size": "S"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount_amount": 4275,
+                     *               "has_discount": true,
+                     *               "compare_at_price": null,
+                     *               "stock": 6,
+                     *               "track_inventory": true,
+                     *               "is_active": true,
+                     *               "in_stock": true,
+                     *               "weight": 0.4,
+                     *               "position": 0,
+                     *               "media": {
+                     *                 "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image_media_id": null,
+                     *                 "image_variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 },
+                     *                 "images": [
+                     *                   {
+                     *                     "id": 77101,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "alt": "Ankara midi dress on a mannequin",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   },
+                     *                   {
+                     *                     "id": 77103,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "alt": "Ankara midi dress, back view",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   }
+                     *                 ],
+                     *                 "video_url": null,
+                     *                 "source": "product"
+                     *               }
+                     *             },
+                     *             {
+                     *               "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *               "sku": "ZRA-AMD-M",
+                     *               "barcode": "6151101770028",
+                     *               "title": "M",
+                     *               "option_values": {
+                     *                 "Size": "M"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount_amount": 4275,
+                     *               "has_discount": true,
+                     *               "compare_at_price": null,
+                     *               "stock": 8,
+                     *               "track_inventory": true,
+                     *               "is_active": true,
+                     *               "in_stock": true,
+                     *               "weight": 0.45,
+                     *               "position": 1,
+                     *               "media": {
+                     *                 "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image_media_id": null,
+                     *                 "image_variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 },
+                     *                 "images": [
+                     *                   {
+                     *                     "id": 77101,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "alt": "Ankara midi dress on a mannequin",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   },
+                     *                   {
+                     *                     "id": 77103,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "alt": "Ankara midi dress, back view",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   }
+                     *                 ],
+                     *                 "video_url": null,
+                     *                 "source": "product"
+                     *               }
+                     *             },
+                     *             {
+                     *               "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a03",
+                     *               "sku": "ZRA-AMD-L",
+                     *               "barcode": "6151101770035",
+                     *               "title": "L",
+                     *               "option_values": {
+                     *                 "Size": "L"
+                     *               },
+                     *               "price": 28500,
+                     *               "discount_price": 24225,
+                     *               "discount_amount": 4275,
+                     *               "has_discount": true,
+                     *               "compare_at_price": null,
+                     *               "stock": 4,
+                     *               "track_inventory": true,
+                     *               "is_active": true,
+                     *               "in_stock": true,
+                     *               "weight": 0.5,
+                     *               "position": 2,
+                     *               "media": {
+                     *                 "thumbnail": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                 "image_media_id": null,
+                     *                 "image_variants": {
+                     *                   "thumb": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                     "w": null,
+                     *                     "h": null
+                     *                   },
+                     *                   "card": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "w": 480,
+                     *                     "h": 600
+                     *                   },
+                     *                   "card2x": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                     "w": 800,
+                     *                     "h": 1000
+                     *                   },
+                     *                   "view": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   },
+                     *                   "wa": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                     "w": 1080,
+                     *                     "h": 1350
+                     *                   },
+                     *                   "original": {
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                     "w": 1200,
+                     *                     "h": 1500
+                     *                   }
+                     *                 },
+                     *                 "images": [
+                     *                   {
+                     *                     "id": 77101,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                     "alt": "Ankara midi dress on a mannequin",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   },
+                     *                   {
+                     *                     "id": 77103,
+                     *                     "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                     "alt": "Ankara midi dress, back view",
+                     *                     "variants": {
+                     *                       "thumb": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-thumb.webp",
+                     *                         "w": null,
+                     *                         "h": null
+                     *                       },
+                     *                       "card": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card.webp",
+                     *                         "w": 480,
+                     *                         "h": 600
+                     *                       },
+                     *                       "card2x": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-card2x.webp",
+                     *                         "w": 800,
+                     *                         "h": 1000
+                     *                       },
+                     *                       "view": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-view.webp",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       },
+                     *                       "wa": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back-wa.jpg",
+                     *                         "w": 1080,
+                     *                         "h": 1350
+                     *                       },
+                     *                       "original": {
+                     *                         "url": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress-back.jpg",
+                     *                         "w": 1200,
+                     *                         "h": 1500
+                     *                       }
+                     *                     }
+                     *                   }
+                     *                 ],
+                     *                 "video_url": null,
+                     *                 "source": "product"
+                     *               }
+                     *             }
+                     *           ],
+                     *           "fulfillment": {
+                     *             "type": "delivery_or_pickup",
+                     *             "is_digital": false,
+                     *             "delivery_available": true,
+                     *             "pickup_available": true,
+                     *             "lead_time_min": null,
+                     *             "lead_time_max": null
+                     *           },
+                     *           "compliance": {
+                     *             "warranty_months": 0,
+                     *             "country_of_origin": null,
+                     *             "safety_notes": null
+                     *           },
+                     *           "seo": {
+                     *             "meta_title": null,
+                     *             "meta_description": null,
+                     *             "canonical_url": null,
+                     *             "keywords": []
+                     *           },
+                     *           "analytics": {
+                     *             "sales_count": 31,
+                     *             "view_count": 218,
+                     *             "favorite_count": 0,
+                     *             "review_count": 14
+                     *           }
+                     *         },
+                     *         "variant": {
+                     *           "id": "019b0c4d-5f10-7a02-8c61-0b2d4e6f8a02",
+                     *           "p_id": 44102,
+                     *           "title": "M",
+                     *           "option_values": {
+                     *             "Size": "M"
+                     *           }
+                     *         }
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreWishlistItem"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected variant is invalid for this product.",
+                     *         "field": "variant",
+                     *         "errors": {
+                     *           "variant": [
+                     *             "The selected variant is invalid for this product."
+                     *           ]
+                     *         },
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Too many requests — slow down and retry. Switch on `error.code`. */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "too_many_requests",
+                     *         "message": "Too Many Attempts.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#too_many_requests",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+        };
+    };
+    "wishlists.remove": {
+        parameters: {
+            query?: {
+                /** @example 44102 */
+                variant?: string | null;
+            };
+            header: {
+                /**
+                 * @description Your store API key (Dashboard → Settings → API keys). `pk_live_…` public keys are for browser code and only work from an origin on the key's allowlist; `sk_live_…` private keys are for servers and native apps and need no Origin.
+                 * @example {{clientKey}}
+                 */
+                "X-Client-Key": string;
+                /** @description Your own correlation id (8–128 chars, `^[A-Za-z0-9_.:-]+$`). Echoed back on the response and on every log line of the request; one is generated when you omit it. */
+                "X-Request-Id"?: string;
+            };
+            path: {
+                /** @example ankara-midi-dress */
+                ref: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Success. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "status": "success",
+                     *       "message": "Wishlist removal processed",
+                     *       "data": {
+                     *         "removed": false
+                     *       }
+                     *     }
+                     */
+                    "application/json": {
+                        /** @example success */
+                        status: string;
+                        message: string;
+                        data: components["schemas"]["QueekStoreWishlistRemoval"];
+                    };
+                };
+            };
+            /** @description Unauthorized — the key is missing, unknown, or its mode does not match its store. Switch on `error.code`. */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "unauthenticated",
+                     *         "message": "Unauthenticated. Send the customer access_token as `Authorization: Bearer <access_token>` ALONGSIDE `X-Client-Key`.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#unauthenticated",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Forbidden — the key cannot call this operation. Switch on `error.code`. */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "client_not_allowed",
+                     *         "message": "Client token does not match tenant context. This credential was issued for another store.",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#client_not_allowed",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Not found — the addressed record does not exist at this store. Switch on `error.code`. */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "not_found",
+                     *         "message": "Product not found",
+                     *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#not_found",
+                     *         "request_id": "9e4f2a1c-7b3d-4a5e-8c6f-1d2b3a4c5e01"
+                     *       }
+                     *     }
+                     */
+                    "application/json": components["schemas"]["QueekError"];
+                };
+            };
+            /** @description Validation failed — `error.errors` carries per-field detail. Switch on `error.code`. */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    /**
+                     * @example {
+                     *       "error": {
+                     *         "code": "validation_failed",
+                     *         "message": "The selected variant is invalid for this product.",
+                     *         "field": "variant",
+                     *         "errors": {
+                     *           "variant": [
+                     *             "The selected variant is invalid for this product."
                      *           ]
                      *         },
                      *         "doc_url": "https://docs.usequeek.com/docs/versioning-and-errors#validation_failed",
@@ -14509,6 +19542,50 @@ export interface operations {
             };
         };
     };
+    "webhook.customers_email_marketing_consent.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookCustomerEmailMarketingConsentEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.customers_marketing_consent.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookCustomerSmsMarketingConsentEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     "webhook.inventory_levels.update": {
         parameters: {
             query?: never;
@@ -14519,6 +19596,116 @@ export interface operations {
         requestBody: {
             content: {
                 "application/json": components["schemas"]["QueekWebhookInventoryLevelEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.locales.create": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.locales.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.locales.destroy": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.translations.update": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookEvent"];
+            };
+        };
+        responses: {
+            /** @description Acknowledged. Any other status (or a timeout) is retried on the published backoff schedule. */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    "webhook.translations.delete": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["QueekWebhookEvent"];
             };
         };
         responses: {
