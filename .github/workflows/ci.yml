@@ -3,16 +3,24 @@ name: ci
 on:
   push:
   pull_request:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   build-example:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: examples/nextjs-headless
     env:
-      # Secret key of a Queek dev store, stored as the QUEEK_SECRET_KEY repository
-      # secret. The smoke step is skipped when the secret is not set.
+      # Secret key of a Queek dev store (sk_test_...), stored as the
+      # QUEEK_SECRET_KEY repository secret. The smoke step is skipped when the
+      # secret is not set.
       QUEEK_SECRET_KEY: ${{ secrets.QUEEK_SECRET_KEY }}
       QUEEK_API_BASE: https://client.usequeek.com/v1
     steps:
@@ -23,14 +31,35 @@ jobs:
           cache: yarn
           cache-dependency-path: examples/nextjs-headless/yarn.lock
       - run: yarn install --frozen-lockfile
-      - run: yarn spec:pull
+      # Deterministic: the committed types must match the committed spec.
       - run: yarn types:gen
-      - run: git diff --exit-code lib/schema.d.ts || (echo "::error::schema.d.ts is stale — run yarn types:gen and commit"; exit 1)
+      - run: git diff --exit-code lib/schema.d.ts || (echo "::error::lib/schema.d.ts does not match openapi.json. Run yarn types:gen and commit."; exit 1)
       - run: yarn lint
       - run: yarn test
       - run: yarn build
       - run: yarn smoke
         if: ${{ env.QUEEK_SECRET_KEY != '' }}
+
+  # Weekly: compare the committed spec snapshot with the live one and audit the
+  # dependencies, so new API changes and advisories surface as a failing
+  # scheduled run instead of blocking every push.
+  weekly:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: examples/nextjs-headless
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: yarn
+          cache-dependency-path: examples/nextjs-headless/yarn.lock
+      - run: yarn install --frozen-lockfile
+      - run: yarn types:pull
+      - run: git diff --exit-code openapi.json lib/schema.d.ts || (echo "::error::The live spec changed. Run yarn types:pull, re-run the tests and commit."; exit 1)
+      - run: yarn audit --groups dependencies
 
   public-text:
     runs-on: ubuntu-latest
