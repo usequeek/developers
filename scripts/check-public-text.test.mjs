@@ -11,12 +11,10 @@ const script = join(dirname(fileURLToPath(import.meta.url)), "check-public-text.
 // Leaky strings are assembled at run time so this file stays clean itself.
 const word = (...parts) => parts.join("");
 const LEAKS = {
-  "internal-repo": word("queek", "_", "back", "end", " config"),
   "internal-dir": word(".ag", "ent/", "notes"),
-  "internal-host": word("deployed via ", "Dok", "ploy"),
-  "internal-person": word("the ", "found", "er decided"),
   "local-path": word("/Us", "ers/", "someone/project"),
   "rendering-bug": word("[object ", "Object]"),
+  "named-platform": word("sold on ", "Shop", "ify"),
   "plan-id": word("plan ", "T2"),
   "decision-id": word("decision ", "4"),
 };
@@ -33,7 +31,8 @@ function repo(files) {
   return dir;
 }
 
-const run = (dir) => spawnSync("node", [script, dir], { encoding: "utf8" });
+const run = (dir, env = {}) =>
+  spawnSync("node", [script, dir], { encoding: "utf8", env: { ...process.env, QUEEK_PUBLIC_TEXT_DENY: "", ...env } });
 
 test("clean repository passes", () => {
   const dir = repo({ "README.md": "# Hello\n\nUse /users/me to read the profile.\n" });
@@ -67,7 +66,7 @@ test("a justified allow-list entry suppresses one rule for one path", () => {
     ".public-text-allow": "tests/fixtures/ | private-key | throwaway fixture, not a real key\n",
   });
   assert.equal(run(dir).status, 0);
-  writeFileSync(join(dir, "tests/fixtures/other.txt"), `${LEAKS["internal-person"]}\n`);
+  writeFileSync(join(dir, "tests/fixtures/other.txt"), `${LEAKS["internal-dir"]}\n`);
   assert.equal(run(dir).status, 1, "other rules still apply under the allowed path");
   rmSync(dir, { recursive: true });
 });
@@ -82,10 +81,36 @@ test("an allow-list entry without a reason is rejected", () => {
 
 test("lockfiles, node_modules and binary files are skipped", () => {
   const dir = repo({
-    "package-lock.json": `${LEAKS["internal-repo"]}\n`,
-    "node_modules/x/index.js": `${LEAKS["internal-repo"]}\n`,
+    "package-lock.json": `${LEAKS["internal-dir"]}\n`,
+    "node_modules/x/index.js": `${LEAKS["internal-dir"]}\n`,
   });
-  writeFileSync(join(dir, "image.bin"), Buffer.concat([Buffer.from([0, 1, 2]), Buffer.from(LEAKS["internal-repo"])]));
+  writeFileSync(join(dir, "image.bin"), Buffer.concat([Buffer.from([0, 1, 2]), Buffer.from(LEAKS["internal-dir"])]));
   assert.equal(run(dir).status, 0);
+  rmSync(dir, { recursive: true });
+});
+
+test("other-platform names fail, including word-boundary cases", () => {
+  const dir = repo({ "a.md": `${word("works with ", "Woo", "Commerce")}\n`, "b.md": "a quick fix\n" });
+  const result = run(dir);
+  assert.equal(result.status, 1);
+  assert.match(result.stderr, /a\.md:1  \[named-platform\]/);
+  assert.ok(!/b\.md/.test(result.stderr), "ordinary words do not match");
+  rmSync(dir, { recursive: true });
+});
+
+test("extra internal names come from the environment or an untracked file", () => {
+  const dir = repo({ "a.md": "see acme-internal-tool\n" });
+  assert.equal(run(dir).status, 0, "nothing is blocked without extras");
+  const viaEnv = run(dir, { QUEEK_PUBLIC_TEXT_DENY: "acme-internal-[t]ool" });
+  assert.equal(viaEnv.status, 1);
+  assert.match(viaEnv.stderr, /a\.md:1  \[internal-name\]/);
+  writeFileSync(join(dir, ".public-text-deny"), "# comment\nacme-internal-tool\n");
+  assert.equal(run(dir).status, 1, "the deny file works too");
+  rmSync(dir, { recursive: true });
+});
+
+test("an invalid extra pattern is a usage error", () => {
+  const dir = repo({ "a.md": "ok\n" });
+  assert.equal(run(dir, { QUEEK_PUBLIC_TEXT_DENY: "(" }).status, 2);
   rmSync(dir, { recursive: true });
 });

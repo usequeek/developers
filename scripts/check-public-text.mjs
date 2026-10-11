@@ -18,22 +18,42 @@ import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
-// Character classes keep this file from matching its own patterns.
+// Character classes keep this file from matching its own patterns. Names that
+// are internal to Queek never appear here: supply them as extra patterns through
+// the QUEEK_PUBLIC_TEXT_DENY environment variable (one regular expression per
+// line, or separated by ";") or an untracked `.public-text-deny` file in the
+// scanned directory. They are reported under the rule id "internal-name".
 export const RULES = [
-  { id: "internal-repo", re: /queek[_-]backend/i },
+  { id: "internal-name", re: null },
   { id: "internal-dir", re: /[.]agent\//i },
   { id: "internal-tasks", re: /TASK[S]\// },
-  { id: "internal-plan-doc", re: /app-ui-ki[t]/i },
-  { id: "internal-host", re: /Dokplo[y]|GHC[R]/i },
-  { id: "internal-person", re: /found[e]r/i },
   { id: "local-path", re: /\/User[s]\/[A-Za-z]/ },
   { id: "rendering-bug", re: /\[object Objec[t]\]/i },
   { id: "plan-id", re: /plan T[0-9]/i },
   { id: "decision-id", re: /decision [0-9]+/i },
+  { id: "named-platform", re: /\b(Shopif[y]|WooCommerc[e]|BigCommerc[e]|Magent[o]|Squarespac[e]|Webflo[w]|Salesforc[e]|Medus[a]|Saleo[r]|Ets[y]|Amazo[n]|Twili[o]|Verce[l]|Wi[x])\b/i },
   { id: "secret-key", re: /sk_(live|test)_[A-Za-z0-9]{10,}/i, secret: true },
   { id: "github-token", re: /ghp_[A-Za-z0-9]{20,}/i, secret: true },
   { id: "private-key", re: /BEGIN [A-Z ]*PRIVATE KEY/i, secret: true },
 ];
+
+/** Extra deny patterns from the environment and the untracked deny file. */
+export function loadExtraPatterns(root, env = process.env) {
+  const sources = [env.QUEEK_PUBLIC_TEXT_DENY ?? ""];
+  const file = join(root, ".public-text-deny");
+  if (existsSync(file)) sources.push(readFileSync(file, "utf8"));
+  const patterns = [];
+  const errors = [];
+  for (const line of sources.join("\n").split(/[\n;]/).map((l) => l.trim())) {
+    if (!line || line.startsWith("#")) continue;
+    try {
+      patterns.push(new RegExp(line, "i"));
+    } catch {
+      errors.push("check-public-text: an extra deny pattern is not a valid regular expression");
+    }
+  }
+  return { patterns, errors };
+}
 
 const SKIP_NAMES = new Set(["package-lock.json", "yarn.lock", "pnpm-lock.yaml", "bun.lock", "bun.lockb", "composer.lock"]);
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -64,6 +84,8 @@ const isAllowed = (entries, file, rule) =>
 export function scan(root) {
   const listed = execFileSync("git", ["-C", root, "ls-files", "-z", "--cached", "--others", "--exclude-standard"], { encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   const { entries, errors } = loadAllowList(root);
+  const extra = loadExtraPatterns(root);
+  errors.push(...extra.errors);
   const findings = [];
   for (const file of [...new Set(listed.split("\0").filter(Boolean))]) {
     const name = file.split("/").pop();
@@ -80,7 +102,8 @@ export function scan(root) {
     }
     body.split("\n").forEach((text, i) => {
       for (const rule of RULES) {
-        if (rule.re.test(text) && !isAllowed(entries, file, rule.id)) {
+        const matches = rule.re ? rule.re.test(text) : extra.patterns.some((p) => p.test(text));
+        if (matches && !isAllowed(entries, file, rule.id)) {
           findings.push({ file, line: i + 1, rule: rule.id, text: rule.secret ? null : text.trim().slice(0, 100) });
         }
       }
