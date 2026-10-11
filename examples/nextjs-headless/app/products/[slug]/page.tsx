@@ -1,4 +1,5 @@
-import { getProduct, metafieldEntries } from "@/lib/queek";
+import { notFound } from "next/navigation";
+import { getProduct, isNotFound, metafieldEntries } from "@/lib/queek";
 
 export const dynamic = "force-dynamic";
 
@@ -15,7 +16,10 @@ export default async function ProductPage({
 }) {
   const { slug } = await params;
   const { customise } = await searchParams;
-  const p = await getProduct(slug);
+  const p = await getProduct(slug).catch((error: unknown) => {
+    if (isNotFound(error)) notFound();
+    throw error;
+  });
   const metafields = metafieldEntries(p.metafields);
   const image = p.media?.image ?? p.image;
 
@@ -26,7 +30,6 @@ export default async function ProductPage({
       </p>
       <h1>{p.title}</h1>
       {image && (
-        // eslint-disable-next-line @next/next/no-img-element
         <img
           src={image}
           alt={p.title}

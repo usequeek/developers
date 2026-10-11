@@ -1,10 +1,11 @@
 /**
- * Smoke test: exercises the route handlers' logic (the lib/queek.js helpers
- * the handlers call) against the live API and prints proof.
+ * Smoke test: runs the lib/queek.js helpers that the route handlers call
+ * against the Storefront API and prints what came back.
  *
- *   QUEEK_SECRET_KEY=sk_test_… node scripts/smoke.mjs
+ *   QUEEK_SECRET_KEY=sk_test_... node scripts/smoke.mjs
  *
- * Uses a throwaway cart session and clears it afterwards — no residue.
+ * It writes a cart (add, validate, clear) under a throwaway session, so it
+ * only runs with a dev store key (`sk_test_`). It refuses a live key.
  */
 import {
   addToCart,
@@ -24,6 +25,12 @@ import {
 function fail(msg) {
   console.error(`SMOKE FAIL: ${msg}`);
   process.exit(1);
+}
+
+if (!process.env.QUEEK_SECRET_KEY?.startsWith("sk_test_")) {
+  fail(
+    "QUEEK_SECRET_KEY must be a dev store key (sk_test_...). The smoke test writes a cart, so it never runs against a live store.",
+  );
 }
 
 const info = await getStoreInfo();

@@ -17,9 +17,9 @@ const FALLBACK_BRAND = {
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const info = await getStoreInfo();
-    return { title: info.name, description: `Shop ${info.name} — headless Queek storefront` };
+    return { title: info.name, description: `Shop ${info.name}` };
   } catch {
-    return { title: "Queek headless storefront" };
+    return { title: "Queek storefront" };
   }
 }
 
@@ -31,11 +31,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
     const info = await getStoreInfo();
     storeName = info.name;
     brand = { ...FALLBACK_BRAND, ...info.brand.colors };
-    // Theme: the merchant's brand kit (Dashboard → brand) drives the theme.
+    // The merchant's brand kit (set in the dashboard) drives colours and font.
     // Override `fontFamily` here to pin your own typeface instead.
     if (info.brand.font?.body) fontFamily = `${info.brand.font.body}, ${fontFamily}`;
-  } catch {
-    // No key / API unreachable: render unbranded so the build never fails.
+  } catch (error) {
+    // No key or API unreachable: render unbranded so the shell still loads.
+    // The pages themselves surface the error.
+    console.warn(
+      `Could not load the store brand: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   return (

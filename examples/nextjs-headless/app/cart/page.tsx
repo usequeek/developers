@@ -48,9 +48,13 @@ export default async function CartPage() {
         </p>
       </div>
       <div style={{ display: "flex", gap: 12 }}>
-        <a className="btn" href={cart.checkout_url}>
-          Continue to checkout
-        </a>
+        {cart.checkout_url ? (
+          <a className="btn" href={cart.checkout_url}>
+            Continue to checkout
+          </a>
+        ) : (
+          <p className="muted">Checkout is not available for this cart yet.</p>
+        )}
         <form method="post" action="/api/cart/clear">
           <button className="btn btn-secondary" type="submit">
             Clear cart
@@ -58,8 +62,9 @@ export default async function CartPage() {
         </form>
       </div>
       <p className="muted" style={{ fontSize: 13 }}>
-        Checkout is hosted by Queek — the button hands the shopper (and their
-        cart session) to <code>checkout_url</code> from the cart API.
+        Queek hosts checkout. The button sends the shopper to the{" "}
+        <code>checkout_url</code> from the cart, where Queek takes over address,
+        delivery and payment.
       </p>
     </>
   );

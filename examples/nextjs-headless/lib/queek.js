@@ -1,34 +1,27 @@
 /**
- * Server-side Queek client for the headless starter.
+ * Server-side client for the Queek Storefront API
+ * (https://client.usequeek.com/openapi.json).
  *
- * Every call below hits a path that exists in the public OpenAPI spec
- * (https://client.usequeek.com/openapi.json). Request bodies reuse the
- * generated `components["schemas"]` types; endpoint paths are checked
- * against the spec's literal `paths` keys.
+ * Every call below targets a path in that spec. Request bodies reuse the
+ * generated `components["schemas"]` types and paths are checked against the
+ * spec's `paths` keys.
  *
- * One honesty note: the spec's 200-response `data` schemas are structured
- * now, and anonymous carts are documented on the spec itself — `X-Cart-Session`
- * is required when no customer `Authorization: Bearer` token is sent (and is
- * ignored when one is), and is also accepted as the `session_token` body
- * field. But the generated entity resources still diverge from live dev-store
- * payloads on fields this starter uses, so entity shapes below stay pinned
- * from live responses (verified 23/9/26) — see README. If a field you need is
- * missing, fetch it and extend the typedef.
+ * Anonymous shoppers: `X-Cart-Session` identifies a guest cart. It is required
+ * when no customer `Authorization: Bearer` token is sent, and ignored when one
+ * is.
  *
- * Known divergences (generated → observed live): `QueekStoreProduct`
- * (`p_id: string` → number, `metafields: string` → `[]` on list / `{}` on
- * detail, `inventory: unknown[]` → `{ in_stock, quantity }`, `excerpt:
- * string` → `string | null`); `QueekStoreCart` (`cart_items` map → array,
- * `is_valid: string` → `boolean | null`, `validation_errors: string |
- * string[]` → `unknown[]`). Request bodies (`AddCartItemRequest`,
- * `ValidateCustomerCartRequest`) match and are reused from the generated
- * types.
+ * Response shapes: the generated entity types can differ from what a dev store
+ * returns on fields this starter reads, so the entity typedefs below are
+ * pinned to observed responses. If you need a field that is missing, add it to
+ * the typedef.
  *
- * The secret key (`sk_…`) lives ONLY here, on the server. Route handlers and
- * server components import these helpers; the browser never sees the key.
+ * The secret key (`sk_test_...` on a dev store) lives only here, on the
+ * server. Route handlers and server components import these helpers, so the
+ * browser never sees the key.
  *
- * Plain `.js` (with JSDoc types checked by `tsc`) on purpose: the Next app
- * and the plain-node smoke script import this same file with no build step.
+ * This file is plain JavaScript with JSDoc types, checked by `tsc`, so the
+ * Next app and the Node smoke script can import the same module without a
+ * build step.
  */
 
 import { randomUUID } from "node:crypto";
@@ -38,6 +31,15 @@ import {
 } from "@queekai/client-sdk";
 
 export { QueekSdkError };
+
+/**
+ * True when the API answered 404, for example an unknown product slug.
+ * @param {unknown} error
+ * @returns {boolean}
+ */
+export function isNotFound(error) {
+  return error instanceof QueekSdkError && error.status === 404;
+}
 
 export const API_BASE =
   process.env.QUEEK_API_BASE ?? "https://client.usequeek.com/v1";
@@ -49,7 +51,7 @@ function secret() {
   const key = process.env.QUEEK_SECRET_KEY;
   if (!key) {
     throw new Error(
-      "Missing QUEEK_SECRET_KEY. Copy .env.example to .env and paste a secret key (Dashboard → Settings → API).",
+      "QUEEK_SECRET_KEY is not set. Copy .env.example to .env and set it to your dev store's secret key (sk_test_...), found under Developers > Dev stores in the Queek dashboard.",
     );
   }
   return key;
@@ -58,7 +60,7 @@ function secret() {
 /** @type {import("@queekai/client-sdk").QueekClientInstance | null} */
 let client = null;
 
-/** Shared SDK client: sends `X-Client-Key` + `Accept: application/json`. */
+/** Shared SDK client. Sends the secret key as `X-Client-Key`. */
 export function getClient() {
   if (!client) {
     client = createQueekClient({
@@ -116,8 +118,8 @@ function cartHeaders(session) {
  * @property {string} commerce_mode
  * @property {boolean} is_open
  * @property {string | null} message
- * @property {string} storefront_url
- * @property {string} checkout_url
+ * @property {string | null} storefront_url
+ * @property {string | null} checkout_url
  * @property {StoreBrand} brand
  */
 
@@ -193,7 +195,7 @@ function cartHeaders(session) {
  * @property {string} id
  * @property {CartItem[]} cart_items
  * @property {number} total_price
- * @property {string} checkout_url
+ * @property {string | null} checkout_url
  * @property {boolean | null} is_valid
  * @property {unknown[]} validation_errors
  */
