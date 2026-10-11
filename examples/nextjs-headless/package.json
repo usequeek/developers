@@ -2,22 +2,26 @@
   "name": "queek-nextjs-headless",
   "version": "0.1.0",
   "private": true,
-  "description": "Minimal headless Queek storefront (Next.js App Router + public client API)",
+  "type": "module",
+  "description": "A minimal headless storefront on the Queek Storefront API: Next.js App Router, TypeScript, guest cart and Queek-hosted checkout.",
   "license": "MIT",
+  "engines": {
+    "node": ">=20.9"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "tsc --noEmit",
-    "test": "node --test tests/unwrap.test.mjs",
+    "test": "node --test tests/*.test.mjs",
     "spec:pull": "curl -sSf https://client.usequeek.com/openapi.json -o openapi.json",
     "types:gen": "openapi-typescript openapi.json -o lib/schema.d.ts",
     "types:pull": "yarn spec:pull && yarn types:gen",
     "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
-    "@queekai/client-sdk": "^0.3.0",
-    "next": "^15.1.6",
+    "@queekai/client-sdk": "^0.3.1",
+    "next": "^15.5.27",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
@@ -27,5 +31,9 @@
     "@types/react-dom": "^19.0.0",
     "openapi-typescript": "^7.4.0",
     "typescript": "^5.7.0"
+  },
+  "resolutions": {
+    "postcss": "^8.5.23",
+    "sharp": "^0.35.5"
   }
 }
