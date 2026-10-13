@@ -1722,8 +1722,10 @@ export interface components {
         };
         /** AddonGroupResource */
         AddonGroupResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Display title. */
             title: string;
             type: string;
             required: boolean;
@@ -1738,34 +1740,45 @@ export interface components {
         };
         /** AddonItemResource */
         AddonItemResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Display name. */
             name: string;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
             price: string;
             in_stock: boolean;
             is_pack: boolean;
             is_global: boolean;
         };
         /** Collection */
-        "App.Http.Resources.Api.CollectionResource": {
+        Collection: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Descriptive text. */
             description: string;
             image: string;
             logo: string;
             featured: boolean;
+            /** @description Sort position within the parent list. */
             position: number | null;
             collection_mode: string | null;
             parent_uid: string | null;
             products_count: number | null;
             children: unknown[];
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** Order */
-        "App.Http.Resources.Api.OrderResource": {
+        Order: {
             id: number | unknown;
             uid: string | unknown;
             order_number: string | unknown;
@@ -1788,16 +1801,23 @@ export interface components {
             tax_total: string | unknown;
             total: string | unknown;
             customer: ({
+                /** @description Unique identifier of this object. */
                 id: number;
+                /** @description Display name. */
                 name: string | null;
+                /** @description Email address. */
                 email: string | null;
+                /** @description Phone number. */
                 phone: string | null;
             } | null) | unknown;
             shipping_address: ({
+                /** @description Postal address. */
                 address: string | null;
                 latitude: number | null;
                 longitude: number | null;
+                /** @description Display name. */
                 name: string | null;
+                /** @description Phone number. */
                 phone: string | null;
             } | null) | unknown;
             shipment: ({
@@ -1810,9 +1830,11 @@ export interface components {
                 delivered_at: string | null;
             } | null) | unknown;
             line_items: {
+                /** @description Unique identifier of this object. */
                 id: string;
                 product_id: number | null;
                 product_uid: string | null;
+                /** @description Display title. */
                 title: string;
                 variant_title: string;
                 quantity: number;
@@ -1842,8 +1864,12 @@ export interface components {
                 payment_method: string | null;
                 payment_provider: string | null;
                 amount: string;
+                /** @description ISO-4217 currency code of the amounts on this object. */
                 currency: string;
-                /** Format: date-time */
+                /**
+                 * Format: date-time
+                 * @description When this object was created (ISO-8601 timestamp).
+                 */
                 created_at: string | null;
             }[];
             /** @description Present only when the caller has merchant-orders-read; webhook deliveries include these fields only for an active app installation granted that scope. Only recorded Queek wallet refunds are included. */
@@ -1854,17 +1880,23 @@ export interface components {
                 transaction_id: number;
                 status: string;
                 amount: string;
+                /** @description ISO-4217 currency code of the amounts on this object. */
                 currency: string;
-                /** Format: date-time */
+                /**
+                 * Format: date-time
+                 * @description When this object was created (ISO-8601 timestamp).
+                 */
                 created_at: string | null;
             }[];
         } & {
             [key: string]: unknown;
         };
         /** OrderItem */
-        "App.Http.Resources.Customer.OrderItemResource": {
+        OrderItem: {
+            /** @description Unique identifier of this object. */
             id: string;
             quantity: string;
+            /** @description Display title. */
             title: string;
             variant_id: string;
             variant_title: string;
@@ -1873,20 +1905,23 @@ export interface components {
             };
             variant_media: {
                 image: string | null;
+                /** @description URL of the video. */
                 video_url: string | null;
                 /** @enum {string} */
                 source: "variant" | "product";
             } | null;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            total_price: number | null;
-            sale_price: number | null;
-            unit_price: number | null;
-            base_unit_price: number | null;
+            total_price: string | null;
+            sale_price: string | null;
+            unit_price: string | null;
+            base_unit_price: string | null;
             is_backorder: boolean;
             backorder_ready_date: string | null;
-            discounted_amount?: number | null;
+            discounted_amount?: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
-            addons: unknown;
+            addons: unknown[] | null;
             /**
              * @description Per-line checkout properties. Always present as an object so
              *     dashboard chips and the shopper page never branch on absence.
@@ -1896,42 +1931,53 @@ export interface components {
             properties: string;
         };
         /** Product */
-        "App.Http.Resources.Customer.ProductResource": unknown[] | {
+        Product: unknown[] | {
             shop_id: string;
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
             p_id: string;
+            /** @description Display title. */
             title: string | null;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Short summary text. */
             excerpt: string | null;
+            /** @description Descriptive text. */
             description: string | null;
             image: string | null;
             thumbnail_image: string | null;
+            /** @description URL of the video. */
             video_url: string | null;
             video_poster_url: string | null;
             type: unknown;
             commerce_mode: string;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            price: number;
-            discount_price: string;
-            compare_at_price: number | null;
+            price: string | null;
+            discount_price: string | null;
+            compare_at_price: string | null;
             is_price_from: boolean;
             price_range: {
-                min: number;
-                max: number;
+                min: string;
+                max: string;
             } | null;
             has_variants: boolean;
             has_addons: string;
             tax_inclusive: boolean;
             discount: {
+                /** @description Unique identifier of this object. */
                 id: string | null;
+                /** @description Display title. */
                 title: string | null;
                 type: string | null;
-                value: number | null;
-                amount: number | null;
-                final_price: number | null;
+                value: string | null;
+                amount: string | null;
+                final_price: string | null;
+                /** @description URL of the image. */
                 image_url: string | null;
             } | null;
-            discounts: string;
+            discounts: unknown[];
             media: {
                 thumbnail: string | null;
                 image: string | null;
@@ -1954,19 +2000,25 @@ export interface components {
                     [key: string]: unknown;
                 } | null;
                 images: ({
+                    /** @description Unique identifier of this object. */
                     id: number;
+                    /** @description Public URL. */
                     url: string;
                     alt: unknown;
                     variants: string;
                 } | null | {
+                    /** @description Unique identifier of this object. */
                     id: number | null;
+                    /** @description Public URL. */
                     url: string | null;
                     alt: unknown;
                     variants: null;
                 })[] | null;
             };
             inventory: unknown[];
-            variant_summary: string | null;
+            variant_summary: {
+                [key: string]: unknown;
+            } | null;
             variants_count: unknown;
             rating: number;
             review_count: number;
@@ -1978,28 +2030,36 @@ export interface components {
             };
             /**
              * @description Vendor-defined typed fields, keyed `namespace.key`. `{}` for a store
-             *     that has defined none, which costs no query (MetafieldPresenter).
+             *     that has defined none, which costs no query.
              *     Free-form `metadata` is deliberately NOT here: it is an
              *     integrator's private bookkeeping and stays on the merchant API.
              *     Client surface: draft entries and storefront-hidden definitions
-             *     are omitted from reference values (MetafieldPresenter).
+             *     are omitted from reference values.
              */
             metafields: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
             shop: unknown[];
+            /** @description Barcode of the item, when set. */
             barcode: string;
         };
         /** AppMediaResource */
         AppMediaResource: {
+            /** @description Unique identifier of this object. */
             id: number;
+            /** @description Public URL. */
             url: string;
             thumbnail_url: string;
             variants: string;
             mime_type: string;
             size: number;
+            /** @description Width in pixels. */
             width: number | null;
+            /** @description Height in pixels. */
             height: number | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
         };
         /** Apply storefront cart discount input */
@@ -2008,39 +2068,60 @@ export interface components {
         };
         /** BlogCategoryResource */
         BlogCategoryResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Sort position within the parent list. */
             position: number;
             posts_count?: number;
         };
         /** CartResource */
         CartResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             cart_id: string;
             item_id: string;
+            /** @description Display title. */
             title: string;
             variant_id: string | null;
-            price: number | null;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
+            price: string | null;
             quantity: string;
-            selectedAddons: string | string[];
-            subtotal: number | null;
-            product: components["schemas"]["App.Http.Resources.Customer.ProductResource"];
+            selectedAddons: string | {
+                [key: string]: ({
+                    price: string | null;
+                } & {
+                    [key: string]: unknown;
+                }) | string;
+            };
+            subtotal: string | null;
+            product: components["schemas"]["Product"];
             vendor: components["schemas"]["VendorItemResource"];
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
         } | {
+            /** @description Unique identifier of this object. */
             id: string;
             vendor_id: string;
             vendor: components["schemas"]["VendorItemResource"];
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
             cart_items: unknown[];
-            total_price: number | null;
+            total_price: string | null;
             source: string;
             promo_codes: string | string[];
             is_valid: string;
             validation_errors: string | string[];
             last_validated_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
             /**
              * Format: uri
@@ -2049,26 +2130,31 @@ export interface components {
             checkout_url?: string;
             discounts: {
                 [key: string]: {
-                    amount_applied: number | null;
+                    amount_applied: string | null;
                 } & {
                     [key: string]: unknown;
                 };
             };
-            subtotal: number | null;
-            discount_total: number | null;
-            total_after_discounts: number | null;
+            subtotal: string | null;
+            discount_total: string | null;
+            total_after_discounts: string | null;
         };
         /** ClientAuthUserResource */
         ClientAuthUserResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
+            /** @description Email address. */
             email: string | null;
+            /** @description Phone number. */
             phone: string | null;
             avatar: string | null;
             country: string | null;
             state: string | null;
             region: string | null;
             city: string | null;
+            /** @description Postal address. */
             address: string | null;
             map_lat: string | null;
             map_lng: string | null;
@@ -2076,7 +2162,7 @@ export interface components {
             /**
              * @description Whether this rider may actually open the storefront rider console —
              *     is_rider alone is not enough, a vendor approval path must have
-             *     stamped rider_approved_at (see EnsureClientRider). The storefront
+             *     stamped rider_approved_at. The storefront
              *     shows a "pending approval" state when is_rider && ! rider_approved.
              */
             rider_approved: boolean;
@@ -2084,21 +2170,29 @@ export interface components {
         };
         /** CollectedRecordResource */
         CollectedRecordResource: {
+            /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
             p_id: number;
             definition_p_id?: number;
             type?: string | null;
             status: string | "new";
             source: string | null;
+            /** @description When this was submitted (ISO-8601 timestamp). */
             submitted_at: string;
             values: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
         };
         /** CollectionResource */
         CollectionResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Descriptive text. */
             description: string | null;
             image: string;
             /**
@@ -2122,11 +2216,16 @@ export interface components {
         };
         /** CouponResource */
         CouponResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             code: string;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
             discount_type: string;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
             discount_value: string;
             applies_to: string;
             target_product_ids: unknown[];
@@ -2137,22 +2236,30 @@ export interface components {
             usage_limit: number | null;
             usage_limit_per_user: number | null;
             used_count: number;
+            /** @description Whether this object is active. */
             is_active: boolean;
             is_valid: boolean;
             is_expired: boolean;
+            /** @description URL of the image. */
             image_url: string;
             starts_at: string | null;
             expires_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** CustomerAddressResource */
         CustomerAddressResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display label. */
             label: string | null;
+            /** @description Postal address. */
             address: string;
             lat: number;
             lng: number;
+            /** @description ISO-3166 country code. */
             country_code: string | null;
             state: string | null;
             city: string | null;
@@ -2163,13 +2270,19 @@ export interface components {
         };
         /** CustomerResource */
         CustomerResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Display name. */
             name: string | null;
+            /** @description Email address. */
             email: string | null;
+            /** @description Phone number. */
             phone: string | null;
             avatar: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** Customer wishlist item input */
@@ -2179,22 +2292,31 @@ export interface components {
         };
         /** CustomerWishlistItemResource */
         CustomerWishlistItemResource: {
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
             product: unknown[];
             variant: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
                 p_id: number;
+                /** @description Display title. */
                 title: string;
                 option_values: string;
             } | null;
         };
         /** DiscountResource */
         DiscountResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             reference: string;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
             type: string;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
             value: string;
             product_ids: unknown[];
             category_ids: unknown[];
@@ -2208,13 +2330,18 @@ export interface components {
             auto_apply: boolean;
             /** @enum {string} */
             status: "active" | "inactive";
+            /** @description Whether this object is active. */
             is_active: boolean;
             is_published: boolean;
+            /** @description URL of the image. */
             image_url: string;
             valid_from: string | null;
             valid_until: string | null;
+            /** @description When this object was published (ISO-8601 timestamp). */
             published_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /**
@@ -2224,12 +2351,18 @@ export interface components {
          *     public reference shows the body.
          */
         EmailForgotPasswordRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
         };
         /** Email login input */
         EmailLoginRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
             password: string;
             platform?: string | null;
@@ -2245,30 +2378,44 @@ export interface components {
         EmailRegisterRequest: {
             first_name: string;
             last_name?: string | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
             password: string;
+            /** @description Phone number. */
             phone?: string | null;
             platform?: string | null;
         };
         /** Email request otp input */
         EmailRequestOtpRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
         };
         /** Email verify otp input */
         EmailVerifyOtpRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
             otp_code: string;
             platform?: string | null;
         };
         /** FollowerResource */
         FollowerResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             customer_id: number | null;
+            /** @description Display name. */
             name: string | null;
+            /** @description Email address. */
             email: string | null;
+            /** @description Phone number. */
             phone: string | null;
             avatar: string | null;
             shared_contact: boolean;
@@ -2278,10 +2425,13 @@ export interface components {
         /** InventoryLevelResource */
         InventoryLevelResource: {
             product: {
+                /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
                 p_id: number;
+                /** @description URL-safe handle of this object. */
                 slug: string | null;
             };
             variant: {
+                /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
                 p_id: number;
             } | null;
             quantity: number;
@@ -2297,7 +2447,7 @@ export interface components {
         /** MerchantCollectedRecord */
         MerchantCollectedRecord: components["schemas"]["CollectedRecordResource"];
         /** MerchantCollection */
-        MerchantCollection: components["schemas"]["App.Http.Resources.Api.CollectionResource"];
+        MerchantCollection: components["schemas"]["Collection"];
         /** MerchantCoupon */
         MerchantCoupon: components["schemas"]["CouponResource"];
         /** MerchantCustomer */
@@ -2313,13 +2463,18 @@ export interface components {
             author_display_name: string;
             product_p_id: string | null;
             rating: number;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
             media: string | string[];
             status: string;
             is_verified_purchase: boolean;
+            /** @description When this was submitted (ISO-8601 timestamp). */
             submitted_at: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last edited (ISO-8601 timestamp). */
             edited_at: string;
         };
         /** MerchantImportedReview */
@@ -2344,8 +2499,11 @@ export interface components {
         MerchantInventoryLevels: components["schemas"]["MerchantInventoryLevelsResource"];
         /** MerchantInventoryLevelsResource */
         MerchantInventoryLevelsResource: {
+            /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
             p_id: number;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Barcode of the item, when set. */
             barcode: string;
             stock: number;
             effective_tracking: string;
@@ -2354,7 +2512,7 @@ export interface components {
         /** MerchantMedia */
         MerchantMedia: components["schemas"]["AppMediaResource"];
         /** MerchantOrder */
-        MerchantOrder: components["schemas"]["App.Http.Resources.Api.OrderResource"];
+        MerchantOrder: components["schemas"]["Order"];
         /** MerchantPost */
         MerchantPost: components["schemas"]["PostResource"];
         /** MerchantProduct */
@@ -2373,19 +2531,25 @@ export interface components {
         MerchantWishlistItem: components["schemas"]["CustomerWishlistItemResource"];
         /** MetafieldDefinitionResource */
         MetafieldDefinitionResource: {
+            /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
             p_id: number;
             handle: string;
             owner_type: string;
+            /** @description Namespace the key belongs to. */
             namespace: string;
             key: string;
             type: string;
             storefront_visible: boolean;
             pinned: boolean;
             pinned_position: number | null;
+            /** @description Display name. */
             name: string;
+            /** @description Descriptive text. */
             description: string;
             validations: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
         };
         /** MetaobjectResource */
@@ -2394,8 +2558,10 @@ export interface components {
         };
         /** OrderItemResource */
         OrderItemResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             quantity: number;
+            /** @description Display title. */
             title: string | null;
             variant_id: string | null;
             variant_title: string | null;
@@ -2404,21 +2570,26 @@ export interface components {
             };
             variant_media: {
                 image: string | null;
+                /** @description URL of the video. */
                 video_url: string | null;
                 /** @enum {string} */
                 source: "variant" | "product";
             } | null;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            total_price: number | null;
-            sale_price: number | null;
-            unit_price: number | null;
-            base_unit_price: number | null;
+            total_price: string | null;
+            sale_price: string | null;
+            unit_price: string | null;
+            base_unit_price: string | null;
             is_backorder: boolean;
             backorder_ready_date: string | null;
-            discounted_amount?: number | null;
-            /** Format: date-time */
+            discounted_amount?: string | null;
+            /**
+             * Format: date-time
+             * @description When this object was created (ISO-8601 timestamp).
+             */
             created_at: string | null;
-            addons: unknown;
+            addons: unknown[] | null;
             /**
              * @description Per-line checkout properties. Always present as an object so
              *     dashboard chips and the shopper page never branch on absence.
@@ -2430,12 +2601,15 @@ export interface components {
         /** OrderResource */
         OrderResource: {
             0: Record<string, never>;
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display title. */
             title: string | null;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            total_price: number | null;
-            delivery_fee: number | null;
-            grand_total: number | null;
+            total_price: string | null;
+            delivery_fee: string | null;
+            grand_total: string | null;
             payment_status: string;
             transaction_id: string | null;
             is_verified: boolean | null;
@@ -2455,7 +2629,9 @@ export interface components {
              *     id, name and section, as shown in the table picker.
              */
             table: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
                 section: string | null;
             } | Record<string, never>;
@@ -2465,11 +2641,15 @@ export interface components {
             ready_window: {
                 from: string | null;
                 to: string | null;
+                /** @description Display label. */
                 label: string;
             } | null | Record<string, never>;
             vendor: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
                 logo: string | null;
                 /**
@@ -2479,7 +2659,9 @@ export interface components {
                  *     also show them on rider/dispatch flows.
                  */
                 address: string | null;
+                /** @description Phone number. */
                 phone: string | null;
+                /** @description Email address. */
                 email: string | null;
                 map_lat: string | null;
                 map_lng: string | null;
@@ -2489,8 +2671,8 @@ export interface components {
             vendor_timeline: unknown[];
             vendor_note: string | null;
             rider_note: string | null;
-            shopforme_fee: number | null;
-            service_fee: number | null;
+            shopforme_fee: string | null;
+            service_fee: string | null;
             delivery_pin: string | null | Record<string, never>;
             delivery_pins: unknown[] | null | Record<string, never>;
             is_confirmed: boolean;
@@ -2501,7 +2683,9 @@ export interface components {
             items_count: string;
             started_at: string | null;
             completed_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
             status_label: string;
             status_img: string;
@@ -2514,10 +2698,14 @@ export interface components {
              */
             items: components["schemas"]["OrderItemResource"][] | Record<string, never>;
             created_by: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
                 avatar: string | null;
+                /** @description Phone number. */
                 phone: string;
+                /** @description Email address. */
                 email: string;
             } | Record<string, never>;
             rider: components["schemas"]["UserItemResource"];
@@ -2531,7 +2719,10 @@ export interface components {
             /** @enum {string} */
             viewer_type: "customer" | "vendor" | "rider" | "admin";
             amount_summary: {
-                /** @constant */
+                /**
+                 * @description Display title.
+                 * @constant
+                 */
                 title: "Order Summary";
                 /** @constant */
                 view: "rider";
@@ -2539,21 +2730,30 @@ export interface components {
                     {
                         /** @constant */
                         key: "rider_fee";
-                        /** @constant */
+                        /**
+                         * @description Display label.
+                         * @constant
+                         */
                         label: "Rider Fee";
                         /** @constant */
                         type: "total";
-                        amount: number | null;
+                        amount: string | null;
                     }
                 ];
             } | {
-                /** @constant */
+                /**
+                 * @description Display title.
+                 * @constant
+                 */
                 title: "Order Summary";
                 /** @constant */
                 view: "vendor";
                 items: unknown[];
             } | {
-                /** @constant */
+                /**
+                 * @description Display title.
+                 * @constant
+                 */
                 title: "Order Summary";
                 /** @constant */
                 view: "customer";
@@ -2566,12 +2766,15 @@ export interface components {
              *     Every other surface keeps reading it exactly as before.
              */
             0: Record<string, never>;
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display title. */
             title: string | null;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            total_price: number | null;
-            delivery_fee: number | null;
-            grand_total: number | null;
+            total_price: string | null;
+            delivery_fee: string | null;
+            grand_total: string | null;
             payment_status: string;
             transaction_id: string | null;
             is_verified: boolean | null;
@@ -2591,7 +2794,9 @@ export interface components {
              *     id, name and section, as shown in the table picker.
              */
             table: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
                 section: string | null;
             } | Record<string, never>;
@@ -2601,11 +2806,15 @@ export interface components {
             ready_window: {
                 from: string | null;
                 to: string | null;
+                /** @description Display label. */
                 label: string;
             } | null | Record<string, never>;
             vendor: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
                 logo: string | null;
                 /**
@@ -2615,7 +2824,9 @@ export interface components {
                  *     also show them on rider/dispatch flows.
                  */
                 address: string | null;
+                /** @description Phone number. */
                 phone: string | null;
+                /** @description Email address. */
                 email: string | null;
                 map_lat: string | null;
                 map_lng: string | null;
@@ -2625,8 +2836,8 @@ export interface components {
             vendor_timeline: unknown[];
             vendor_note: string | null;
             rider_note: string | null;
-            shopforme_fee: number | null;
-            service_fee: number | null;
+            shopforme_fee: string | null;
+            service_fee: string | null;
             delivery_pin: string | null | Record<string, never>;
             delivery_pins: unknown[] | null | Record<string, never>;
             is_confirmed: boolean;
@@ -2637,59 +2848,81 @@ export interface components {
             items_count: string;
             started_at: string | null;
             completed_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
         };
         /** PostResource */
         PostResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             parent_id: string | null;
             blog_category_ids: string | string[];
             type: string;
             template: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Display title. */
             title: string;
             content: string;
+            /** @description Short summary text. */
             excerpt: string;
+            /** @description URL of the cover image. */
             cover_image_url: string;
             status: string;
             tags: string | string[];
             seo: string | string[];
+            /** @description Sort position within the parent list. */
             position: number;
             is_home: boolean;
             chrome: string;
             show_page_title: boolean;
+            /** @description When this object was published (ISO-8601 timestamp). */
             published_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** ProductImageResource */
         ProductImageResource: {
+            /** @description Unique identifier of this object. */
             id: number | null;
             is_primary: string;
             position: string;
+            /** @description Public URL. */
             url: string;
             alt: string | null;
+            /** @description Width in pixels. */
             width: number | null;
+            /** @description Height in pixels. */
             height: number | null;
             variants: string;
         };
         /** ProductQuestionResource */
         ProductQuestionResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             question: string;
             answer: string;
             status: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
             answered_at: string;
             user?: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
                 avatar: string;
             };
             product?: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 thumbnail: string;
             } | null;
@@ -2730,7 +2963,9 @@ export interface components {
              */
             metafields: string;
             metadata: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
             deleted_at: string | null;
         } & {
@@ -2738,65 +2973,95 @@ export interface components {
         };
         /** ProductReviewResource */
         ProductReviewResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             rating: number;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
             media: string | string[];
             vendor_response: string;
             vendor_response_at: string;
             status: string;
             is_verified_purchase: boolean;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string;
+            /** @description When this object was last edited (ISO-8601 timestamp). */
             edited_at: string;
+            /** @description When this was submitted (ISO-8601 timestamp). */
             submitted_at: string;
             source: string | null;
             author_display_name: string;
             user?: string;
             product?: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 thumbnail: string;
             };
         };
         /** ProductVariantResource */
         ProductVariantResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Stock-keeping unit assigned by the store. */
             sku: string;
+            /** @description Barcode of the item, when set. */
             barcode: string;
+            /** @description Display title. */
             title: string;
             option_values: string;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
             price: string;
             storefront_price: string;
             storefront_compare_at_price: string | null;
+            /** @description Public URL. */
             url: string | null;
             compare_at_price: string | null;
             stock: number;
+            /** @description Whether stock is tracked for this item. */
             track_inventory: boolean;
             /**
              * @description Product-level flag, inherited read-only: variants carry no
              *     is_digital column, so a missing parent reads false, never throws.
              */
             is_digital: boolean;
+            /** @description Whether this object is active. */
             is_active: boolean;
             is_backorder: boolean;
             backorder_ready_date: string | null;
+            /** @description Weight of the item. */
             weight: number | null;
+            /** @description Sort position within the parent list. */
             position: number;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** PromotionResource */
         PromotionResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
+            /** @description URL of the image. */
             image_url: string;
             type: string;
-            value: number;
+            /** @description ISO-4217 currency code of the amounts on this object. */
+            currency: string;
+            /** @description A percentage when `type` is percentage, an amount in `currency` otherwise. */
+            value: string | null;
             priority: number;
             valid_from: string | null;
             valid_until: string | null;
@@ -2806,11 +3071,14 @@ export interface components {
         };
         /** PublicationResource */
         PublicationResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             key: string;
+            /** @description Display name. */
             name: string;
             kind: string;
             status: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
         };
         /** @description The error envelope every Storefront API error body answers. Switch on `error.code`, never on the message. The additive legacy-compatibility top-level keys some surfaces emit beside it are documented separately under `QueekLegacyErrorKeys`, which no operation references. */
@@ -2865,6 +3133,7 @@ export interface components {
         QueekStoreMetafieldDefinition: components["schemas"]["MetafieldDefinitionResource"];
         /** @description One storefront-visible metaobject entry (timestamps omitted on the storefront). `fields` carries the values keyed by field key, media ids resolved to URLs — each value's shape follows the type definition (`GET store/metaobject-definitions`). */
         QueekStoreMetaobject: {
+            /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
             p_id: number;
             type: string;
             handle: string;
@@ -2878,11 +3147,11 @@ export interface components {
         /** QueekStoreOrder */
         QueekStoreOrder: components["schemas"]["OrderResource"];
         /** QueekStoreOrderItem */
-        QueekStoreOrderItem: components["schemas"]["App.Http.Resources.Customer.OrderItemResource"];
+        QueekStoreOrderItem: components["schemas"]["OrderItem"];
         /** QueekStorePage */
         QueekStorePage: components["schemas"]["StorePageResource"];
         /** QueekStoreProduct */
-        QueekStoreProduct: components["schemas"]["App.Http.Resources.Customer.ProductResource"];
+        QueekStoreProduct: components["schemas"]["Product"];
         /** QueekStorePromotion */
         QueekStorePromotion: components["schemas"]["PromotionResource"];
         /** QueekStoreQuestion */
@@ -2909,6 +3178,7 @@ export interface components {
         };
         /** QueekWebhookCustomerEmailMarketingConsentPayload */
         QueekWebhookCustomerEmailMarketingConsentPayload: {
+            /** @description Unique identifier of this object. */
             id: number;
             email_marketing_consent: {
                 /** @enum {string} */
@@ -2950,6 +3220,7 @@ export interface components {
         };
         /** QueekWebhookCustomerSmsMarketingConsentPayload */
         QueekWebhookCustomerSmsMarketingConsentPayload: {
+            /** @description Unique identifier of this object. */
             id: number;
             sms_marketing_consent: {
                 /** @enum {string} */
@@ -2971,7 +3242,7 @@ export interface components {
             api_version: string;
             /** @description ISO-8601 timestamp of the event. */
             created_at: string;
-            data: components["schemas"]["App.Http.Resources.Api.OrderResource"];
+            data: components["schemas"]["Order"];
         };
         /**
          * QueekWebhookInventoryLevelEvent
@@ -3037,9 +3308,14 @@ export interface components {
         RegisterRequest: {
             first_name: string;
             last_name?: string | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
+            /** @description Phone number. */
             phone: string;
+            /** @description ISO-3166 country code. */
             country_code?: string | null;
             otp_code: string;
             username?: string | null;
@@ -3047,7 +3323,9 @@ export interface components {
         };
         /** Request otp input */
         RequestOtpRequest: {
+            /** @description Phone number. */
             phone: string;
+            /** @description ISO-3166 country code. */
             country_code?: string | null;
             /** @enum {string|null} */
             channel?: "sms" | "whatsapp" | null;
@@ -3055,60 +3333,75 @@ export interface components {
         /** Reset password input */
         ResetPasswordRequest: {
             token: string;
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
             password: string;
             password_confirmation: string;
         };
         /** ReviewsBlockItemResource */
         ReviewsBlockItemResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             rating: number;
+            /** @description Display title. */
             title: string;
+            /** @description Descriptive text. */
             description: string;
             media: string | string[];
             vendor_response: string;
             vendor_response_at: string;
             is_verified_purchase: boolean;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string;
+            /** @description When this object was last edited (ISO-8601 timestamp). */
             edited_at: string;
+            /** @description When this was submitted (ISO-8601 timestamp). */
             submitted_at: string;
             source: string | null;
             author_display_name: string;
             user?: string;
             product?: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 thumbnail: string;
             };
         };
         /** ShippingZoneResource */
         ShippingZoneResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
             zone_type: string;
             countries: unknown[];
             state_ids: unknown[];
             area_ids: unknown[];
-            /**
-             * @description Vendor chain, never the silent platform default: loaded relation first,
-             *     then the cache-backed lookup (zero DB queries on a warm cache).
-             */
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
-            base_rate: string;
+            base_rate: string | null;
             per_kg_rate: string | null;
             min_weight_kg: string | null;
             max_weight_kg: string | null;
             min_days: number;
             max_days: number;
             active: boolean;
+            /** @description Sort position within the parent list. */
             position: number;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** StockAdjustmentResource */
         StockAdjustmentResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             type: string;
             quantity_before: number;
@@ -3118,26 +3411,34 @@ export interface components {
             reason_code: string | null;
             scope: string;
             product: {
+                /** @description Unique identifier of this object. */
                 id: number;
                 uid: string;
+                /** @description Display title. */
                 title: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
             } | null;
             variant: {
                 uid: string;
+                /** @description Display title. */
                 title: string;
                 option_values: string;
             } | null;
             order: {
+                /** @description Unique identifier of this object. */
                 id: number;
                 uid: string;
             } | null;
             shortfall: string;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
         };
         /** Store customer address input */
         StoreCustomerAddressRequest: {
+            /** @description Display label. */
             label?: string | null;
+            /** @description Postal address. */
             address: string;
             lat: number;
             lng: number;
@@ -3151,6 +3452,7 @@ export interface components {
             cart_items: {
                 /** Format: uuid */
                 item_id: string;
+                /** @description Display title. */
                 title: string;
                 price: number;
                 quantity: number;
@@ -3171,6 +3473,7 @@ export interface components {
         /** StoreLocaleResource */
         StoreLocaleResource: {
             locale: string;
+            /** @description Display name. */
             name: string;
             native_name: string;
             is_primary: boolean;
@@ -3182,10 +3485,13 @@ export interface components {
         };
         /** StorePageResource */
         StorePageResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             type: string;
             template: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
+            /** @description Display title. */
             title: string;
             /**
              * @description Self-heal on serve: run stored blocks through the canonical
@@ -3198,7 +3504,9 @@ export interface components {
              */
             content: string | string[];
             media_index: string;
+            /** @description Short summary text. */
             excerpt: string | null;
+            /** @description URL of the cover image. */
             cover_image_url: string;
             cover_image_variants: string | null;
             tags: string | string[];
@@ -3206,6 +3514,7 @@ export interface components {
             blog_categories: string | string[];
             reading_time: number;
             author?: {
+                /** @description Display name. */
                 name: string;
                 avatar_url: string;
             } | null;
@@ -3213,22 +3522,32 @@ export interface components {
             chrome: string;
             show_page_title: boolean;
             status: string;
+            /** @description Sort position within the parent list. */
             position: number;
+            /** @description When this object was published (ISO-8601 timestamp). */
             published_at: string | null;
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** StoreResource */
         StoreResource: {
+            /** @description Unique identifier of this object. */
             id: number;
             uid: string;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
             contact: {
+                /** @description Email address. */
                 email: string;
+                /** @description Phone number. */
                 phone: string;
             };
             address: {
+                /** @description Postal address. */
                 address: string;
                 landmark: string;
                 region: string | null;
@@ -3273,33 +3592,49 @@ export interface components {
             storefront: {
                 domains: string;
             };
+            /** @description When this object was created (ISO-8601 timestamp). */
             created_at: string | null;
+            /** @description When this object was last changed (ISO-8601 timestamp). */
             updated_at: string | null;
         };
         /** Subscribe to store input */
         SubscribeToStoreRequest: {
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email: string;
+            /** @description Display name. */
             name?: string | null;
+            /** @description Phone number. */
             phone?: string | null;
         };
         /** TeamDirectoryResource */
         TeamDirectoryResource: {
+            /** @description Unique identifier of this object. */
             id: number;
+            /** @description Display name. */
             name: string | null;
             role_names: string;
+            /** @description Whether this object is active. */
             is_active: boolean;
         };
         /** Update client profile input */
         UpdateClientProfileRequest: {
+            /** @description Display name. */
             name?: string | null;
+            /** @description Phone number. */
             phone?: string | null;
-            /** Format: email */
+            /**
+             * Format: email
+             * @description Email address.
+             */
             email?: string | null;
             country?: string | null;
             state?: string | null;
             region?: string | null;
             city?: string | null;
+            /** @description Postal address. */
             address?: string | null;
             map_lat?: number | null;
             map_lng?: number | null;
@@ -3317,18 +3652,24 @@ export interface components {
         };
         /** UserItemResource */
         UserItemResource: {
+            /** @description Unique identifier of this object. */
             id: string;
             username: string;
             first_name: string | null;
             last_name: string | null;
+            /** @description Display name. */
             name: string | null;
+            /** @description Email address. */
             email: string | null;
+            /** @description Phone number. */
             phone: string | null;
+            /** @description ISO-3166 country code. */
             country_code: string | null;
             phone_code: string | null;
             avatar: string;
             map_lat: number;
             map_lng: number;
+            /** @description Postal address. */
             address: string | null;
             status: string;
             roles?: string;
@@ -3347,15 +3688,17 @@ export interface components {
         };
         /** VendorItemResource */
         VendorItemResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
             distance: string;
             delivery_info: {
                 is_free_delivery: boolean;
-                delivery_fee: number | null;
-                delivery_fee_value: number | null;
-                min_order: number;
-                min_order_fee: number;
+                delivery_fee: string | null;
+                delivery_fee_value: string | null;
+                min_order: string | null;
+                min_order_fee: string | null;
                 /** @constant */
                 d_p_value: 1.5;
                 /**
@@ -3373,6 +3716,7 @@ export interface components {
                 disable_delivery_msg?: "We dont have any available rider close to your location at the moment, please check back later";
             };
             notice: string[];
+            /** @description URL-safe handle of this object. */
             slug: string;
             service: string;
             /**
@@ -3389,7 +3733,9 @@ export interface components {
             area: string;
             banner: string | null;
             support_phone: string;
+            /** @description Phone number. */
             phone: string;
+            /** @description ISO-3166 country code. */
             country_code: string;
             phone_code: string;
             support_email: string;
@@ -3404,22 +3750,25 @@ export interface components {
             rating: number;
             rating_count: number;
             short_description: string;
+            /** @description Postal address. */
             address: string;
             open_time: string | null;
             close_time: string | null;
             service_type: string;
             landmark: string;
             region_id: string;
-            min_order_price: number | null;
+            min_order_price: string | null;
         };
         /** VendorResource */
         VendorResource: {
+            /** @description Unique identifier of this object. */
             id: string;
+            /** @description Display name. */
             name: string;
             distance: number;
             distance_text: string;
             delivery_info: {
-                delivery_fee: number | null;
+                delivery_fee: string | null;
                 delivery_time: string;
                 pickup_enabled: boolean;
                 /** @constant */
@@ -3438,6 +3787,7 @@ export interface components {
             service_type: string;
             commerce_mode: string | "quick";
             notice: string[];
+            /** @description URL-safe handle of this object. */
             slug: string;
             service: string;
             logo: string | null;
@@ -3457,6 +3807,7 @@ export interface components {
             area: string | null;
             landmark?: string | null;
             support_phone?: string | null;
+            /** @description ISO-3166 country code. */
             country_code?: string | null;
             phone_code?: string | null;
             support_email?: string | null;
@@ -3464,7 +3815,7 @@ export interface components {
             short_description?: string | null;
             disable_order?: boolean;
             region_id?: string | null;
-            min_order_price?: number | null;
+            min_order_price?: string | null;
             /**
              * @description A sandbox store is publicly reachable at `{slug}-test`; the storefront
              *     keeps it out of crawlers and AI discovery (robots, sitemap, agents.md).
@@ -3481,11 +3832,14 @@ export interface components {
             password_required?: boolean;
             indexable?: boolean;
             is_closed: boolean;
+            /** @description ISO-4217 currency code of the amounts on this object. */
             currency: string;
             storefront_url?: string | null;
             checkout_url?: string | null;
             contact?: {
+                /** @description Phone number. */
                 phone: string | null;
+                /** @description Email address. */
                 email: string | null;
                 whatsapp: string | null;
             };
@@ -3498,51 +3852,65 @@ export interface components {
         };
         /** Verify otp input */
         VerifyOtpRequest: {
+            /** @description Phone number. */
             phone: string;
+            /** @description ISO-3166 country code. */
             country_code?: string | null;
             otp_code: string;
             platform?: string | null;
         };
         /** WalletResource */
         WalletResource: {
-            balance: number | null;
-            balance_value: string;
+            currency: string | unknown;
+            balance: (string | null) | unknown;
+            /** @description Display name. */
             name: string | null;
             account_number: string | null;
             account_name: string | null;
             account_provider: string | null;
+        } & {
+            [key: string]: unknown;
         };
-        /** @description Additive legacy-compatibility top-level keys the runtime still emits on error bodies — never a replacement for `error.*`, which is the contract. `error_code` and `message` ride top-level on helper-produced refusals; `request_id` and `doc_url` ride top-level ONLY on non-reissued controller-helper bodies (storefront, client, developer and dashboard surfaces) — merchant routes reissue refusals, so there they live inside `error` and the `X-Request-Id` header. Handler-produced bodies keep their own top-level keys with `error` stapled beside them. Not referenced by any operation response: new integrations switch on `error.code`. */
+        /** @description Additive legacy-compatibility top-level keys the runtime still emits on error bodies — never a replacement for `error.*`, which is the contract. `error_code` and `message` ride top-level on the refusals the platform itself raises; `request_id` and `doc_url` ride top-level ONLY on storefront, client, developer and dashboard error bodies — merchant routes reissue refusals, so there they live inside `error` and the `X-Request-Id` header. Some bodies keep their own top-level keys with `error` added beside them. Not referenced by any operation response: new integrations switch on `error.code`. */
         QueekLegacyErrorKeys: {
-            /** @description Top-level mirror of `error.code` on helper-produced refusals (shared controller error helpers, client-auth handler branches). */
+            /** @description Top-level mirror of `error.code` on the refusals the platform itself raises (including the storefront sign-in branches). */
             error_code?: string;
-            /** @description Top-level mirror of `error.message` on the same helper-produced refusals as `error_code`. */
+            /** @description Top-level mirror of `error.message` on the same refusals as `error_code`. */
             message?: string;
-            /** @description Top-level mirror of `error.request_id` ONLY on non-reissued controller-helper bodies. Always a string when present. */
+            /** @description Top-level mirror of `error.request_id` ONLY on storefront, client, developer and dashboard error bodies. Always a string when present. */
             request_id?: string;
-            /** @description Top-level mirror of `error.doc_url`, same per-producer scope as top-level `request_id`: non-reissued controller-helper bodies only. */
+            /** @description Top-level mirror of `error.doc_url`, present on the same bodies as top-level `request_id`. */
             doc_url?: string;
         };
         QueekStoreTaxonomyNode: {
+            /** @description Unique identifier of this object. */
             id: string;
             parent_id: string | null;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
             level: number;
             vertical: string;
             is_leaf: boolean;
         };
         QueekStoreTaxonomyDetail: {
+            /** @description Unique identifier of this object. */
             id: string;
             parent_id: string | null;
+            /** @description Display name. */
             name: string;
+            /** @description URL-safe handle of this object. */
             slug: string;
             level: number;
             vertical: string;
             is_leaf: boolean;
             ancestors: {
+                /** @description Unique identifier of this object. */
                 id: string;
+                /** @description Display name. */
                 name: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
             }[];
             children: components["schemas"]["QueekStoreTaxonomyNode"][];
@@ -3562,7 +3930,9 @@ export interface components {
                  * @description The product UUID, as the review/question routes answer it beside `slug`.
                  */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
                 thumbnail?: string | null;
@@ -3577,7 +3947,9 @@ export interface components {
                  * @description The product UUID, as the review/question routes answer it beside `slug`.
                  */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
                 thumbnail?: string | null;
@@ -3592,7 +3964,9 @@ export interface components {
                  * @description The product UUID, as the review/question routes answer it beside `slug`.
                  */
                 id: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
+                /** @description Display title. */
                 title: string;
                 /** @description Present on per-item `product` blocks where the route eager-loads the product (the store reviews block); absent on product-scoped lists, which carry the stub above instead. */
                 thumbnail?: string | null;
@@ -3621,11 +3995,13 @@ export interface components {
         /** @description One storefront-visible metaobject type: its display field and typed field schema. */
         QueekStoreMetaobjectDefinition: {
             type: string;
+            /** @description Display name. */
             name: string;
             display_field?: string | null;
             has_pages?: boolean;
             fields: {
                 key: string;
+                /** @description Display name. */
                 name: string;
                 type: string;
             }[];
@@ -3720,12 +4096,20 @@ export interface components {
         };
         /** @description One product hit: the store product card (`QueekStoreProduct`, same final customer price as `products`) with presence meta stamped beside it — `distance`/`distance_text`/`delivery_fee` (also inside `shop`) stay null until the shopper shares a location. */
         QueekStoreSearchProduct: components["schemas"]["QueekStoreProduct"] & {
+            /**
+             * @description ISO 4217 code of `delivery_fee` (the card’s own `currency`).
+             * @example NGN
+             */
+            currency?: string;
             /** @description Kilometres to the vendor, 2dp; null without a shopper location. */
             distance: number | null;
             /** @example 2.5km away */
             distance_text: string | null;
-            /** @description Delivery fee to the shopper (store currency); null when it cannot be computed. */
-            delivery_fee: number | null;
+            /**
+             * @description Delivery fee to the shopper: a decimal string in the card’s `currency`; null when it cannot be computed.
+             * @example 1500.00
+             */
+            delivery_fee: string | null;
         };
         /** @description Grouped matches over the store’s own published catalogue, newest-first. `type=all` (default) answers the first page of every section; a single `type` answers only that section — walk it with `starting_after`/`page` while its `has_more` is true. */
         QueekStoreSearch: {
@@ -3749,7 +4133,9 @@ export interface components {
                          * @description Collection id. Prefer `slug` when linking.
                          */
                         id: string;
+                        /** @description Display name. */
                         name: string;
+                        /** @description URL-safe handle of this object. */
                         slug: string;
                         /** @description Cover image URL, else null. */
                         image?: string | null;
@@ -3765,8 +4151,11 @@ export interface components {
                          * @description Page/post id (UUID). Prefer `slug` when linking.
                          */
                         id: string;
+                        /** @description Display title. */
                         title: string;
+                        /** @description URL-safe handle of this object. */
                         slug: string;
+                        /** @description Short summary text. */
                         excerpt?: string | null;
                         /** @constant */
                         type: "page";
@@ -3782,8 +4171,11 @@ export interface components {
                          * @description Page/post id (UUID). Prefer `slug` when linking.
                          */
                         id: string;
+                        /** @description Display title. */
                         title: string;
+                        /** @description URL-safe handle of this object. */
                         slug: string;
+                        /** @description Short summary text. */
                         excerpt?: string | null;
                         /** @constant */
                         type: "post";
@@ -3805,11 +4197,21 @@ export interface components {
                  * @description Product id. Prefer `slug` when linking.
                  */
                 id: string;
+                /** @description Display title. */
                 title: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
                 thumbnail_image?: string | null;
-                /** @description Selling price (store currency); the full card carries `currency`. */
-                price: number;
+                /**
+                 * @description ISO 4217 code of `price`.
+                 * @example NGN
+                 */
+                currency: string;
+                /**
+                 * @description The product’s base price: a decimal string in `currency`. The full card carries the final customer price.
+                 * @example 12500.00
+                 */
+                price: string;
             } | {
                 /** @constant */
                 type: "collection";
@@ -3818,7 +4220,9 @@ export interface components {
                  * @description Collection id. Prefer `slug` when linking.
                  */
                 id: string;
+                /** @description Display name. */
                 name: string;
+                /** @description URL-safe handle of this object. */
                 slug: string;
                 image?: string | null;
             } | {
@@ -3835,19 +4239,27 @@ export interface components {
         /** @description What the storefront needs to collect an online payment: the order totals plus both link forms. 422 when the order is not payable (not online, already paid, cancelled, rejected, refunded, or the link is unavailable). */
         QueekStoreOrderPay: {
             order: {
-                /** Format: uuid */
+                /**
+                 * Format: uuid
+                 * @description Unique identifier of this object.
+                 */
                 id: string;
                 order_no: string;
                 status: string;
                 payment_status: string;
                 payment_method: string;
-                /** @example NGN */
+                /**
+                 * @description ISO-4217 currency code of the amounts on this object.
+                 * @example NGN
+                 */
                 currency: string;
                 is_payable: boolean;
                 is_paid: boolean;
-                /** @example 24225.00 */
+                /**
+                 * @description Decimal string in `currency`.
+                 * @example 24225.00
+                 */
                 grand_total: string;
-                grand_total_text: string;
                 payment_link?: string | null;
                 pay_link?: string | null;
                 items: components["schemas"]["QueekStoreOrderItem"][];
@@ -3865,13 +4277,21 @@ export interface components {
         };
         /** @description A saved wishlist row with the existing customer product card and optional self-contained variant details. */
         QueekStoreWishlistItem: {
-            /** Format: date-time */
+            /**
+             * Format: date-time
+             * @description When this object was created (ISO-8601 timestamp).
+             */
             created_at: string;
             product: components["schemas"]["QueekStoreProduct"];
             variant: {
-                /** Format: uuid */
+                /**
+                 * Format: uuid
+                 * @description Unique identifier of this object.
+                 */
                 id: string;
+                /** @description Short, stable integer identifier of this object, the human-readable counterpart of its UUID. */
                 p_id: number;
+                /** @description Display title. */
                 title: string;
                 option_values: {
                     [key: string]: string;
@@ -3879,60 +4299,7 @@ export interface components {
             } | null;
         };
     };
-    responses: {
-        /** @description Validation error */
-        ValidationException: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @description Errors overview. */
-                    message: string;
-                    /** @description A detailed description of each field that failed validation. */
-                    errors: {
-                        [key: string]: string[];
-                    };
-                };
-            };
-        };
-        /** @description Unauthenticated */
-        AuthenticationException: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @description Error overview. */
-                    message: string;
-                };
-            };
-        };
-        /** @description Not found */
-        ModelNotFoundException: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @description Error overview. */
-                    message: string;
-                };
-            };
-        };
-        /** @description Authorization error */
-        AuthorizationException: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": {
-                    /** @description Error overview. */
-                    message: string;
-                };
-            };
-        };
-    };
+    responses: never;
     parameters: never;
     requestBodies: never;
     headers: never;
@@ -6688,10 +7055,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -6731,6 +7098,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -6741,13 +7109,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -6755,7 +7123,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [],
                      *           "is_valid": true,
@@ -6764,9 +7132,9 @@ export interface operations {
                      *           "created_at": "2026-09-25T15:32:00+01:00",
                      *           "updated_at": "2026-09-25T15:40:00+01:00",
                      *           "discounts": [],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 0,
-                     *           "total_after_discounts": 24225
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "0.00",
+                     *           "total_after_discounts": "24225.00"
                      *         }
                      *       ],
                      *       "status": "success",
@@ -6934,10 +7302,10 @@ export interface operations {
                      *           "distance": null,
                      *           "delivery_info": {
                      *             "is_free_delivery": true,
-                     *             "delivery_fee": 0,
-                     *             "delivery_fee_value": 0,
-                     *             "min_order": 1000,
-                     *             "min_order_fee": 2000,
+                     *             "delivery_fee": "0.00",
+                     *             "delivery_fee_value": "0.00",
+                     *             "min_order": "1000.00",
+                     *             "min_order_fee": "2000.00",
                      *             "d_p_value": 1.5,
                      *             "s_p_value": 1.5,
                      *             "delivery_time": "45-180 min",
@@ -6977,6 +7345,7 @@ export interface operations {
                      *           "region_id": null,
                      *           "min_order_price": null
                      *         },
+                     *         "currency": "NGN",
                      *         "cart_items": [
                      *           {
                      *             "line": 0,
@@ -6987,13 +7356,13 @@ export interface operations {
                      *             "variant_option_values": {
                      *               "Size": "M"
                      *             },
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
                      *             "discount": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "amount": 4275
+                     *               "amount": "4275.00"
                      *             },
                      *             "quantity": 1,
                      *             "selectedAddons": [],
@@ -7001,7 +7370,7 @@ export interface operations {
                      *             "properties": null
                      *           }
                      *         ],
-                     *         "total_price": 24225,
+                     *         "total_price": "24225.00",
                      *         "source": "storefront",
                      *         "promo_codes": [],
                      *         "is_valid": true,
@@ -7010,9 +7379,9 @@ export interface operations {
                      *         "created_at": "2026-09-25T15:32:00+01:00",
                      *         "updated_at": "2026-09-25T15:40:00+01:00",
                      *         "discounts": [],
-                     *         "subtotal": 24225,
-                     *         "discount_total": 0,
-                     *         "total_after_discounts": 24225
+                     *         "subtotal": "24225.00",
+                     *         "discount_total": "0.00",
+                     *         "total_after_discounts": "24225.00"
                      *       }
                      *     }
                      */
@@ -7166,10 +7535,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -7209,6 +7578,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -7219,13 +7589,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -7233,7 +7603,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [],
                      *           "is_valid": true,
@@ -7242,9 +7612,9 @@ export interface operations {
                      *           "created_at": "2026-09-25T15:32:00+01:00",
                      *           "updated_at": "2026-09-25T15:40:00+01:00",
                      *           "discounts": [],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 0,
-                     *           "total_after_discounts": 24225
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "0.00",
+                     *           "total_after_discounts": "24225.00"
                      *         }
                      *       }
                      *     }
@@ -7410,10 +7780,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -7453,6 +7823,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -7463,13 +7834,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -7477,7 +7848,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [],
                      *           "is_valid": true,
@@ -7486,9 +7857,9 @@ export interface operations {
                      *           "created_at": "2026-09-25T15:32:00+01:00",
                      *           "updated_at": "2026-09-25T15:40:00+01:00",
                      *           "discounts": [],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 0,
-                     *           "total_after_discounts": 24225
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "0.00",
+                     *           "total_after_discounts": "24225.00"
                      *         }
                      *       }
                      *     }
@@ -7661,10 +8032,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -7704,6 +8075,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -7714,13 +8086,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -7728,7 +8100,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [],
                      *           "is_valid": true,
@@ -7737,9 +8109,9 @@ export interface operations {
                      *           "created_at": "2026-09-25T15:32:00+01:00",
                      *           "updated_at": "2026-09-25T15:40:00+01:00",
                      *           "discounts": [],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 0,
-                     *           "total_after_discounts": 24225
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "0.00",
+                     *           "total_after_discounts": "24225.00"
                      *         }
                      *       }
                      *     }
@@ -7925,10 +8297,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -7968,6 +8340,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -7978,13 +8351,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -7992,7 +8365,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [
                      *             "ZURI10"
@@ -8007,14 +8380,14 @@ export interface operations {
                      *               "code": "ZURI10",
                      *               "title": "Welcome to Zuri",
                      *               "type": "percentage",
-                     *               "amount_applied": 2422.5,
+                     *               "amount_applied": "2422.50",
                      *               "status": "applicable",
                      *               "reason": null
                      *             }
                      *           ],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 2422.5,
-                     *           "total_after_discounts": 21802.5
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "2422.50",
+                     *           "total_after_discounts": "21802.50"
                      *         }
                      *       }
                      *     }
@@ -8158,10 +8531,10 @@ export interface operations {
                      *             "distance": null,
                      *             "delivery_info": {
                      *               "is_free_delivery": true,
-                     *               "delivery_fee": 0,
-                     *               "delivery_fee_value": 0,
-                     *               "min_order": 1000,
-                     *               "min_order_fee": 2000,
+                     *               "delivery_fee": "0.00",
+                     *               "delivery_fee_value": "0.00",
+                     *               "min_order": "1000.00",
+                     *               "min_order_fee": "2000.00",
                      *               "d_p_value": 1.5,
                      *               "s_p_value": 1.5,
                      *               "delivery_time": "45-180 min",
@@ -8201,6 +8574,7 @@ export interface operations {
                      *             "region_id": null,
                      *             "min_order_price": null
                      *           },
+                     *           "currency": "NGN",
                      *           "cart_items": [
                      *             {
                      *               "line": 0,
@@ -8211,13 +8585,13 @@ export interface operations {
                      *               "variant_option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
                      *               "discount": {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "amount": 4275
+                     *                 "amount": "4275.00"
                      *               },
                      *               "quantity": 1,
                      *               "selectedAddons": [],
@@ -8225,7 +8599,7 @@ export interface operations {
                      *               "properties": null
                      *             }
                      *           ],
-                     *           "total_price": 24225,
+                     *           "total_price": "24225.00",
                      *           "source": "storefront",
                      *           "promo_codes": [],
                      *           "is_valid": true,
@@ -8234,9 +8608,9 @@ export interface operations {
                      *           "created_at": "2026-09-25T15:32:00+01:00",
                      *           "updated_at": "2026-09-25T15:40:00+01:00",
                      *           "discounts": [],
-                     *           "subtotal": 24225,
-                     *           "discount_total": 0,
-                     *           "total_after_discounts": 24225
+                     *           "subtotal": "24225.00",
+                     *           "discount_total": "0.00",
+                     *           "total_after_discounts": "24225.00"
                      *         }
                      *       }
                      *     }
@@ -8396,10 +8770,10 @@ export interface operations {
                      *           "distance": null,
                      *           "delivery_info": {
                      *             "is_free_delivery": true,
-                     *             "delivery_fee": 0,
-                     *             "delivery_fee_value": 0,
-                     *             "min_order": 1000,
-                     *             "min_order_fee": 2000,
+                     *             "delivery_fee": "0.00",
+                     *             "delivery_fee_value": "0.00",
+                     *             "min_order": "1000.00",
+                     *             "min_order_fee": "2000.00",
                      *             "d_p_value": 1.5,
                      *             "s_p_value": 1.5,
                      *             "delivery_time": "45-180 min",
@@ -8439,6 +8813,7 @@ export interface operations {
                      *           "region_id": null,
                      *           "min_order_price": null
                      *         },
+                     *         "currency": "NGN",
                      *         "cart_items": [
                      *           {
                      *             "line": 0,
@@ -8449,13 +8824,13 @@ export interface operations {
                      *             "variant_option_values": {
                      *               "Size": "M"
                      *             },
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
                      *             "discount": {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "amount": 4275
+                     *               "amount": "4275.00"
                      *             },
                      *             "quantity": 1,
                      *             "selectedAddons": [],
@@ -8463,7 +8838,7 @@ export interface operations {
                      *             "properties": null
                      *           }
                      *         ],
-                     *         "total_price": 24225,
+                     *         "total_price": "24225.00",
                      *         "source": "storefront",
                      *         "promo_codes": [],
                      *         "is_valid": true,
@@ -8472,9 +8847,9 @@ export interface operations {
                      *         "created_at": "2026-09-25T15:32:00+01:00",
                      *         "updated_at": "2026-09-25T15:40:00+01:00",
                      *         "discounts": [],
-                     *         "subtotal": 24225,
-                     *         "discount_total": 0,
-                     *         "total_after_discounts": 24225
+                     *         "subtotal": "24225.00",
+                     *         "discount_total": "0.00",
+                     *         "total_after_discounts": "24225.00"
                      *       },
                      *       "meta": {
                      *         "is_valid": true,
@@ -8990,6 +9365,7 @@ export interface operations {
     "collections.list": {
         parameters: {
             query?: {
+                /** @description One of `all`, `manual`, `smart`. */
                 mode?: "all" | "manual" | "smart" | null;
                 include_empty?: boolean | null;
                 storefront?: boolean | null;
@@ -9160,15 +9536,18 @@ export interface operations {
         parameters: {
             query?: {
                 keyword?: string | null;
-                /** @example title_asc */
+                /**
+                 * @description One of `newest`, `price_low`, `price_high`, `popular`, `title_asc`, `title_desc`, `created_asc`, `price_asc`, `price_desc`, `manual`.
+                 * @example title_asc
+                 */
                 sort?: "newest" | "price_low" | "price_high" | "popular" | "title_asc" | "title_desc" | "created_asc" | "price_asc" | "price_desc" | "manual" | null;
                 in_stock?: boolean | null;
                 /** @example 15 */
                 per_page?: number | null;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -9186,7 +9565,10 @@ export interface operations {
                 "X-Request-Id"?: string;
             };
             path: {
-                /** @example new-season */
+                /**
+                 * @description Identifier of the collection, as returned by the Merchant API.
+                 * @example new-season
+                 */
                 collection: string;
             };
             cookie?: never;
@@ -9221,13 +9603,13 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 28500,
-                     *           "discount_price": 24225,
-                     *           "compare_at_price": 28500,
+                     *           "price": "28500.00",
+                     *           "discount_price": "24225.00",
+                     *           "compare_at_price": "28500.00",
                      *           "is_price_from": false,
                      *           "price_range": {
-                     *             "min": 28500,
-                     *             "max": 28500
+                     *             "min": "28500.00",
+                     *             "max": "28500.00"
                      *           },
                      *           "has_variants": true,
                      *           "has_addons": false,
@@ -9236,9 +9618,9 @@ export interface operations {
                      *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *             "title": "Lagos Fashion Week 15% Off",
                      *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
+                     *             "value": "15.00",
+                     *             "amount": "4275.00",
+                     *             "final_price": "24225.00",
                      *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *           },
                      *           "discounts": [
@@ -9246,9 +9628,9 @@ export interface operations {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
+                     *               "value": "15.00",
+                     *               "amount": "4275.00",
+                     *               "final_price": "24225.00",
                      *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *             }
                      *           ],
@@ -9374,8 +9756,8 @@ export interface operations {
                      *           },
                      *           "variant_summary": {
                      *             "count": 3,
-                     *             "min_price": 28500,
-                     *             "max_price": 28500,
+                     *             "min_price": "28500.00",
+                     *             "max_price": "28500.00",
                      *             "total_stock": 18,
                      *             "tracks_inventory": true,
                      *             "in_stock": true
@@ -9416,8 +9798,8 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 8500,
-                     *           "discount_price": 8500,
+                     *           "price": "8500.00",
+                     *           "discount_price": "8500.00",
                      *           "compare_at_price": null,
                      *           "is_price_from": false,
                      *           "price_range": null,
@@ -9554,8 +9936,9 @@ export interface operations {
                      *         "total_count_capped": false,
                      *         "filters": {
                      *           "price": {
-                     *             "min": 12500,
-                     *             "max": 25000
+                     *             "currency": "NGN",
+                     *             "min": "12500.00",
+                     *             "max": "25000.00"
                      *           },
                      *           "availability": {
                      *             "in_stock": 2,
@@ -10406,7 +10789,7 @@ export interface operations {
                      *         "distance": 0,
                      *         "distance_text": "0m away",
                      *         "delivery_info": {
-                     *           "delivery_fee": 0,
+                     *           "delivery_fee": "0.00",
                      *           "delivery_time": "45-180 min",
                      *           "pickup_enabled": true,
                      *           "delivery_message": "Opens at 09:00 today",
@@ -10453,7 +10836,7 @@ export interface operations {
                      *         "short_description": null,
                      *         "disable_order": false,
                      *         "region_id": null,
-                     *         "min_order_price": 0,
+                     *         "min_order_price": "0.00",
                      *         "is_test": false,
                      *         "dev_store": false,
                      *         "password_required": false,
@@ -11015,10 +11398,10 @@ export interface operations {
     "metaobjects.list": {
         parameters: {
             query?: {
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, clamps 1..50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, clamps 1..50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -11355,10 +11738,10 @@ export interface operations {
                 per_page?: number;
                 /** @description Only orders placed under this service of the store (its service slug, e.g. `fashion`). */
                 service?: string;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 10
                  */
                 limit?: number;
@@ -11392,9 +11775,9 @@ export interface operations {
                      *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c91",
                      *           "title": "Zuri Atelier",
                      *           "currency": "NGN",
-                     *           "total_price": 28500,
-                     *           "delivery_fee": 0,
-                     *           "grand_total": 24225,
+                     *           "total_price": "28500.00",
+                     *           "delivery_fee": "0.00",
+                     *           "grand_total": "24225.00",
                      *           "payment_status": "paid",
                      *           "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
                      *           "is_verified": true,
@@ -11471,8 +11854,8 @@ export interface operations {
                      *           ],
                      *           "vendor_note": null,
                      *           "rider_note": null,
-                     *           "shopforme_fee": 0,
-                     *           "service_fee": 0,
+                     *           "shopforme_fee": "0.00",
+                     *           "service_fee": "0.00",
                      *           "is_confirmed": false,
                      *           "rejected": false,
                      *           "is_completed": false,
@@ -11487,9 +11870,9 @@ export interface operations {
                      *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c94",
                      *           "title": "Zuri Atelier",
                      *           "currency": "NGN",
-                     *           "total_price": 28500,
-                     *           "delivery_fee": 0,
-                     *           "grand_total": 24225,
+                     *           "total_price": "28500.00",
+                     *           "delivery_fee": "0.00",
+                     *           "grand_total": "24225.00",
                      *           "payment_status": "pending",
                      *           "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
                      *           "is_verified": false,
@@ -11563,8 +11946,8 @@ export interface operations {
                      *           ],
                      *           "vendor_note": null,
                      *           "rider_note": null,
-                     *           "shopforme_fee": 0,
-                     *           "service_fee": 0,
+                     *           "shopforme_fee": "0.00",
+                     *           "service_fee": "0.00",
                      *           "is_confirmed": false,
                      *           "rejected": false,
                      *           "is_completed": false,
@@ -11687,9 +12070,9 @@ export interface operations {
                      *         "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c91",
                      *         "title": "Zuri Atelier",
                      *         "currency": "NGN",
-                     *         "total_price": 28500,
-                     *         "delivery_fee": 0,
-                     *         "grand_total": 24225,
+                     *         "total_price": "28500.00",
+                     *         "delivery_fee": "0.00",
+                     *         "grand_total": "24225.00",
                      *         "payment_status": "paid",
                      *         "transaction_id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c93",
                      *         "is_verified": true,
@@ -11767,8 +12150,8 @@ export interface operations {
                      *         ],
                      *         "vendor_note": null,
                      *         "rider_note": null,
-                     *         "shopforme_fee": 0,
-                     *         "service_fee": 0,
+                     *         "shopforme_fee": "0.00",
+                     *         "service_fee": "0.00",
                      *         "is_confirmed": false,
                      *         "rejected": false,
                      *         "is_completed": false,
@@ -11799,13 +12182,13 @@ export interface operations {
                      *               "source": "product"
                      *             },
                      *             "currency": "NGN",
-                     *             "total_price": 24225,
-                     *             "sale_price": 28500,
-                     *             "unit_price": 24225,
-                     *             "base_unit_price": 28500,
+                     *             "total_price": "24225.00",
+                     *             "sale_price": "28500.00",
+                     *             "unit_price": "24225.00",
+                     *             "base_unit_price": "28500.00",
                      *             "is_backorder": false,
                      *             "backorder_ready_date": null,
-                     *             "discounted_amount": 4275,
+                     *             "discounted_amount": "4275.00",
                      *             "created_at": "2026-09-25T14:58:00.000000Z",
                      *             "addons": [],
                      *             "properties": []
@@ -11829,19 +12212,19 @@ export interface operations {
                      *               "key": "sub_total",
                      *               "label": "Sub Total",
                      *               "type": "price",
-                     *               "amount": 28500
+                     *               "amount": "28500.00"
                      *             },
                      *             {
                      *               "key": "discount",
                      *               "label": "Discount",
                      *               "type": "discount",
-                     *               "amount": 4275
+                     *               "amount": "4275.00"
                      *             },
                      *             {
                      *               "key": "grand_total",
                      *               "label": "Grand Total",
                      *               "type": "total",
-                     *               "amount": 24225
+                     *               "amount": "24225.00"
                      *             }
                      *           ]
                      *         }
@@ -11975,7 +12358,6 @@ export interface operations {
                      *           "is_payable": true,
                      *           "is_paid": false,
                      *           "grand_total": "24225.00",
-                     *           "grand_total_text": "₦24225.00",
                      *           "payment_link": "https://pay.usequeek.com/p/zuri-74102",
                      *           "pay_link": "https://usequeek.com/store/pay/019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c94",
                      *           "items": [
@@ -11990,10 +12372,10 @@ export interface operations {
                      *               },
                      *               "variant_media": null,
                      *               "currency": "NGN",
-                     *               "total_price": 24225,
-                     *               "sale_price": 28500,
-                     *               "unit_price": 24225,
-                     *               "base_unit_price": 28500,
+                     *               "total_price": "24225.00",
+                     *               "sale_price": "28500.00",
+                     *               "unit_price": "24225.00",
+                     *               "base_unit_price": "28500.00",
                      *               "is_backorder": false,
                      *               "backorder_ready_date": null,
                      *               "created_at": "2026-09-25T14:58:00.000000Z",
@@ -12708,10 +13090,10 @@ export interface operations {
                 /** @example 12 */
                 per_page?: number | null;
                 page?: string;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -13161,12 +13543,12 @@ export interface operations {
         parameters: {
             query?: {
                 /**
-                 * @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`.
+                 * @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`.
                  * @example WzEsIjRhOTYzOGNlMjFlYTllNWFiOWJlMmZmZDdkZjA2ZWI5MTVmMzVhMzNlMmQ4NjU1MDUyNjBjNGQ3NTQ1YWZkNTEiLCJleUp3Y205a2RXTjBjeTVqY21WaGRHVmtYMkYwSWpvaU1qQXlOaTB3T1MweU1DQXhNRG93TURvd01DSXNJbkJ5YjJSMVkzUnpMbWxrSWpvaU1ERTVZakJqTkdRdE5XVTJaaTAzWVRoaUxUbGpNR1F0TVdVeVpqTmhOR0kxWXpFeElpd2lYM0J2YVc1MGMxUnZUbVY0ZEVsMFpXMXpJanAwY25WbGZRIl0
                  */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 100). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 100). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -13264,13 +13646,13 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 28500,
-                     *           "discount_price": 24225,
-                     *           "compare_at_price": 28500,
+                     *           "price": "28500.00",
+                     *           "discount_price": "24225.00",
+                     *           "compare_at_price": "28500.00",
                      *           "is_price_from": false,
                      *           "price_range": {
-                     *             "min": 28500,
-                     *             "max": 28500
+                     *             "min": "28500.00",
+                     *             "max": "28500.00"
                      *           },
                      *           "has_variants": true,
                      *           "has_addons": false,
@@ -13279,9 +13661,9 @@ export interface operations {
                      *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *             "title": "Lagos Fashion Week 15% Off",
                      *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
+                     *             "value": "15.00",
+                     *             "amount": "4275.00",
+                     *             "final_price": "24225.00",
                      *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *           },
                      *           "discounts": [
@@ -13289,9 +13671,9 @@ export interface operations {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
+                     *               "value": "15.00",
+                     *               "amount": "4275.00",
+                     *               "final_price": "24225.00",
                      *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *             }
                      *           ],
@@ -13417,8 +13799,8 @@ export interface operations {
                      *           },
                      *           "variant_summary": {
                      *             "count": 3,
-                     *             "min_price": 28500,
-                     *             "max_price": 28500,
+                     *             "min_price": "28500.00",
+                     *             "max_price": "28500.00",
                      *             "total_stock": 18,
                      *             "tracks_inventory": true,
                      *             "in_stock": true
@@ -13451,8 +13833,8 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 8500,
-                     *           "discount_price": 8500,
+                     *           "price": "8500.00",
+                     *           "discount_price": "8500.00",
                      *           "compare_at_price": null,
                      *           "is_price_from": false,
                      *           "price_range": null,
@@ -13750,13 +14132,13 @@ export interface operations {
                      *         "type": "product",
                      *         "commerce_mode": "shop",
                      *         "currency": "NGN",
-                     *         "price": 28500,
-                     *         "discount_price": 24225,
-                     *         "compare_at_price": 28500,
+                     *         "price": "28500.00",
+                     *         "discount_price": "24225.00",
+                     *         "compare_at_price": "28500.00",
                      *         "is_price_from": false,
                      *         "price_range": {
-                     *           "min": 28500,
-                     *           "max": 28500
+                     *           "min": "28500.00",
+                     *           "max": "28500.00"
                      *         },
                      *         "has_variants": true,
                      *         "has_addons": false,
@@ -13765,9 +14147,9 @@ export interface operations {
                      *           "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *           "title": "Lagos Fashion Week 15% Off",
                      *           "type": "percentage",
-                     *           "value": 15,
-                     *           "amount": 4275,
-                     *           "final_price": 24225,
+                     *           "value": "15.00",
+                     *           "amount": "4275.00",
+                     *           "final_price": "24225.00",
                      *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *         },
                      *         "discounts": [
@@ -13775,9 +14157,9 @@ export interface operations {
                      *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *             "title": "Lagos Fashion Week 15% Off",
                      *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
+                     *             "value": "15.00",
+                     *             "amount": "4275.00",
+                     *             "final_price": "24225.00",
                      *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *           }
                      *         ],
@@ -13908,8 +14290,8 @@ export interface operations {
                      *         },
                      *         "variant_summary": {
                      *           "count": 3,
-                     *           "min_price": 28500,
-                     *           "max_price": 28500,
+                     *           "min_price": "28500.00",
+                     *           "max_price": "28500.00",
                      *           "total_stock": 18,
                      *           "tracks_inventory": true,
                      *           "in_stock": true
@@ -14005,9 +14387,9 @@ export interface operations {
                      *             "option_values": {
                      *               "Size": "S"
                      *             },
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
-                     *             "discount_amount": 4275,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
+                     *             "discount_amount": "4275.00",
                      *             "has_discount": true,
                      *             "compare_at_price": null,
                      *             "stock": 6,
@@ -14140,9 +14522,9 @@ export interface operations {
                      *             "option_values": {
                      *               "Size": "M"
                      *             },
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
-                     *             "discount_amount": 4275,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
+                     *             "discount_amount": "4275.00",
                      *             "has_discount": true,
                      *             "compare_at_price": null,
                      *             "stock": 8,
@@ -14275,9 +14657,9 @@ export interface operations {
                      *             "option_values": {
                      *               "Size": "L"
                      *             },
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
-                     *             "discount_amount": 4275,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
+                     *             "discount_amount": "4275.00",
                      *             "has_discount": true,
                      *             "compare_at_price": null,
                      *             "stock": 4,
@@ -14568,8 +14950,8 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 8500,
-                     *           "discount_price": 8500,
+                     *           "price": "8500.00",
+                     *           "discount_price": "8500.00",
                      *           "compare_at_price": null,
                      *           "is_price_from": false,
                      *           "price_range": null,
@@ -14781,18 +15163,24 @@ export interface operations {
     "products.list_reviews": {
         parameters: {
             query?: {
-                /** @example 5 */
+                /**
+                 * @description One of `1`, `2`, `3`, `4`, `5`.
+                 * @example 5
+                 */
                 rating?: "1" | "2" | "3" | "4" | "5" | null;
-                /** @example newest */
+                /**
+                 * @description One of `newest`, `oldest`, `highest`, `lowest`.
+                 * @example newest
+                 */
                 sort?: "newest" | "oldest" | "highest" | "lowest" | null;
                 with_media?: boolean | null;
                 /** @example 10 */
                 per_page?: number | null;
                 page?: string;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -15179,10 +15567,10 @@ export interface operations {
                 /** @example 10 */
                 per_page?: number | null;
                 page?: string;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -15359,12 +15747,13 @@ export interface operations {
         parameters: {
             query?: {
                 keyword?: string | null;
+                /** @description One of `priority`, `ending_soon`, `newest`. */
                 sort?: "priority" | "ending_soon" | "newest" | null;
                 per_page?: number | null;
-                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `starting_after_invalid`. Never combine with `page`. */
+                /** @description Keyset cursor: pass the previous page `next_cursor`. Walk while `has_more` is true; a stale, tampered, cross-list or filter-changed cursor answers 422 `validation_failed` with the failure on `starting_after`. Never combine with `page`. */
                 starting_after?: string;
                 /**
-                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (`page_too_deep`); walk the cursor past that.
+                 * @description Items per read (alias of `per_page`, max 50). `page` mode caps at page 50 (a deeper `page` answers 422 `validation_failed` on `page`); walk the cursor past that.
                  * @example 15
                  */
                 limit?: number;
@@ -15400,7 +15789,8 @@ export interface operations {
                      *           "description": "15% off every dress through the season.",
                      *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg",
                      *           "type": "percentage",
-                     *           "value": 15,
+                     *           "currency": "NGN",
+                     *           "value": "15.00",
                      *           "priority": 0,
                      *           "valid_from": "2026-09-01T00:00:00+01:00",
                      *           "valid_until": "2027-12-31T23:59:00+01:00",
@@ -15516,12 +15906,13 @@ export interface operations {
         parameters: {
             query?: {
                 keyword?: string | null;
+                /** @description One of `newest`, `price_low`, `price_high`, `popular`. */
                 sort?: "newest" | "price_low" | "price_high" | "popular" | null;
                 in_stock?: boolean | null;
                 /** @example 15 */
                 per_page?: number | null;
                 page?: number | null;
-                /** @description This list is page-only (in-memory slice): any `starting_after` answers 422 `cursor_unsupported_for_sort`. Walk with `page` (cap 50, `page_too_deep`). */
+                /** @description This list is page-only (in-memory slice): any `starting_after` answers 422 `validation_failed` on `starting_after`. Walk with `page` (cap 50). */
                 starting_after?: string;
                 attributes?: (string | null)[][];
                 /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
@@ -15572,13 +15963,13 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 28500,
-                     *           "discount_price": 24225,
-                     *           "compare_at_price": 28500,
+                     *           "price": "28500.00",
+                     *           "discount_price": "24225.00",
+                     *           "compare_at_price": "28500.00",
                      *           "is_price_from": false,
                      *           "price_range": {
-                     *             "min": 28500,
-                     *             "max": 28500
+                     *             "min": "28500.00",
+                     *             "max": "28500.00"
                      *           },
                      *           "has_variants": true,
                      *           "has_addons": false,
@@ -15587,9 +15978,9 @@ export interface operations {
                      *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *             "title": "Lagos Fashion Week 15% Off",
                      *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
+                     *             "value": "15.00",
+                     *             "amount": "4275.00",
+                     *             "final_price": "24225.00",
                      *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *           },
                      *           "discounts": [
@@ -15597,9 +15988,9 @@ export interface operations {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
+                     *               "value": "15.00",
+                     *               "amount": "4275.00",
+                     *               "final_price": "24225.00",
                      *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *             }
                      *           ],
@@ -15725,8 +16116,8 @@ export interface operations {
                      *           },
                      *           "variant_summary": {
                      *             "count": 3,
-                     *             "min_price": 28500,
-                     *             "max_price": 28500,
+                     *             "min_price": "28500.00",
+                     *             "max_price": "28500.00",
                      *             "total_stock": 18,
                      *             "tracks_inventory": true,
                      *             "in_stock": true
@@ -15760,7 +16151,8 @@ export interface operations {
                      *           "description": "15% off every dress through the season.",
                      *           "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg",
                      *           "type": "percentage",
-                     *           "value": 15,
+                     *           "currency": "NGN",
+                     *           "value": "15.00",
                      *           "priority": 0,
                      *           "valid_from": "2026-09-01T00:00:00+01:00",
                      *           "valid_until": "2027-12-31T23:59:00+01:00",
@@ -15926,17 +16318,29 @@ export interface operations {
     "reviews.list": {
         parameters: {
             query?: {
-                /** @example vendor */
+                /**
+                 * @description One of `vendor`, `product`, `ids`.
+                 * @example vendor
+                 */
                 scope?: "vendor" | "product" | "ids" | null;
                 product_slug?: string | null;
                 "ids[]"?: string[];
-                /** @example 4 */
+                /**
+                 * @description One of `1`, `2`, `3`, `4`, `5`.
+                 * @example 4
+                 */
                 min_rating?: "1" | "2" | "3" | "4" | "5" | null;
                 verified_only?: boolean | null;
                 with_media?: boolean | null;
-                /** @example 6 */
+                /**
+                 * @description Maximum number of items to return in one page.
+                 * @example 6
+                 */
                 limit?: number | null;
-                /** @example newest */
+                /**
+                 * @description One of `newest`, `highest`, `featured`.
+                 * @example newest
+                 */
                 sort?: "newest" | "highest" | "featured" | null;
             };
             header: {
@@ -16137,10 +16541,17 @@ export interface operations {
             query: {
                 /** @example ankara */
                 q: string;
-                /** @example all */
+                /**
+                 * @description One of `all`, `product`, `collection`, `page`, `post`.
+                 * @example all
+                 */
                 type?: "all" | "product" | "collection" | "page" | "post" | null;
-                /** @example 5 */
+                /**
+                 * @description Maximum number of items to return in one page.
+                 * @example 5
+                 */
                 limit?: number | null;
+                /** @description Cursor for the next page: pass `next_cursor` from the previous response unchanged. Keep walking while `has_more` is true. */
                 starting_after?: string | null;
                 page?: number | null;
             };
@@ -16189,13 +16600,13 @@ export interface operations {
                      *                 "type": "product",
                      *                 "commerce_mode": "shop",
                      *                 "currency": "NGN",
-                     *                 "price": 28500,
-                     *                 "discount_price": 24225,
-                     *                 "compare_at_price": 28500,
+                     *                 "price": "28500.00",
+                     *                 "discount_price": "24225.00",
+                     *                 "compare_at_price": "28500.00",
                      *                 "is_price_from": false,
                      *                 "price_range": {
-                     *                   "min": 28500,
-                     *                   "max": 28500
+                     *                   "min": "28500.00",
+                     *                   "max": "28500.00"
                      *                 },
                      *                 "has_variants": true,
                      *                 "has_addons": false,
@@ -16204,9 +16615,9 @@ export interface operations {
                      *                   "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                   "title": "Lagos Fashion Week 15% Off",
                      *                   "type": "percentage",
-                     *                   "value": 15,
-                     *                   "amount": 4275,
-                     *                   "final_price": 24225,
+                     *                   "value": "15.00",
+                     *                   "amount": "4275.00",
+                     *                   "final_price": "24225.00",
                      *                   "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *                 },
                      *                 "discounts": [
@@ -16214,9 +16625,9 @@ export interface operations {
                      *                     "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                     "title": "Lagos Fashion Week 15% Off",
                      *                     "type": "percentage",
-                     *                     "value": 15,
-                     *                     "amount": 4275,
-                     *                     "final_price": 24225,
+                     *                     "value": "15.00",
+                     *                     "amount": "4275.00",
+                     *                     "final_price": "24225.00",
                      *                     "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *                   }
                      *                 ],
@@ -16342,8 +16753,8 @@ export interface operations {
                      *                 },
                      *                 "variant_summary": {
                      *                   "count": 3,
-                     *                   "min_price": 28500,
-                     *                   "max_price": 28500,
+                     *                   "min_price": "28500.00",
+                     *                   "max_price": "28500.00",
                      *                   "total_stock": 18,
                      *                   "tracks_inventory": true,
                      *                   "in_stock": true
@@ -16369,7 +16780,8 @@ export interface operations {
                      *                   "rating_count": 486,
                      *                   "distance": null,
                      *                   "distance_text": null,
-                     *                   "delivery_fee": null
+                     *                   "delivery_fee": null,
+                     *                   "currency": "NGN"
                      *                 },
                      *                 "distance": null,
                      *                 "distance_text": null,
@@ -16390,8 +16802,8 @@ export interface operations {
                      *                 "type": "product",
                      *                 "commerce_mode": "shop",
                      *                 "currency": "NGN",
-                     *                 "price": 8500,
-                     *                 "discount_price": 8500,
+                     *                 "price": "8500.00",
+                     *                 "discount_price": "8500.00",
                      *                 "compare_at_price": null,
                      *                 "is_price_from": false,
                      *                 "price_range": null,
@@ -16505,7 +16917,8 @@ export interface operations {
                      *                   "rating_count": 486,
                      *                   "distance": null,
                      *                   "distance_text": null,
-                     *                   "delivery_fee": null
+                     *                   "delivery_fee": null,
+                     *                   "currency": "NGN"
                      *                 },
                      *                 "distance": null,
                      *                 "distance_text": null,
@@ -16660,7 +17073,10 @@ export interface operations {
             query: {
                 /** @example ank */
                 q: string;
-                /** @example 10 */
+                /**
+                 * @description Maximum number of items to return in one page.
+                 * @example 10
+                 */
                 limit?: number | null;
             };
             header: {
@@ -16696,7 +17112,8 @@ export interface operations {
                      *             "title": "Ankara Midi Dress",
                      *             "slug": "ankara-midi-dress",
                      *             "thumbnail_image": "https://media.usequeek.com/uploads/stores/2207/ankara-midi-dress.jpg",
-                     *             "price": 28500
+                     *             "currency": "NGN",
+                     *             "price": "28500.00"
                      *           },
                      *           {
                      *             "type": "collection",
@@ -16965,7 +17382,10 @@ export interface operations {
         parameters: {
             query?: {
                 parent?: string;
-                /** @example foods */
+                /**
+                 * @description One of `pharmacy`, `foods`, `boli`, `suya`, `shawarma-pizza-snacks`, `local-meals`, `fruits-fresh-natural`, `laundry`, `supermarket`, `groceries`, `meat-fish`, `gas-refill`, `local-market`, `fashion`, `beauty-cosmetics`, `electronics`, `phones-accessories`, `home-living`, `baby-kids`, `health-wellness-store`, `office-school`.
+                 * @example foods
+                 */
                 scope?: "pharmacy" | "foods" | "boli" | "suya" | "shawarma-pizza-snacks" | "local-meals" | "fruits-fresh-natural" | "laundry" | "supermarket" | "groceries" | "meat-fish" | "gas-refill" | "local-market" | "fashion" | "beauty-cosmetics" | "electronics" | "phones-accessories" | "home-living" | "baby-kids" | "health-wellness-store" | "office-school";
             };
             header: {
@@ -17478,9 +17898,15 @@ export interface operations {
     "wishlists.list": {
         parameters: {
             query?: {
-                /** @example 2 */
+                /**
+                 * @description Maximum number of items to return in one page.
+                 * @example 2
+                 */
                 limit?: number | null;
-                /** @example WzEsIjkzNDkxZTc2ZDBmYzk5N2Q0ZjI3NjFlNGUzNzFhZTY0YjgyZWZhMDE4NzM4NjQ5MDM1NzBjMzhmNWUxMDIwZDIiLCJleUpqZFhOMGIyMWxjbDkzYVhOb2JHbHpkRjlwZEdWdGN5NWpjbVZoZEdWa1gyRjBJam9pTWpBeU5pMHdPUzB5TUNBeE1Eb3dNRG93TUNJc0ltTjFjM1J2YldWeVgzZHBjMmhzYVhOMFgybDBaVzF6TG1sa0lqb2lNREU1WWpCak5HUXROV1UyWmkwM1lUaGlMVGxqTUdRdE1XVXlaak5oTkdJMVl6azVJaXdpWDNCdmFXNTBjMVJ2VG1WNGRFbDBaVzF6SWpwMGNuVmxmUSJd */
+                /**
+                 * @description Cursor for the next page: pass `next_cursor` from the previous response unchanged. Keep walking while `has_more` is true.
+                 * @example WzEsIjkzNDkxZTc2ZDBmYzk5N2Q0ZjI3NjFlNGUzNzFhZTY0YjgyZWZhMDE4NzM4NjQ5MDM1NzBjMzhmNWUxMDIwZDIiLCJleUpqZFhOMGIyMWxjbDkzYVhOb2JHbHpkRjlwZEdWdGN5NWpjbVZoZEdWa1gyRjBJam9pTWpBeU5pMHdPUzB5TUNBeE1Eb3dNRG93TUNJc0ltTjFjM1J2YldWeVgzZHBjMmhzYVhOMFgybDBaVzF6TG1sa0lqb2lNREU1WWpCak5HUXROV1UyWmkwM1lUaGlMVGxqTUdRdE1XVXlaak5oTkdJMVl6azVJaXdpWDNCdmFXNTBjMVJ2VG1WNGRFbDBaVzF6SWpwMGNuVmxmUSJd
+                 */
                 starting_after?: string | null;
                 /** @description Render this read in a published store locale (see `GET store/locales`). Unknown or unpublished codes fall back to the primary locale; the answer carries the locale used in `Content-Language`. */
                 locale?: string;
@@ -17529,13 +17955,13 @@ export interface operations {
                      *             "type": "product",
                      *             "commerce_mode": "shop",
                      *             "currency": "NGN",
-                     *             "price": 28500,
-                     *             "discount_price": 24225,
-                     *             "compare_at_price": 28500,
+                     *             "price": "28500.00",
+                     *             "discount_price": "24225.00",
+                     *             "compare_at_price": "28500.00",
                      *             "is_price_from": false,
                      *             "price_range": {
-                     *               "min": 28500,
-                     *               "max": 28500
+                     *               "min": "28500.00",
+                     *               "max": "28500.00"
                      *             },
                      *             "has_variants": true,
                      *             "has_addons": false,
@@ -17544,9 +17970,9 @@ export interface operations {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
+                     *               "value": "15.00",
+                     *               "amount": "4275.00",
+                     *               "final_price": "24225.00",
                      *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *             },
                      *             "discounts": [
@@ -17554,9 +17980,9 @@ export interface operations {
                      *                 "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *                 "title": "Lagos Fashion Week 15% Off",
                      *                 "type": "percentage",
-                     *                 "value": 15,
-                     *                 "amount": 4275,
-                     *                 "final_price": 24225,
+                     *                 "value": "15.00",
+                     *                 "amount": "4275.00",
+                     *                 "final_price": "24225.00",
                      *                 "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *               }
                      *             ],
@@ -17687,8 +18113,8 @@ export interface operations {
                      *             },
                      *             "variant_summary": {
                      *               "count": 3,
-                     *               "min_price": 28500,
-                     *               "max_price": 28500,
+                     *               "min_price": "28500.00",
+                     *               "max_price": "28500.00",
                      *               "total_stock": 18,
                      *               "tracks_inventory": true,
                      *               "in_stock": true
@@ -17784,9 +18210,9 @@ export interface operations {
                      *                 "option_values": {
                      *                   "Size": "S"
                      *                 },
-                     *                 "price": 28500,
-                     *                 "discount_price": 24225,
-                     *                 "discount_amount": 4275,
+                     *                 "price": "28500.00",
+                     *                 "discount_price": "24225.00",
+                     *                 "discount_amount": "4275.00",
                      *                 "has_discount": true,
                      *                 "compare_at_price": null,
                      *                 "stock": 6,
@@ -17919,9 +18345,9 @@ export interface operations {
                      *                 "option_values": {
                      *                   "Size": "M"
                      *                 },
-                     *                 "price": 28500,
-                     *                 "discount_price": 24225,
-                     *                 "discount_amount": 4275,
+                     *                 "price": "28500.00",
+                     *                 "discount_price": "24225.00",
+                     *                 "discount_amount": "4275.00",
                      *                 "has_discount": true,
                      *                 "compare_at_price": null,
                      *                 "stock": 8,
@@ -18054,9 +18480,9 @@ export interface operations {
                      *                 "option_values": {
                      *                   "Size": "L"
                      *                 },
-                     *                 "price": 28500,
-                     *                 "discount_price": 24225,
-                     *                 "discount_amount": 4275,
+                     *                 "price": "28500.00",
+                     *                 "discount_price": "24225.00",
+                     *                 "discount_amount": "4275.00",
                      *                 "has_discount": true,
                      *                 "compare_at_price": null,
                      *                 "stock": 4,
@@ -18372,13 +18798,13 @@ export interface operations {
                      *           "type": "product",
                      *           "commerce_mode": "shop",
                      *           "currency": "NGN",
-                     *           "price": 28500,
-                     *           "discount_price": 24225,
-                     *           "compare_at_price": 28500,
+                     *           "price": "28500.00",
+                     *           "discount_price": "24225.00",
+                     *           "compare_at_price": "28500.00",
                      *           "is_price_from": false,
                      *           "price_range": {
-                     *             "min": 28500,
-                     *             "max": 28500
+                     *             "min": "28500.00",
+                     *             "max": "28500.00"
                      *           },
                      *           "has_variants": true,
                      *           "has_addons": false,
@@ -18387,9 +18813,9 @@ export interface operations {
                      *             "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *             "title": "Lagos Fashion Week 15% Off",
                      *             "type": "percentage",
-                     *             "value": 15,
-                     *             "amount": 4275,
-                     *             "final_price": 24225,
+                     *             "value": "15.00",
+                     *             "amount": "4275.00",
+                     *             "final_price": "24225.00",
                      *             "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *           },
                      *           "discounts": [
@@ -18397,9 +18823,9 @@ export interface operations {
                      *               "id": "019b0c4d-5e6f-7a8b-9c0d-1e2f3a4b5c31",
                      *               "title": "Lagos Fashion Week 15% Off",
                      *               "type": "percentage",
-                     *               "value": 15,
-                     *               "amount": 4275,
-                     *               "final_price": 24225,
+                     *               "value": "15.00",
+                     *               "amount": "4275.00",
+                     *               "final_price": "24225.00",
                      *               "image_url": "https://media.usequeek.com/uploads/stores/2207/discounts/fashion-week.jpg"
                      *             }
                      *           ],
@@ -18530,8 +18956,8 @@ export interface operations {
                      *           },
                      *           "variant_summary": {
                      *             "count": 3,
-                     *             "min_price": 28500,
-                     *             "max_price": 28500,
+                     *             "min_price": "28500.00",
+                     *             "max_price": "28500.00",
                      *             "total_stock": 18,
                      *             "tracks_inventory": true,
                      *             "in_stock": true
@@ -18627,9 +19053,9 @@ export interface operations {
                      *               "option_values": {
                      *                 "Size": "S"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
-                     *               "discount_amount": 4275,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
+                     *               "discount_amount": "4275.00",
                      *               "has_discount": true,
                      *               "compare_at_price": null,
                      *               "stock": 6,
@@ -18762,9 +19188,9 @@ export interface operations {
                      *               "option_values": {
                      *                 "Size": "M"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
-                     *               "discount_amount": 4275,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
+                     *               "discount_amount": "4275.00",
                      *               "has_discount": true,
                      *               "compare_at_price": null,
                      *               "stock": 8,
@@ -18897,9 +19323,9 @@ export interface operations {
                      *               "option_values": {
                      *                 "Size": "L"
                      *               },
-                     *               "price": 28500,
-                     *               "discount_price": 24225,
-                     *               "discount_amount": 4275,
+                     *               "price": "28500.00",
+                     *               "discount_price": "24225.00",
+                     *               "discount_amount": "4275.00",
                      *               "has_discount": true,
                      *               "compare_at_price": null,
                      *               "stock": 4,
