@@ -229,11 +229,6 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-15.5.27.tgz#d3f0e0fe2f0edd0611f1d68f78bb1e366a6546be"
   integrity sha512-XtYgpGOswgnyBWXzOEG6q9RhvnSw0CEZ0MbWqCsl5PISgt9EzvJvNW5mU5n1PsphX/lnamzxjgQXH2GUJL8nqg==
 
-"@queekai/client-sdk@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@queekai/client-sdk/-/client-sdk-0.3.1.tgz#c7a46a4592288b3a2ed14c6dc12aaf0d6ecaf53a"
-  integrity sha512-7mshEA18Dos+IbGH3u3Epm6ZXN7zSysOC5wR0Qml7gtASTin4TE5xP2uz6aS/mAVoawNUjbnWXvQynmW08aCHw==
-
 "@redocly/ajv@8.11.2":
   version "8.11.2"
   resolved "https://registry.yarnpkg.com/@redocly/ajv/-/ajv-8.11.2.tgz#46e1bf321ec0ac1e0fd31dea41a3d1fcbdcda0b5"
@@ -289,6 +284,11 @@
   integrity sha512-N0rFCuH9YoxG9/m61l9MfpJKfmLOVU0em7ipIz6TRgSSkvReLB9vL85GB+yr8Bs5leqpvg96JSwF4ZS1s4viQg==
   dependencies:
     csstype "^3.2.2"
+
+"@usequeek/client-sdk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@usequeek/client-sdk/-/client-sdk-0.4.0.tgz#5fde20ba54b5a408e8296c5e904ba1b0b4672007"
+  integrity sha512-qYZ7JU6hbd5Mj6J570XIOquZicsdWXnJrZ2JG8mjKAqrJ1z/kE5Tw/M4RwjwljGRqnrCt0VwZOKKISHLPeC+yg==
 
 agent-base@^7.1.2:
   version "7.1.4"

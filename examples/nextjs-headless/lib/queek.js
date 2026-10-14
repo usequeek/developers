@@ -28,7 +28,7 @@ import { randomUUID } from "node:crypto";
 import {
   createQueekClient,
   QueekSdkError,
-} from "@queekai/client-sdk";
+} from "@usequeek/client-sdk";
 
 export { QueekSdkError };
 
@@ -57,7 +57,7 @@ function secret() {
   return key;
 }
 
-/** @type {import("@queekai/client-sdk").QueekClientInstance | null} */
+/** @type {import("@usequeek/client-sdk").QueekClientInstance | null} */
 let client = null;
 
 /** Shared SDK client. Sends the secret key as `X-Client-Key`. */
@@ -75,7 +75,7 @@ export function getClient() {
 /**
  * Test seam: replace the cached client (used by tests/unwrap.test.mjs with a
  * stub `fetch`). Not used by the app.
- * @param {import("@queekai/client-sdk").QueekClientInstance | null} next
+ * @param {import("@usequeek/client-sdk").QueekClientInstance | null} next
  */
 export function setClientForTests(next) {
   client = next;

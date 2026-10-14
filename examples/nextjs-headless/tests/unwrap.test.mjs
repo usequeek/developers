@@ -8,7 +8,7 @@
  */
 import { describe, it, beforeEach } from "node:test";
 import assert from "node:assert/strict";
-import { createQueekClient } from "@queekai/client-sdk";
+import { createQueekClient } from "@usequeek/client-sdk";
 import {
   addToCart,
   collectionName,
