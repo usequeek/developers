@@ -2,7 +2,7 @@
 
 ## Report a vulnerability
 
-Email <developers@usequeek.com> with what you found, how to reproduce it, and
+Email <security@queek.com.ng> with what you found, how to reproduce it, and
 the impact you see. Please do not open a public issue, discussion or pull
 request for a vulnerability, so that it can be fixed before it is disclosed.
 
