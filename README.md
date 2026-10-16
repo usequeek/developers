@@ -198,8 +198,8 @@ builds it.
   [GitHub Discussions](https://github.com/usequeek/developers/discussions).
   Asking in the open helps the next developer.
 - Bugs in an example: open an issue in this repository.
-- Email: <developers@usequeek.com>.
-- Security issues: email <developers@usequeek.com> and do not open a public
+- Email: <developers@queek.com.ng>.
+- Security issues: email <security@queek.com.ng> and do not open a public
   issue. See [SECURITY.md](SECURITY.md).
 
 ## Contributing
